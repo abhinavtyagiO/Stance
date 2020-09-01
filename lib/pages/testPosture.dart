@@ -86,25 +86,55 @@ class _TestPostureState extends State<TestPosture> {
             ),
         ),
         SizedBox(height: ScreenUtil().setHeight(120.0),),
-        Chip(
-          backgroundColor: Hexcolor('#fe3786'),
-          labelPadding: EdgeInsets.only(
-            left: ScreenUtil().setWidth(100.0),
-            right: ScreenUtil().setWidth(100.0),
-            top: ScreenUtil().setHeight(5.0),
-            bottom: ScreenUtil().setHeight(5.0),
-          ),
-          label: Text(
-            'TAKE A PHOTO',
-            style: TextStyle(
-              fontFamily: 'roboto',
-              fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setHeight(14.0),
-              color: Hexcolor('#ffffff'),
-              letterSpacing: 0.0,
-            ),
-          ),
-        ),
+        ButtonTheme(
+                    height: ScreenUtil().setHeight(40.0),
+                      child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
+                      ),
+                      padding: EdgeInsets.only(
+                        left: ScreenUtil().setWidth(111.5),
+                        right: ScreenUtil().setWidth(111.5),
+                      ),
+                      color: Hexcolor('#fe3786'),
+                      textColor: Hexcolor('#ffffff'),
+                    onPressed: () {
+                        Scaffold
+                            .of(context)
+                            .showSnackBar(SnackBar(content: Text('Processing Data')));
+                            // Scaffold
+                            // .of(context).
+                            // // Navigator.pushNamed('/capture');
+                    },
+                    child: Text('TAKE A PHOTO',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setWidth(14.0),
+                      letterSpacing: 0,
+                    ),
+                    ),
+                ),
+                  ),
+        // Chip(
+        //   backgroundColor: Hexcolor('#fe3786'),
+        //   labelPadding: EdgeInsets.only(
+        //     left: ScreenUtil().setWidth(100.0),
+        //     right: ScreenUtil().setWidth(100.0),
+        //     top: ScreenUtil().setHeight(5.0),
+        //     bottom: ScreenUtil().setHeight(5.0),
+        //   ),
+        //   label: Text(
+        //     'TAKE A PHOTO',
+        //     style: TextStyle(
+        //       fontFamily: 'roboto',
+        //       fontWeight: FontWeight.bold,
+        //       fontSize: ScreenUtil().setHeight(14.0),
+        //       color: Hexcolor('#ffffff'),
+        //       letterSpacing: 0.0,
+        //     ),
+        //   ),
+        // ),
         ],
       ),
     );

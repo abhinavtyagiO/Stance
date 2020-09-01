@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class OnBoardingThree extends StatefulWidget {
+class FinishWorkout extends StatefulWidget {
   @override
-  _OnBoardingThreeState createState() => _OnBoardingThreeState();
+  _FinishWorkoutState createState() => _FinishWorkoutState();
 }
 
-class _OnBoardingThreeState extends State<OnBoardingThree> {
+class _FinishWorkoutState extends State<FinishWorkout> {
   bool isFirstPressed = false;
   bool isSecondPressed = false;
   bool isThirdPressed = false;
@@ -46,6 +46,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
       height: 760,
     );
     return Scaffold(
+      backgroundColor: Hexcolor('#ffffff'),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -89,7 +90,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    child: Text('Bad posture related pain',
+                    child: Text('Next workout difficulty',
                         style: TextStyle(
                           fontSize: ScreenUtil().setHeight(20.0),
                           fontFamily: 'Montserrat',
@@ -104,7 +105,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                       top: ScreenUtil().setHeight(7.0),
                     ),
                     child: Text(
-                      'Do you feel repetitive stiffness/ pain in your back, neck or shoulder?',
+                      'Do you want a more challenging workout session?',
                       style: TextStyle(
                         fontFamily: 'roboto',
                         fontSize: ScreenUtil().setHeight(14.0),
@@ -139,7 +140,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
               top: ScreenUtil().setHeight(14.0),
             ),
             child: Text(
-              "No, I don't.",
+              'No, similiar difficulty',
               style: TextStyle(
               fontFamily: 'roboto',
               fontSize: ScreenUtil().setHeight(14.0),
@@ -174,7 +175,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
               top: ScreenUtil().setHeight(14.0),
             ),
             child: Text(
-              "Yeah, sometimes I do.",
+              'Yeah, bring it on.',
               style: TextStyle(
               fontFamily: 'roboto',
               fontSize: ScreenUtil().setHeight(14.0),
@@ -209,7 +210,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
               top: ScreenUtil().setHeight(14.0),
             ),
             child: Text(
-              "Yes, quite often.",
+              'Too hard, go easy on me.',
               style: TextStyle(
               fontFamily: 'roboto',
               fontSize: ScreenUtil().setHeight(14.0),
@@ -224,8 +225,36 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
             )
           ),
         ),
-        SizedBox(height: 16.0,),
-      ],
-    ));
+        SizedBox(height: ScreenUtil().setHeight(340),),
+            ButtonTheme(
+                    height: ScreenUtil().setHeight(40.0),
+                      child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(24.0)),
+                      ),
+                      padding: EdgeInsets.only(
+                        left: ScreenUtil().setWidth(101.5),
+                        right: ScreenUtil().setWidth(101.5),
+                      ),
+                      color: isFirstPressed || isSecondPressed || isThirdPressed ? Hexcolor('#fe3786') : Hexcolor('#000000').withOpacity(0.5),
+                      textColor: Hexcolor('#ffffff'),
+                    onPressed: () {
+                        Scaffold
+                            .of(context)
+                            .showSnackBar(SnackBar(content: Text('Processing Data')));
+                    },
+                    child: Text('FINISH WORKOUT',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setWidth(14.0),
+                      letterSpacing: 0,
+                    ),
+                    ),
+                ),
+                  ),
+          ],
+        ),
+    );
   }
 }

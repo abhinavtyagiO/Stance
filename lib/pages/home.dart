@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math';
+import 'profile.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -59,16 +60,21 @@ class _HomeState extends State<Home> {
                  ], 
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(                        //profile image container
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: Hexcolor('f3f7#f3'),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
+                 child: Container(
+                  decoration: BoxDecoration(                        //profile image container
+                    borderRadius: BorderRadius.circular(12.0),
+                    color: Hexcolor('f3f7#f3'),
+                  ),
+                  margin: EdgeInsets.only(
+                    right: ScreenUtil().setWidth(40),
+                  ),
+                  width: ScreenUtil().setWidth(32.0),
+                  height: ScreenUtil().setHeight(32.0),
                 ),
-                margin: EdgeInsets.only(
-                  right: ScreenUtil().setWidth(40),
-                ),
-                width: ScreenUtil().setWidth(32.0),
-                height: ScreenUtil().setHeight(32.0),
               )
             ],
           ),
@@ -122,27 +128,27 @@ class _HomeState extends State<Home> {
                                 .showSnackBar(SnackBar(content: Text('Processing Data')));
                         },
                         child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: '14 March  ',
-                                  style: TextStyle(
-                                    fontFamily: 'roboto',
-                                    color: Hexcolor('#fe3786'),
-                                    fontSize: 10.0,
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: '14 March  ',
+                                    style: TextStyle(
+                                      fontFamily: 'roboto',
+                                      color: Hexcolor('#fe3786'),
+                                      fontSize: 10.0,
+                                    ),
                                   ),
-                                ),
-                                WidgetSpan(
-                                    child: Transform.rotate(
-                                  angle: -90 * pi / 180,
-                                  child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Hexcolor('#fe3786'),
-                                    size: 10.0,
-                                  ),
-                                )),
-                              ],
-                            ),
+                                  WidgetSpan(
+                                      child: Transform.rotate(
+                                    angle: -90 * pi / 180,
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Hexcolor('#fe3786'),
+                                      size: 10.0,
+                                    ),
+                                  )),
+                                ],
+                              ),
                     ),
                   ),
                 ),

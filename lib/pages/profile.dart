@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'home.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -27,15 +28,20 @@ class _ProfileState extends State<Profile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                    left: ScreenUtil().setWidth(21.8),
-                    top: ScreenUtil().setHeight(18.0),
-                  ),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: Hexcolor('#ffffff'),
-                    size: 20.0,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                    child: Container(
+                    margin: EdgeInsets.only(
+                      left: ScreenUtil().setWidth(21.8),
+                      top: ScreenUtil().setHeight(18.0),
+                    ),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Hexcolor('#ffffff'),
+                      size: 20.0,
+                    ),
                   ),
                 ),
                 Container(
