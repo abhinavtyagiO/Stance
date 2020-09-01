@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
@@ -17,35 +16,18 @@ class _LoginState extends State<Login> {
       width: 360,
       height: 760,
     );
-
     return Scaffold(
       backgroundColor: Hexcolor('#ffffff'),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
+           Container(
             height: ScreenUtil().setHeight(27.0),
             color: Hexcolor('#000000'),
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(21.8),
-                  top: ScreenUtil().setHeight(21.2),
-                ),
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Hexcolor('#000000'),
-                  size: ScreenUtil().setHeight(20.0),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 24.4,
-          ),
+          SizedBox(height: ScreenUtil().setHeight(35),),
+          //title
           Row(
             children: <Widget>[
               Container(
@@ -53,13 +35,15 @@ class _LoginState extends State<Login> {
                     left: ScreenUtil().setWidth(17.5),
                   ),
                   width: ScreenUtil().setWidth(4.0),
-                  height: ScreenUtil().setHeight(23.0),
-                  decoration: BoxDecoration(color: Hexcolor('#e9f6fe'))),
-              Container(
+                  height: ScreenUtil().setHeight(81.0),
+                  decoration: BoxDecoration(color: Hexcolor('#e9f6fe'),),
+                  ),
+                  Container(
+                    width: ScreenUtil().setWidth(278),
                 margin: EdgeInsets.only(
                   left: ScreenUtil().setWidth(21.5),
                 ),
-                child: Text('Login',
+                child: Text('Let our AI analyse and guide you to a better posture',
                     style: TextStyle(
                       fontSize: ScreenUtil().setHeight(20.0),
                       fontFamily: 'Montserrat',
@@ -71,222 +55,19 @@ class _LoginState extends State<Login> {
               ),
             ],
           ),
-          SizedBox(
-            height: ScreenUtil().setHeight(28.0),
-          ),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                    left: ScreenUtil().setWidth(16.0),
-                    right: ScreenUtil().setWidth(16.0),
-                  ),
-                  width: ScreenUtil().setWidth(328.0),
-                  height: ScreenUtil().setHeight(48.0),
-                  padding: EdgeInsets.only(
-                    left: ScreenUtil().setWidth(24.0),
-                    top: ScreenUtil().setHeight(3.0),
-                    right: ScreenUtil().setWidth(24.0),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                    border: Border.all(
-                      color: Hexcolor('#cccbdb'),
-                    ),
-                  ),
-                  child: TextFormField(
-                    textCapitalization: TextCapitalization.words,
-                    keyboardType: TextInputType.text ,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please fill this field!';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Email ID',
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(
-                        fontFamily: 'roboto',
-                        fontSize: ScreenUtil().setWidth(14.0),
-                        letterSpacing: 0,
-                        height: 1.4,
-                        color: Hexcolor('#000000').withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: ScreenUtil().setHeight(16.0),),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: ScreenUtil().setWidth(16.0),
-                    right: ScreenUtil().setWidth(16.0),
-                  ),
-                  width: ScreenUtil().setWidth(328.0),
-                  height: ScreenUtil().setHeight(48.0),
-                  padding: EdgeInsets.only(
-                    left: ScreenUtil().setWidth(24.0),
-                    top: ScreenUtil().setHeight(3.0),
-                    right: ScreenUtil().setWidth(24.0),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                    border: Border.all(
-                      color: Hexcolor('#cccbdb'),
-                    ),
-                  ),
-                  child: TextFormField(
-                    keyboardType: TextInputType.text ,
-                    obscureText: true,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Enter your password!';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(
-                        fontFamily: 'roboto',
-                        fontSize: ScreenUtil().setWidth(14.0),
-                        letterSpacing: 0,
-                        height: 1.4,
-                        color: Hexcolor('#000000').withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setHeight(10.0),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            right: ScreenUtil().setWidth(16.0),
-                          ),
-                          child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setWidth(12),
-                            height: 1.4,
-                            letterSpacing: 0,
-                            color: Hexcolor('#fe3786'),
-                          ),
-                      ),
-                        ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: ScreenUtil().setHeight(15.0),
-                ),
-                ButtonTheme(
-                  height: ScreenUtil().setHeight(40.0),
-                    child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
-                    ),
-                    padding: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(132.5),
-                      right: ScreenUtil().setWidth(132.5),
-                    ),
-                    color: Hexcolor('#000000').withOpacity(0.5),
-                    textColor: Hexcolor('#ffffff'),
-                  onPressed: () {
-                    // Validate returns true if the form is valid, otherwise false.
-                    if (_formKey.currentState.validate()) {
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
-                      Scaffold
-                          .of(context)
-                          .showSnackBar(SnackBar(content: Text('Processing Data')));
-                    }
-                  },
-                  child: Text('LOGIN',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.bold,
-                    fontSize: ScreenUtil().setWidth(14.0),
-                    letterSpacing: 0,
-                  ),
-                  ),
-              ),
-                ),
-              ],
+          //image
+          Padding(
+            padding: EdgeInsets.only(
+              left: ScreenUtil().setWidth(22.6),
+              right: ScreenUtil().setWidth(22.6),
+              top: ScreenUtil().setHeight(115.7),
+              bottom: ScreenUtil().setHeight(75.4),
+            ),
+            child: Center(
+              child: Image.asset('assets/images/signin.png'),
             ),
           ),
-          SizedBox(height: ScreenUtil().setHeight(25.0),),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(16.0),
-                ),
-                width: ScreenUtil().setWidth(148.0),
-                height: ScreenUtil().setHeight(1.0),
-                color: Hexcolor('#cccbdb'),
-              ),
-              Text(
-                'OR',
-                style: TextStyle(
-                  fontFamily: 'roboto',
-                  fontSize: ScreenUtil().setWidth(12.0),
-                  height: 1.4,
-                  color: Hexcolor("#cccbdb"),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  right: ScreenUtil().setWidth(16.0),
-                ),
-                width: ScreenUtil().setWidth(148.0),
-                height: ScreenUtil().setHeight(1.0),
-                color: Hexcolor('#cccbdb'),
-              ),
-            ],
-          ),
-          SizedBox(height: ScreenUtil().setHeight(25.0),),
-          Container(
-            margin: EdgeInsets.only(
-              left: ScreenUtil().setWidth(16.0),
-            ),
-            child: ButtonTheme(
-                    height: ScreenUtil().setHeight(40.0),
-                      child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
-                      ),
-                      padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(73.5),
-                        right: ScreenUtil().setWidth(73.5),
-                      ),
-                      color: Hexcolor('#1d8bdf'),
-                      textColor: Hexcolor('#ffffff'),
-                    onPressed: () {
-                        Scaffold
-                            .of(context)
-                            .showSnackBar(SnackBar(content: Text('Processing Data')));
-                    },
-                    child: Text('Login with FACEBOOK',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setWidth(14.0),
-                      letterSpacing: 0,
-                    ),
-                    ),
-                ),
-                  ),
-          ),
-          SizedBox(height: ScreenUtil().setHeight(23.0),),
+          //google login
           Container(
             margin: EdgeInsets.only(
               left: ScreenUtil().setWidth(16.0),
@@ -299,8 +80,8 @@ class _LoginState extends State<Login> {
                         side: BorderSide(color: Hexcolor('#000000')),
                       ),
                       padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(84),
-                        right: ScreenUtil().setWidth(84),
+                        left: ScreenUtil().setWidth(91),
+                        right: ScreenUtil().setWidth(91),
                       ),
                       color: Hexcolor('#ffffff'),
                     onPressed: () {
@@ -320,7 +101,8 @@ class _LoginState extends State<Login> {
                 ),
                   ),
           ),
-          SizedBox(height: ScreenUtil().setHeight(23.0),),
+          SizedBox(height: ScreenUtil().setHeight(23),),
+          //fb login
           Container(
             margin: EdgeInsets.only(
               left: ScreenUtil().setWidth(16.0),
@@ -332,17 +114,17 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
                       ),
                       padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(91),
-                        right: ScreenUtil().setWidth(91),
+                        left: ScreenUtil().setWidth(80.5),
+                        right: ScreenUtil().setWidth(80.5),
                       ),
-                      color: Hexcolor('#000000'),
+                      color: Hexcolor('#1d8bdf'),
                       textColor: Hexcolor('#ffffff'),
                     onPressed: () {
                         Scaffold
                             .of(context)
                             .showSnackBar(SnackBar(content: Text('Processing Data')));
                     },
-                    child: Text('Login with APPLE',
+                    child: Text('Login with FACEBOOK',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
@@ -354,6 +136,7 @@ class _LoginState extends State<Login> {
                   ),
           ),
           SizedBox(height: ScreenUtil().setHeight(15),),
+          //terms and conditions
           Container(
             margin: EdgeInsets.only(
               left: ScreenUtil().setWidth(40),

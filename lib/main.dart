@@ -4,9 +4,7 @@ import 'package:StartUp/pages/home.dart';
 import 'package:StartUp/pages/login.dart';
 import 'package:StartUp/pages/onBoarding3.dart';
 import 'package:StartUp/pages/profile.dart';
-import 'package:StartUp/pages/signup.dart';
 import 'package:StartUp/pages/testPosture.dart';
-import 'package:StartUp/pages/welcome.dart';
 import 'package:StartUp/pages/workoutVideo.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -24,7 +22,7 @@ Future<Null> main() async {
       @override
       Widget build(BuildContext context) {
         return MaterialApp(
-          initialRoute: '/capture',
+          initialRoute: '/login',
           routes: {
           '/': (context) => Home(),
           '/profile': (context) => Profile(),
@@ -32,9 +30,7 @@ Future<Null> main() async {
           '/wv': (context) => WorkoutVideo(),
           '/tp': (context) => TestPosture(),
           '/capture': (context) => Capture(cameras),
-          '/signup': (context) => Signup(),
           '/login': (context) => Login(),
-          '/welcome': (context) => Welcome(),
           '/fw': (context) => FinishWorkout()
     },
   );
