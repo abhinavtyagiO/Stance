@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+
+import 'package:google_sign_in/google_sign_in.dart';
+
+Future<void> _handleSignIn() async {
+  print("logging in with google");
+  try {
+    var res= await _googleSignIn.signIn();
+    print(res);
+  } catch (error) {
+    print(error);
+  }
+}
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: [
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
 
 class Login extends StatefulWidget {
   @override
@@ -85,9 +104,10 @@ class _LoginState extends State<Login> {
                       ),
                       color: Hexcolor('#ffffff'),
                     onPressed: () {
-                        Scaffold
-                            .of(context)
-                            .showSnackBar(SnackBar(content: Text('Processing Data')));
+                      _handleSignIn();
+                        // Scaffold
+                        //     .of(context)
+                        //     .showSnackBar(SnackBar(content: Text('Processing Data')));
                     },
                     child: Text('Login with GOOGLE',
                     style: TextStyle(
