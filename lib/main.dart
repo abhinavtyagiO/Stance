@@ -8,19 +8,29 @@ import 'package:StartUp/pages/testPosture.dart';
 import 'package:StartUp/pages/workoutVideo.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 
 List<CameraDescription> cameras;
 Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
+  await Firebase.initializeApp();
+  
   runApp(StartUp());
 }
 
     class StartUp extends StatelessWidget {
+      
+      
+
       @override
       Widget build(BuildContext context) {
+        //var cred=FacebookAuthProvider.credential("accessToken");
+        //print(cred);
+        //print(cred.accessToken);
+        //print(cred.asMap());
         return MaterialApp(
           initialRoute: '/login',
           routes: {
