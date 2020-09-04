@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'dart:math';
 // import 'profile.dart';
 
 class Home extends StatefulWidget {
@@ -10,6 +9,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  bool isPressed = false;
+
+  void handlePress() {
+   if(isPressed == false) {
+     isPressed = true;
+   } else {
+     isPressed = false;
+   }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
@@ -123,9 +134,9 @@ class _HomeState extends State<Home> {
                           ),
                           color: Hexcolor('#ffffff'),
                         onPressed: () {
-                            Scaffold
-                                .of(context)
-                                .showSnackBar(SnackBar(content: Text('Processing Data')));
+                          setState(() {
+                            handlePress();
+                          });  
                         },
                         child: RichText(
                               text: TextSpan(
@@ -139,14 +150,12 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                   WidgetSpan(
-                                      child: Transform.rotate(
-                                    angle: -90 * pi / 180,
                                     child: Icon(
-                                      Icons.arrow_back_ios,
+                                      isPressed ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                                       color: Hexcolor('#fe3786'),
-                                      size: 10.0,
+                                      size: ScreenUtil().setWidth(10),
                                     ),
-                                  )),
+                                  ),
                                 ],
                               ),
                     ),
