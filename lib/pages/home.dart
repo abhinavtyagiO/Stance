@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math';
-import 'profile.dart';
+// import 'profile.dart';
 
 class Home extends StatefulWidget {
   @override

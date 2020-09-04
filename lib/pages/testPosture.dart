@@ -99,12 +99,7 @@ class _TestPostureState extends State<TestPosture> {
                       color: Hexcolor('#fe3786'),
                       textColor: Hexcolor('#ffffff'),
                     onPressed: () {
-                        Scaffold
-                            .of(context)
-                            .showSnackBar(SnackBar(content: Text('Processing Data')));
-                            // Scaffold
-                            // .of(context).
-                            // // Navigator.pushNamed('/capture');
+                            Navigator.pushNamed(context, '/capture');
                     },
                     child: Text('TAKE A PHOTO',
                     style: TextStyle(
@@ -116,25 +111,6 @@ class _TestPostureState extends State<TestPosture> {
                     ),
                 ),
                   ),
-        // Chip(
-        //   backgroundColor: Hexcolor('#fe3786'),
-        //   labelPadding: EdgeInsets.only(
-        //     left: ScreenUtil().setWidth(100.0),
-        //     right: ScreenUtil().setWidth(100.0),
-        //     top: ScreenUtil().setHeight(5.0),
-        //     bottom: ScreenUtil().setHeight(5.0),
-        //   ),
-        //   label: Text(
-        //     'TAKE A PHOTO',
-        //     style: TextStyle(
-        //       fontFamily: 'roboto',
-        //       fontWeight: FontWeight.bold,
-        //       fontSize: ScreenUtil().setHeight(14.0),
-        //       color: Hexcolor('#ffffff'),
-        //       letterSpacing: 0.0,
-        //     ),
-        //   ),
-        // ),
         ],
       ),
     );

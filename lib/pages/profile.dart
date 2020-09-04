@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'home.dart';
+// import 'home.dart';
 
 class Profile extends StatefulWidget {
   @override
