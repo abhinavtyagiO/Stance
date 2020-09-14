@@ -13,6 +13,13 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
   bool isSecondPressed = false;
   bool isThirdPressed = false;
 
+  //checkbox variables
+  bool isLowerBack = false;
+  bool isMidBack = false;
+  bool isUpperBack = false;
+  bool isShoulder = false;
+  bool isNeck = false;
+
   //1 = 1st option, 2 = 2nd option, 3 = 3rd option 
   void updateStyle(int serialNumber) {
     if(serialNumber == 1) {
@@ -46,6 +53,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
       height: 760,
     );
     return Scaffold(
+      backgroundColor: Hexcolor('#ffffff'),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -55,15 +63,20 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
         ),
         Row(
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(
-                left: ScreenUtil().setWidth(21.8),
-                top: ScreenUtil().setHeight(21.2),
-              ),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Hexcolor('#000000'),
-                size: ScreenUtil().setHeight(20.0),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/capture');
+              },
+                child: Container(
+                margin: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(21.8),
+                  top: ScreenUtil().setHeight(21.2),
+                ),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Hexcolor('#000000'),
+                  size: ScreenUtil().setHeight(20.0),
+                ),
               ),
             ),
           ],
@@ -93,7 +106,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                         style: TextStyle(
                           fontSize: ScreenUtil().setHeight(20.0),
                           fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w800,
                           color: Hexcolor('#000000'),
                           letterSpacing: 0.0,
                         )),
@@ -224,7 +237,163 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
             )
           ),
         ),
-        SizedBox(height: 16.0,),
+        SizedBox(height: ScreenUtil().setHeight(16),),
+        isThirdPressed || isSecondPressed ? Container(
+          width: ScreenUtil().setWidth(328),
+          height: ScreenUtil().setHeight(298),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
+            color: Hexcolor('#f7f7fa'),
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(
+              // left: ScreenUtil().setWidth(25),
+              top: ScreenUtil().setHeight(20)
+            ),
+            child: Column(
+              children: [
+                Container(
+                  width: ScreenUtil().setWidth(271),
+                  child: Text(
+                    'Can you identify the body parts where you feel pain?',
+                    style: TextStyle(
+                      fontFamily: 'roboto',
+                      fontSize: ScreenUtil().setWidth(14),
+                      color: Hexcolor('#000000').withOpacity(0.7),
+                      height: 1.44,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      ListTile(
+                        leading: Checkbox( 
+                          activeColor: Hexcolor('#fe3786'),
+                        value: isLowerBack, 
+                        onChanged: (newValue) {
+                          setState(() {
+                            isLowerBack = newValue;
+                          });
+                        },),
+                        title: Text(
+                          'Lower Back',
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                            fontSize: ScreenUtil().setWidth(14),
+                            color: Hexcolor('#4c4c4c'),
+                            letterSpacing: 0,
+                          ),
+                          ),
+                      ),
+                      ListTile(
+                        leading: Checkbox(
+                          activeColor: Hexcolor('#fe3786'),
+                          value: isMidBack,
+                           onChanged: (newValue) {
+                             setState(() {
+                               isMidBack = newValue;
+                             });
+                           },),
+                        title: Text(
+                          'Mid Back',
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                            fontSize: ScreenUtil().setWidth(14),
+                            color: Hexcolor('#4c4c4c'),
+                            letterSpacing: 0,
+                          ),
+                          ),
+                      ),
+                      ListTile(
+                        leading: Checkbox(value: isUpperBack,
+                         onChanged: (newValue) {
+                           setState(() {
+                             isUpperBack = newValue;
+                           });
+                         }, 
+                         activeColor: Hexcolor('#fe3786'),),
+                        title: Text(
+                          'Upper Back',
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                            fontSize: ScreenUtil().setWidth(14),
+                            color: Hexcolor('#4c4c4c'),
+                            letterSpacing: 0,
+                          ),
+                          ),
+                      ),
+                      ListTile(
+                        leading: Checkbox(
+                          activeColor: Hexcolor('#fe3786'),
+                          value: isShoulder, onChanged: (newValue) {
+                            setState(() {
+                              isShoulder = newValue;
+                            });
+                          },),
+                        title: Text(
+                          'Shoulder',
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                            fontSize: ScreenUtil().setWidth(14),
+                            color: Hexcolor('#4c4c4c'),
+                            letterSpacing: 0,
+                          ),
+                          ),
+                      ),
+                      ListTile(
+                        leading: Checkbox(
+                          activeColor: Hexcolor('#fe3786'),
+                          value: isNeck, onChanged: (newValue) {
+                            setState(() {
+                              isNeck = newValue;
+                            });
+                          },),
+                        title: Text(
+                          'Neck',
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                            fontSize: ScreenUtil().setWidth(14),
+                            color: Hexcolor('#4c4c4c'),
+                            letterSpacing: 0,
+                          ),
+                          ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ) : Container(),
+         SizedBox(height: isFirstPressed ? ScreenUtil().setHeight(323) : ScreenUtil().setHeight(25) ,),
+        isFirstPressed || isSecondPressed || isThirdPressed ? ButtonTheme(
+                    height: ScreenUtil().setHeight(40.0),
+                      child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
+                      ),
+                      padding: EdgeInsets.only(
+                        left: ScreenUtil().setWidth(111.5),
+                        right: ScreenUtil().setWidth(111.5),
+                      ),
+                      color: Hexcolor('#fe3786'),
+                      textColor: Hexcolor('#ffffff'),
+                    onPressed: () {
+                            Navigator.pushNamed(context, '/wv');
+                    },
+                    child: Text('GET STARTED',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setWidth(14.0),
+                      letterSpacing: 0,
+                    ),
+                    ),
+                ),
+                ) : Container(),
       ],
     ));
   }

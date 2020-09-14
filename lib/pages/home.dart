@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'profile.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,6 +10,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   bool isPressed = false;
+
+  String name = "Ramdev.";
 
   void handlePress() {
    if(isPressed == false) {
@@ -60,7 +61,7 @@ class _HomeState extends State<Home> {
                    ),
                    Container(
                      child: Text(
-                       'Ramdev.',
+                       name,
                        style: TextStyle(
                          fontFamily: 'neutrifpro',
                          fontSize: ScreenUtil().setWidth(28),
@@ -138,27 +139,48 @@ class _HomeState extends State<Home> {
                             handlePress();
                           });  
                         },
-                        child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: '14 March  ',
-                                    style: TextStyle(
-                                      fontFamily: 'roboto',
-                                      color: Hexcolor('#fe3786'),
-                                      fontSize: 10.0,
-                                    ),
-                                  ),
-                                  WidgetSpan(
-                                    child: Icon(
-                                      isPressed ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                                      color: Hexcolor('#fe3786'),
-                                      size: ScreenUtil().setWidth(10),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                    ),
+                        child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: Hexcolor('#fe3786'),
+                              size: ScreenUtil().setWidth(10),
+                            ),
+                            value: '14 March',
+                            style: TextStyle(
+                              fontFamily: 'roboto',
+                              color: Hexcolor('#fe3786'),
+                              fontSize: ScreenUtil().setWidth(10.0),
+                            ),
+                           items: [
+                             DropdownMenuItem(child: Text('02 Feb'), value: '02 Feb',),
+                             DropdownMenuItem(child: Text('06 March'), value: '06 March',),
+                             DropdownMenuItem(child: Text('14 March'), value: '14 March',),
+                           ],
+                           onChanged: (value) {
+                             print(value);
+                           },
+                      ),
+                        ),
+                    //     child: RichText(
+                    //           text: TextSpan(
+                    //             children: [
+                    //               TextSpan(
+                    //                 text: '14 March  ',
+                    //                 style: TextStyle(
+                    //                   fontFamily: 'roboto',
+                    //                   color: Hexcolor('#fe3786'),
+                    //                   fontSize: 10.0,
+                    //                 ),
+                    //               ),
+                    //               WidgetSpan(
+                    //                 child: Icon(
+                    //                   
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    // ),
                   ),
                 ),
               ),
@@ -691,36 +713,37 @@ class _HomeState extends State<Home> {
             ],
           ),
           SizedBox(height: ScreenUtil().setHeight(16.0)),
-          Row(
-            children: <Widget>[
-              Container(
-                width: ScreenUtil().setWidth(328.0),
-                height: ScreenUtil().setHeight(169.0),
-                margin: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(16.0),
-                ),
-                padding: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(24.0),
-                  bottom: ScreenUtil().setHeight(21.2),
-                ),
-                decoration: BoxDecoration(
-                  color: Hexcolor('#ffdaf7'),
-                  borderRadius: BorderRadius.circular(24.0),
-                ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        "Today's workout",
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setHeight(16.0),
-                          color: Hexcolor('#171717'),
-                        )
-                      ),
-                      Text(
+          Center(
+            child: Container(
+              width: ScreenUtil().setWidth(328.0),
+              height: ScreenUtil().setHeight(169.0),
+              decoration: BoxDecoration(
+                color: Hexcolor('#ffdaf7'),
+                borderRadius: BorderRadius.circular(24.0),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: ScreenUtil().setHeight(21),
+                      left: ScreenUtil().setWidth(18),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            "Today's workout",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.bold,
+                              fontSize: ScreenUtil().setHeight(16.0),
+                              color: Hexcolor('#171717'),
+                            )
+                          ),
+                          Text(
                         '10-15 min',
                         style: TextStyle(
                           fontFamily: 'roboto',
@@ -728,10 +751,28 @@ class _HomeState extends State<Home> {
                           color: Hexcolor('#171717'),
                         )
                       ),
-                    ],
+                      ],
+                    ),
                   ),
+                  Container(
+                   width: ScreenUtil().setWidth(150),
+                   child: Image.asset('assets/images/chick.png')),
+                ],
               ),
-            ],
+                // child: Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: <Widget>[
+                //     Row(
+                //       children: [
+                //         
+                //         
+                //       ],
+                //     ),
+                //     
+                //   ],
+                // ),
+            ),
           ),
         ],
       ),

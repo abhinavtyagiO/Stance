@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:video_player/video_player.dart';
 
 class WorkoutVideo extends StatefulWidget {
   @override
@@ -8,6 +9,21 @@ class WorkoutVideo extends StatefulWidget {
 }
 
 class _WorkoutVideoState extends State<WorkoutVideo> {
+
+  VideoPlayerController controller;
+  VoidCallback listener;
+
+  @override
+  void initState() {
+    super.initState();
+    listener = () {
+      setState(() {
+        
+      });
+    };
+  } 
+
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
@@ -16,6 +32,7 @@ class _WorkoutVideoState extends State<WorkoutVideo> {
       height: 824,
     );
     return Scaffold(
+      backgroundColor: Hexcolor('#ffffff'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -23,53 +40,56 @@ class _WorkoutVideoState extends State<WorkoutVideo> {
             height: ScreenUtil().setHeight(29.0),
             color: Hexcolor('#000000'),
           ),
-          Container(
-            width: ScreenUtil().setWidth(360.0),
-            height: ScreenUtil().setHeight(408.0),
-            color: Hexcolor('#000000').withOpacity(0.1),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
+          AspectRatio(
+            aspectRatio: 360 / 408,
+              child: Container(
+              width: ScreenUtil().setWidth(360.0),
+              height: ScreenUtil().setHeight(408.0),
+              color: Hexcolor('#000000').withOpacity(0.1),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: ScreenUtil().setWidth(16.6),
+                          top: ScreenUtil().setHeight(16.6),
+                        ),
+                        child: Icon(
+                          Icons.clear,
+                          color: Hexcolor('#ffffff'),
+                        ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(
+                            left: ScreenUtil().setWidth(16.0),
+                            bottom: ScreenUtil().setHeight(11.0),
+                          ),
+                          child: Text('03:20',
+                              style: TextStyle(
+                                color: Hexcolor('#ffffff'),
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                fontSize: ScreenUtil().setHeight(20.0),
+                                letterSpacing: 0.0,
+                              ))),
+                    ],
+                  ),
+                  Container(
                       margin: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(16.6),
                         top: ScreenUtil().setHeight(16.6),
+                        right: ScreenUtil().setWidth(16.0),
                       ),
                       child: Icon(
-                        Icons.clear,
+                        Icons.camera_alt,
                         color: Hexcolor('#ffffff'),
-                      ),
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(
-                          left: ScreenUtil().setWidth(16.0),
-                          bottom: ScreenUtil().setHeight(11.0),
-                        ),
-                        child: Text('03:20',
-                            style: TextStyle(
-                              color: Hexcolor('#ffffff'),
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              fontSize: ScreenUtil().setHeight(20.0),
-                              letterSpacing: 0.0,
-                            ))),
-                  ],
-                ),
-                Container(
-                    margin: EdgeInsets.only(
-                      top: ScreenUtil().setHeight(16.6),
-                      right: ScreenUtil().setWidth(16.0),
-                    ),
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: Hexcolor('#ffffff'),
-                    )),
-              ],
+                      )),
+                ],
+              ),
             ),
           ),
           Container(
@@ -87,6 +107,7 @@ class _WorkoutVideoState extends State<WorkoutVideo> {
              ) 
             )
           ),
+          SizedBox(height: ScreenUtil().setHeight(5),),
           Container(
             margin: EdgeInsets.only(
               bottom: ScreenUtil().setHeight(4.0),
@@ -228,7 +249,6 @@ class _WorkoutVideoState extends State<WorkoutVideo> {
           Container(
             margin: EdgeInsets.only(
               left: ScreenUtil().setWidth(40.0),
-              top: ScreenUtil().setHeight(5.0),
             ),
             child: Text(
               'STRENGTHENING',
@@ -240,6 +260,7 @@ class _WorkoutVideoState extends State<WorkoutVideo> {
              ) 
             )
           ),
+          SizedBox(height: ScreenUtil().setHeight(5),),
           Container(
             margin: EdgeInsets.only(
               bottom: ScreenUtil().setHeight(4.0),

@@ -21,6 +21,7 @@ class _CaptureState extends State {
   @override
   void initState() {
     super.initState();
+    
 
     availableCameras().then((availableCameras) {
       cameras = availableCameras;
@@ -28,6 +29,9 @@ class _CaptureState extends State {
         setState(() {
           selectedCameraIdx = 0;
         });
+
+        //alert
+        showAlert(context);
 
         initCameraController(cameras[selectedCameraIdx]).then((void v) {});
       } else {
@@ -40,7 +44,10 @@ class _CaptureState extends State {
   
   Future initCameraController(CameraDescription cameraDescription) async {
   if (controller != null) {
+    
     await controller.dispose();
+    
+    
   }
 
   // 3
@@ -84,7 +91,7 @@ class _CaptureState extends State {
       body: Container(
         child: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 children: <Widget>[ 
@@ -171,6 +178,83 @@ class _CaptureState extends State {
       ),
     );
   }
+
+  //show ALERT
+  void showAlert(BuildContext context) {
+    showDialog(context: context,
+    // barrierDismissible: false,
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(
+        top: ScreenUtil().setHeight(208),
+      ),
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20)),
+        ),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('How to pose for picture?',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.bold,
+                  fontSize: ScreenUtil().setWidth(16),
+                  color: Hexcolor('#000000'),
+                  letterSpacing: 0,
+                ),
+                ),
+                SizedBox(height: ScreenUtil().setHeight(13),),
+            Text(
+              'Don\'t try to stand extra erect, be relaxed and in your natural posture. Show side profile and align your eyes and knees to the respective marked lines.',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: 'roboto',
+                fontSize: ScreenUtil().setWidth(14),
+                height: 1.4,
+                letterSpacing: 0,
+                color: Hexcolor('#000000').withOpacity(0.7),
+              ),
+            ),
+            SizedBox(height: ScreenUtil().setHeight(21),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: ScreenUtil().setWidth(148),
+                  child: Center(
+                    child: Image.asset('assets/images/stance.png'),
+                  ),
+                ),
+              ],
+            ),
+            Center(
+              child: FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
+              ),
+              color: Hexcolor('#ffffff'),
+              textColor: Hexcolor('#fe3786'),
+                      onPressed: () {
+                Navigator.of(context).pop();
+                      },
+                      child: Text('CONTINUE',
+                      style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.bold,
+              fontSize: ScreenUtil().setWidth(14.0),
+              letterSpacing: 0,
+                      ),
+                      ),
+                  ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    );
+  }
+
   /// Display Camera preview.
   Widget cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {

@@ -52,7 +52,7 @@ class _TestPostureState extends State<TestPosture> {
                         style: TextStyle(
                           fontSize: ScreenUtil().setHeight(20.0),
                           fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w800,
                           color: Hexcolor('#000000'),
                           letterSpacing: 0,
                         )),

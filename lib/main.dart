@@ -8,9 +8,8 @@ import 'package:StartUp/pages/profile.dart';
 import 'package:StartUp/pages/testPosture.dart';
 import 'package:StartUp/pages/workoutVideo.dart';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 
 Future<Null> main() async {
@@ -29,7 +28,7 @@ Future<Null> main() async {
         //print(cred.asMap());
         return MaterialApp(
           title: 'STANCE',
-          initialRoute: '/tp',
+          initialRoute: '/obt',
           routes: {
           '/': (context) => Home(),
           '/profile': (context) => Profile(),
