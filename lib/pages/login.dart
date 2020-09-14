@@ -2,12 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'config.dart';
+import 'package:http/http.dart' as http;
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 Future<void> _handleSignIn() async {
   print("logging in with google");
   try {
-    var res= await _googleSignIn.signIn();
-    print(res);
+    var googleUser= await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final GoogleAuthCredential googleAuthCredential =
+            GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        var user = await _auth.signInWithCredential(googleAuthCredential);
+        var url = Config.backendUrl+'/api/users/login';
+        var response = await http.post(url, body: {
+          'firstName': user.additionalUserInfo.profile['first_name'],
+          'lastName': user.additionalUserInfo.profile['last_name'],
+          'userId':user.additionalUserInfo.profile['id'],
+          'email':user.additionalUserInfo.profile['email']
+          });
+        print(response);
+
   } catch (error) {
     print(error);
   }
@@ -15,9 +37,95 @@ Future<void> _handleSignIn() async {
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: [
     'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
   ],
 );
+
+signInWithFacebook(context) async{
+  print("signInWithFacebook");
+  String your_client_id = "1807080746112722";
+String your_redirect_url =
+    "https://startup-22e64.firebaseapp.com/__/auth/handler";
+    
+    
+  String result = await Navigator.push(
+  context,
+  MaterialPageRoute(
+      builder: (context) => CustomWebView(
+            selectedUrl:
+                'https://www.facebook.com/dialog/oauth?client_id=$your_client_id&redirect_uri=$your_redirect_url&response_type=token&scope=email,public_profile,',
+          ),
+      maintainState: true),
+);
+  if (result != null) {
+  try {
+    final facebookAuthCred =
+        FacebookAuthProvider.credential(result);
+    UserCredential user =
+        await _auth.signInWithCredential(facebookAuthCred);
+        var url = Config.backendUrl+'/api/users/login';
+        var response = await http.post(url, body: {
+          'firstName': user.additionalUserInfo.profile['first_name'],
+          'lastName': user.additionalUserInfo.profile['last_name'],
+          'userId':user.additionalUserInfo.profile['id'],
+          'email':user.additionalUserInfo.profile['email']
+          });
+        print(response);
+  } catch (e) {print(e);}
+}
+}
+
+
+
+class CustomWebView extends StatefulWidget {
+  final String selectedUrl;
+
+  CustomWebView({this.selectedUrl});
+
+  @override
+  _CustomWebViewState createState() => _CustomWebViewState();
+}
+
+class _CustomWebViewState extends State<CustomWebView> {
+  final flutterWebviewPlugin = new FlutterWebviewPlugin();
+
+  @override
+  void initState() {
+    super.initState();
+
+    flutterWebviewPlugin.onUrlChanged.listen((String url) {
+      if (url.contains("#access_token")) {
+        succeed(url);
+      }
+
+      if (url.contains(
+          "https://www.facebook.com/connect/login_success.html?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied")) {
+        denied();
+      }
+    });
+  }
+
+  denied() {
+    Navigator.pop(context);
+  }
+
+  succeed(String url) {
+    var params = url.split("access_token=");
+
+    var endparam = params[1].split("&");
+
+    Navigator.pop(context, endparam[0]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WebviewScaffold(
+        url: widget.selectedUrl,
+        appBar: new AppBar(
+          backgroundColor: Color.fromRGBO(66, 103, 178, 1),
+          title: new Text("Facebook login"),
+        ));
+  }
+}
 
 class Login extends StatefulWidget {
   @override
@@ -137,9 +245,10 @@ class _LoginState extends State<Login> {
                       color: Hexcolor('#1d8bdf'),
                       textColor: Hexcolor('#ffffff'),
                     onPressed: () {
-                        Scaffold
-                            .of(context)
-                            .showSnackBar(SnackBar(content: Text('Processing Data')));
+                        // Scaffold
+                        //     .of(context)
+                        //     .showSnackBar(SnackBar(content: Text('Processing Data')));
+                        signInWithFacebook(context);
                     },
                     child: Text('Login with FACEBOOK',
                     style: TextStyle(
@@ -149,6 +258,7 @@ class _LoginState extends State<Login> {
                       letterSpacing: 0,
                     ),
                     ),
+                    
                 ),
                   ),
           ),

@@ -37,6 +37,10 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
     }
   }
 
+  int getSlouchScore(recognitions){
+    return 73;
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
@@ -156,8 +160,8 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                           path: widget.imagePath,
                           numResults: 2,
                         );
-
                         print(recognitions);
+                        
                       },
                     child: Icon(Icons.check, color: Hexcolor('#ffffff'), size: ScreenUtil().setWidth(30),),
                     backgroundColor: Hexcolor('#fe3786'),
