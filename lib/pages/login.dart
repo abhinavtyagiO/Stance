@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,8 +8,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'config.dart';
 import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final LocalStorage storage = new LocalStorage('userInfo');
+
+postlogin(UserCredential user)async{
+var url = Config.backendUrl+'/api/users/login';
+        Map<String,String> headers= new Map<String,String>();
+        headers['Content-Type']="application/json";
+        var bodyData={
+          'firstName': user.additionalUserInfo.profile['given_name'].toString(),
+          'lastName': user.additionalUserInfo.profile['family_name'].toString(),
+          'email':user.additionalUserInfo.profile['email'].toString(),
+          'imageUrl':user.additionalUserInfo.profile['picture'].toString()
+          };
+          print(user);
+        print(bodyData);
+        var body = jsonEncode(bodyData);
+        var response = await http.post(url,headers: headers, body: body);
+          storage.setItem('firstName', user.additionalUserInfo.profile['given_name']).toString();
+          storage.setItem('lastName', user.additionalUserInfo.profile['family_name']).toString();
+          storage.setItem('email',user.additionalUserInfo.profile['email']).toString();
+          storage.setItem('imageUrl',user.additionalUserInfo.profile['picture']).toString();
+          storage.setItem('x-auth-token', response.headers['x-auth-token']);
+        print({"headers",response.headers});
+}
 
 Future<void> _handleSignIn() async {
   print("logging in with google");
@@ -20,18 +46,11 @@ Future<void> _handleSignIn() async {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-        var user = await _auth.signInWithCredential(googleAuthCredential);
-        var url = Config.backendUrl+'/api/users/login';
-        var response = await http.post(url, body: {
-          'firstName': user.additionalUserInfo.profile['first_name'],
-          'lastName': user.additionalUserInfo.profile['last_name'],
-          'userId':user.additionalUserInfo.profile['id'],
-          'email':user.additionalUserInfo.profile['email']
-          });
-        print(response);
+        UserCredential user = await _auth.signInWithCredential(googleAuthCredential);
+        postlogin(user);
 
   } catch (error) {
-    print(error);
+    print({"error",error});
   }
 }
 GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -62,15 +81,9 @@ String your_redirect_url =
         FacebookAuthProvider.credential(result);
     UserCredential user =
         await _auth.signInWithCredential(facebookAuthCred);
-        var url = Config.backendUrl+'/api/users/login';
-        var response = await http.post(url, body: {
-          'firstName': user.additionalUserInfo.profile['first_name'],
-          'lastName': user.additionalUserInfo.profile['last_name'],
-          'userId':user.additionalUserInfo.profile['id'],
-          'email':user.additionalUserInfo.profile['email']
-          });
-        print(response);
-  } catch (e) {print(e);}
+        print(user.additionalUserInfo.profile['first_name'].toString());
+        postlogin(user);
+  } catch (e) {print({"error",e});}
 }
 }
 
