@@ -4,7 +4,11 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tflite/tflite.dart';
 
-
+class ScoreSide{
+  int slouch;
+  int kyphotic;
+  int lordotic;
+}
 
 class PreviewImageScreen extends StatefulWidget {
   static String id = 'imagePreview';
@@ -22,7 +26,6 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
     Tflite.close();
     try {
       String res;
-      
           res = await Tflite.loadModel(
             model: "assets/posenet_mv1_075_float_from_checkpoints.tflite",
             //model: "assets/model.tflite"
@@ -33,6 +36,79 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
     }catch(e) {
       print({'Failed to load model.',e});
     }
+  }
+
+  @override initState(){
+    super.initState();
+    loadModel();
+  }
+
+  ScoreSide getScores(recognitions){
+    //recognitions[0].keypoints;
+    var shldr=[0,0],hip=[0,0],knee=[0,0],ear=[0,0];
+    for(var v in recognitions[0]['keypoints'].values){
+      print(v);
+      switch(v['part']){
+        case 'leftShoulder':{
+          shldr[0]=v['x'];
+          shldr[1]=v['y'];
+        }
+        break;
+
+        case 'rightShoulder':{
+          shldr[0]=v['x'];
+          shldr[1]=v['y'];
+        }
+        break;
+
+        case 'leftHip':{
+          hip[0]=v['x'];
+          hip[1]=v['y'];
+        }
+        break;
+        
+        case 'rightHip':{
+          hip[0]=v['x'];
+          hip[1]=v['y'];
+        }
+        break;
+
+        case 'leftKnee':{
+          knee[0]=v['x'];
+          knee[1]=v['y'];
+        }
+        break;
+        
+        case 'rightKnee':{
+          knee[0]=v['x'];
+          knee[1]=v['y'];
+        }
+        break;
+
+        case 'leftEar':{
+          ear[0]=v['x'];
+          ear[1]=v['y'];
+        }
+        break;
+        
+        case 'rightEar':{
+          ear[0]=v['x'];
+          ear[1]=v['y'];
+        }
+        break;
+      }
+    }
+    var hipt = ((knee[0]-shldr[0])/(knee[1]-shldr[1]))*(hip[1]-knee[1])+knee[0];
+    var slch_scr = (-1)*(hipt-hip[0])/(knee[1]-shldr[1]);
+    var eart = ((hip[0]-shldr[0])/(hip[1]-shldr[1]))*(ear[1]-shldr[1])+shldr[0];
+    var kypho_scr = (-1)*(eart-ear[0])/(hip[1]-shldr[1]);
+    var hipt_ = ((ear[0]-knee[0])/(ear[1]-knee[1]))*(hip[1]-ear[1])+ear[0];
+    var lordo_scr = ((hipt_-hip[0])/(ear[1]-knee[1])).abs();  
+    ScoreSide scores;
+    scores.slouch=slch_scr.toInt();
+    scores.kyphotic=kypho_scr.toInt();
+    scores.lordotic=lordo_scr.toInt();
+    return scores;
   }
 
   @override
@@ -118,8 +194,9 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                           path: widget.imagePath,
                           numResults: 2,
                         );
-
                         print(recognitions);
+                        ScoreSide scoresSide=getScores(recognitions);
+                        
                       },
                     child: Icon(Icons.check, color: Hexcolor('#ffffff'), size: ScreenUtil().setWidth(30),),
                     backgroundColor: Hexcolor('#fe3786'),

@@ -2,18 +2,20 @@ import 'package:StartUp/pages/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:localstorage/localstorage.dart';
 class Home extends StatefulWidget {
   static String id = 'home';
   @override
   _HomeState createState() => _HomeState();
 }
 
+final LocalStorage storage = new LocalStorage('userInfo');
+
 class _HomeState extends State<Home> {
 
   bool isPressed = false;
 
-  String name = "Ramdev.";
+  String name = storage.getItem('firstName')+' '+storage.getItem('lastName');
 
   void handlePress() {
    if(isPressed == false) {
