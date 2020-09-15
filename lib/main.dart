@@ -28,7 +28,7 @@ Future<Null> main() async {
         //print(cred.asMap());
         return MaterialApp(
           title: 'STANCE',
-          initialRoute: '/login',
+          initialRoute: '/capture',
           routes: {
           '/': (context) => Home(),
           '/profile': (context) => Profile(),
