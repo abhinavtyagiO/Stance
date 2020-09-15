@@ -20,6 +20,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 );
 
 class Login extends StatefulWidget {
+  static String id = 'login';
   @override
   _LoginState createState() => _LoginState();
 }

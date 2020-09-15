@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FinishWorkout extends StatefulWidget {
+  static String id = 'finishWorkout';
   @override
   _FinishWorkoutState createState() => _FinishWorkoutState();
 }

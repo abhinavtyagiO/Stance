@@ -5,6 +5,7 @@ import 'package:StartUp/pages/imagePreview.dart';
 import 'package:StartUp/pages/login.dart';
 import 'package:StartUp/pages/onBoarding3.dart';
 import 'package:StartUp/pages/profile.dart';
+import 'package:StartUp/pages/settings.dart';
 import 'package:StartUp/pages/testPosture.dart';
 import 'package:StartUp/pages/workoutVideo.dart';
 import 'package:flutter/material.dart';
@@ -25,20 +26,21 @@ Future<Null> main() async {
         //var cred=FacebookAuthProvider.credential("accessToken");
         //print(cred);
         //print(cred.accessToken);
-        //print(cred.asMap());
+        //print(cred.asMap()); 
         return MaterialApp(
           title: 'STANCE',
-          initialRoute: '/obt',
+          initialRoute: Home.id,
           routes: {
-          '/': (context) => Home(),
-          '/profile': (context) => Profile(),
-          '/obt': (context) => OnBoardingThree(),
-          '/wv': (context) => WorkoutVideo(),
-          '/tp': (context) => TestPosture(),
-          '/capture': (context) => Capture(),
-          '/login': (context) => Login(),
-          '/fw': (context) => FinishWorkout(),
-          '/preview': (context) => PreviewImageScreen(),
+          Home.id: (context) => Home(),
+          Profile.id: (context) => Profile(),
+          OnBoardingThree.id: (context) => OnBoardingThree(),
+          WorkoutVideo.id: (context) => WorkoutVideo(),
+          TestPosture.id: (context) => TestPosture(),
+          Capture.id: (context) => Capture(),
+          Login.id: (context) => Login(),
+          FinishWorkout.id: (context) => FinishWorkout(),
+          PreviewImageScreen.id: (context) => PreviewImageScreen(),
+          Settings.id: (context) => Settings(),
     },
   );
       }

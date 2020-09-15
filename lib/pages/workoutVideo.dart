@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
 class WorkoutVideo extends StatefulWidget {
+  static String id = 'workoutVideo';
   @override
   _WorkoutVideoState createState() => _WorkoutVideoState();
 }

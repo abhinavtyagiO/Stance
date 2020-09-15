@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:path/path.dart';
 import 'dart:io';
-// import 'dart:typed_data';
-// import 'package:path/path.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tflite/tflite.dart';
@@ -10,6 +7,7 @@ import 'package:tflite/tflite.dart';
 
 
 class PreviewImageScreen extends StatefulWidget {
+  static String id = 'imagePreview';
   final String imagePath;
 
   PreviewImageScreen({this.imagePath});
@@ -61,42 +59,6 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                     fillColor: Hexcolor('#000000'),
                     child: Icon(
                       Icons.arrow_back_ios,
-                      size: ScreenUtil().setWidth(15),
-                      color: Hexcolor('#ffffff'),
-                    ),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                  ),
-                  //flash icon
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(129),
-                    ),
-                    child: RawMaterialButton(
-                      materialTapTargetSize: MaterialTapTargetSize.padded,
-                      onPressed: () {
-                        // Navigator.pop(context);
-                      },
-                      // elevation: 2.0,
-                      fillColor: Hexcolor('#000000'),
-                      child: Icon(
-                        Icons.flash_off,
-                        size: ScreenUtil().setWidth(15),
-                        color: Hexcolor('#ffffff'),
-                      ),
-                      padding: EdgeInsets.all(15.0),
-                      shape: CircleBorder(),
-                    ),
-                  ),
-                  //timer icon
-                  RawMaterialButton(
-                    onPressed: () {
-                      // Navigator.pop(context);
-                    },
-                    // elevation: 2.0,
-                    fillColor: Hexcolor('#000000'),
-                    child: Icon(
-                      Icons.timer_off,
                       size: ScreenUtil().setWidth(15),
                       color: Hexcolor('#ffffff'),
                     ),

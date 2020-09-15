@@ -1,8 +1,10 @@
+import 'package:StartUp/pages/capture.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TestPosture extends StatefulWidget {
+  static String id = 'testPosture';
   @override
   _TestPostureState createState() => _TestPostureState();
 }
@@ -99,7 +101,7 @@ class _TestPostureState extends State<TestPosture> {
                       color: Hexcolor('#fe3786'),
                       textColor: Hexcolor('#ffffff'),
                     onPressed: () {
-                            Navigator.pushNamed(context, '/capture');
+                            Navigator.pushNamed(context, Capture.id);
                     },
                     child: Text('TAKE A PHOTO',
                     style: TextStyle(

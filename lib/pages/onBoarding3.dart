@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnBoardingThree extends StatefulWidget {
+  static String id = 'obt';
   @override
   _OnBoardingThreeState createState() => _OnBoardingThreeState();
 }

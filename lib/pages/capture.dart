@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'imagePreview.dart';
 
 class Capture extends StatefulWidget {
+  static String id = 'capture';
   @override
   _CaptureState createState() => _CaptureState();
 }
@@ -102,42 +102,6 @@ class _CaptureState extends State {
                     fillColor: Hexcolor('#000000'),
                     child: Icon(
                       Icons.arrow_back_ios,
-                      size: ScreenUtil().setWidth(15),
-                      color: Hexcolor('#ffffff'),
-                    ),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                  ),
-                  //flash icon
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(129),
-                    ),
-                    child: RawMaterialButton(
-                      materialTapTargetSize: MaterialTapTargetSize.padded,
-                      onPressed: () {
-                        // Navigator.pop(context);
-                      },
-                      // elevation: 2.0,
-                      fillColor: Hexcolor('#000000'),
-                      child: Icon(
-                        Icons.flash_off,
-                        size: ScreenUtil().setWidth(15),
-                        color: Hexcolor('#ffffff'),
-                      ),
-                      padding: EdgeInsets.all(15.0),
-                      shape: CircleBorder(),
-                    ),
-                  ),
-                  //timer icon
-                  RawMaterialButton(
-                    onPressed: () {
-                      // Navigator.pop(context);
-                    },
-                    // elevation: 2.0,
-                    fillColor: Hexcolor('#000000'),
-                    child: Icon(
-                      Icons.timer_off,
                       size: ScreenUtil().setWidth(15),
                       color: Hexcolor('#ffffff'),
                     ),

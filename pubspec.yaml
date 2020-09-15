@@ -50,6 +50,7 @@ flutter:
         - asset: assets/Montserrat-Medium.ttf
         - asset: assets/Montserrat-Bold.ttf
         - asset: assets/Montserrat-ExtraBold.ttf
+        - asset: assets/Montserrat-SemiBold.ttf
     - family: roboto
       fonts:
         - asset: assets/Roboto-Medium.ttf   
