@@ -26,7 +26,7 @@ class _FriendsState extends State<Friends> {
             child: Text('Leaderboard',
                 style: TextStyle(
                   fontFamily: 'Montserrat',
-                  fontSize: ScreenUtil().setWidth(16.0),
+                  fontSize: ScreenUtil().setSp(16.0),
                   height: 1.44,
                   color: Hexcolor('#000000'),
                 )),
@@ -77,7 +77,7 @@ class _FriendsState extends State<Friends> {
                         '1',
                         style: TextStyle(
                             fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setWidth(12),
+                            fontSize: ScreenUtil().setSp(12),
                             letterSpacing: 0,
                             color: Hexcolor('#000000'),
                         ),
@@ -99,7 +99,7 @@ class _FriendsState extends State<Friends> {
                         'Mohd. Arbab',
                         style: TextStyle(
                           fontFamily: 'roboto',
-                          fontSize: ScreenUtil().setWidth(12),
+                          fontSize: ScreenUtil().setSp(12),
                           letterSpacing: 0,
                           color: Hexcolor('#000000'),
                         ),
@@ -112,7 +112,7 @@ class _FriendsState extends State<Friends> {
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontFamily: 'roboto',
-                          fontSize: ScreenUtil().setWidth(12),
+                          fontSize: ScreenUtil().setSp(12),
                           letterSpacing: 0,
                           color: Hexcolor('#000000'),
                         ),
@@ -139,7 +139,7 @@ class _FriendsState extends State<Friends> {
                         '2',
                         style: TextStyle(
                             fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setWidth(12),
+                            fontSize: ScreenUtil().setSp(12),
                             letterSpacing: 0,
                             color: Hexcolor('#000000'),
                         ),
@@ -161,7 +161,7 @@ class _FriendsState extends State<Friends> {
                         'Ramdev Saharan',
                         style: TextStyle(
                           fontFamily: 'roboto',
-                          fontSize: ScreenUtil().setWidth(12),
+                          fontSize: ScreenUtil().setSp(12),
                           letterSpacing: 0,
                           color: Hexcolor('#000000'),
                         ),
@@ -174,7 +174,7 @@ class _FriendsState extends State<Friends> {
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontFamily: 'roboto',
-                          fontSize: ScreenUtil().setWidth(12),
+                          fontSize: ScreenUtil().setSp(12),
                           letterSpacing: 0,
                           color: Hexcolor('#000000'),
                         ),
@@ -201,7 +201,7 @@ class _FriendsState extends State<Friends> {
                         '3',
                         style: TextStyle(
                             fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setWidth(12),
+                            fontSize: ScreenUtil().setSp(12),
                             letterSpacing: 0,
                             color: Hexcolor('#000000'),
                         ),
@@ -223,7 +223,7 @@ class _FriendsState extends State<Friends> {
                         'Ansh Singhai',
                         style: TextStyle(
                           fontFamily: 'roboto',
-                          fontSize: ScreenUtil().setWidth(12),
+                          fontSize: ScreenUtil().setSp(12),
                           letterSpacing: 0,
                           color: Hexcolor('#000000'),
                         ),
@@ -236,7 +236,7 @@ class _FriendsState extends State<Friends> {
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontFamily: 'roboto',
-                          fontSize: ScreenUtil().setWidth(12),
+                          fontSize: ScreenUtil().setSp(12),
                           letterSpacing: 0,
                           color: Hexcolor('#000000'),
                         ),
@@ -279,7 +279,7 @@ class _FriendsState extends State<Friends> {
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w800,
-                      fontSize: ScreenUtil().setWidth(14),
+                      fontSize: ScreenUtil().setSp(14),
                       letterSpacing: 0,
                     ),
                   ),
@@ -293,7 +293,7 @@ class _FriendsState extends State<Friends> {
                         'Get fit and pain free with your friends, share your unique link and compete.',
                         style: TextStyle(
                           fontFamily: 'roboto',
-                          fontSize: ScreenUtil().setWidth(12),
+                          fontSize: ScreenUtil().setSp(12),
                           height: 1.4,
                           letterSpacing: 0, 
                           color: Hexcolor('#000000').withOpacity(0.7),

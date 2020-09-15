@@ -105,7 +105,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                   Container(
                     child: Text('Bad posture related pain',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setHeight(20.0),
+                          fontSize: ScreenUtil().setSp(20.0),
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w800,
                           color: Hexcolor('#000000'),
@@ -121,7 +121,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                       'Do you feel repetitive stiffness/ pain in your back, neck or shoulder?',
                       style: TextStyle(
                         fontFamily: 'roboto',
-                        fontSize: ScreenUtil().setHeight(14.0),
+                        fontSize: ScreenUtil().setSp(14.0),
                         color: Hexcolor('#000000').withOpacity(0.7),
                       ),
                     ),
@@ -156,7 +156,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
               "No, I don't.",
               style: TextStyle(
               fontFamily: 'roboto',
-              fontSize: ScreenUtil().setHeight(14.0),
+              fontSize: ScreenUtil().setSp(14.0),
               color: isFirstPressed ? Hexcolor('#fe3786') : Hexcolor('#000000').withOpacity(0.5), 
               ),
             ),
@@ -191,7 +191,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
               "Yeah, sometimes I do.",
               style: TextStyle(
               fontFamily: 'roboto',
-              fontSize: ScreenUtil().setHeight(14.0),
+              fontSize: ScreenUtil().setSp(14.0),
               color: isSecondPressed ? Hexcolor('#fe3786') : Hexcolor('#000000').withOpacity(0.5),
               ),
             ),
@@ -226,7 +226,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
               "Yes, quite often.",
               style: TextStyle(
               fontFamily: 'roboto',
-              fontSize: ScreenUtil().setHeight(14.0),
+              fontSize: ScreenUtil().setSp(14.0),
               color: isThirdPressed ? Hexcolor('#fe3786') : Hexcolor('#000000').withOpacity(0.5),
               ),
             ),
@@ -241,7 +241,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
         SizedBox(height: ScreenUtil().setHeight(16),),
         isThirdPressed || isSecondPressed ? Container(
           width: ScreenUtil().setWidth(328),
-          height: ScreenUtil().setHeight(298),
+          height: ScreenUtil().setHeight(305),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
             color: Hexcolor('#f7f7fa'),
@@ -259,7 +259,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                     'Can you identify the body parts where you feel pain?',
                     style: TextStyle(
                       fontFamily: 'roboto',
-                      fontSize: ScreenUtil().setWidth(14),
+                      fontSize: ScreenUtil().setSp(14),
                       color: Hexcolor('#000000').withOpacity(0.7),
                       height: 1.44,
                       letterSpacing: 0,
@@ -268,6 +268,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                 ),
                 Expanded(
                   child: ListView(
+                    physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
                     children: [
                       ListTile(
@@ -283,7 +284,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                           'Lower Back',
                           style: TextStyle(
                             fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setWidth(14),
+                            fontSize: ScreenUtil().setSp(14),
                             color: Hexcolor('#4c4c4c'),
                             letterSpacing: 0,
                           ),
@@ -302,7 +303,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                           'Mid Back',
                           style: TextStyle(
                             fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setWidth(14),
+                            fontSize: ScreenUtil().setSp(14),
                             color: Hexcolor('#4c4c4c'),
                             letterSpacing: 0,
                           ),
@@ -320,7 +321,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                           'Upper Back',
                           style: TextStyle(
                             fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setWidth(14),
+                            fontSize: ScreenUtil().setSp(14),
                             color: Hexcolor('#4c4c4c'),
                             letterSpacing: 0,
                           ),
@@ -338,7 +339,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                           'Shoulder',
                           style: TextStyle(
                             fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setWidth(14),
+                            fontSize: ScreenUtil().setSp(14),
                             color: Hexcolor('#4c4c4c'),
                             letterSpacing: 0,
                           ),
@@ -356,7 +357,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                           'Neck',
                           style: TextStyle(
                             fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setWidth(14),
+                            fontSize: ScreenUtil().setSp(14),
                             color: Hexcolor('#4c4c4c'),
                             letterSpacing: 0,
                           ),
@@ -372,13 +373,10 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
          SizedBox(height: isFirstPressed ? ScreenUtil().setHeight(323) : ScreenUtil().setHeight(25) ,),
         isFirstPressed || isSecondPressed || isThirdPressed ? ButtonTheme(
                     height: ScreenUtil().setHeight(40.0),
+                    minWidth: ScreenUtil().setWidth(328),
                       child: FlatButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
-                      ),
-                      padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(111.5),
-                        right: ScreenUtil().setWidth(111.5),
                       ),
                       color: Hexcolor('#fe3786'),
                       textColor: Hexcolor('#ffffff'),
@@ -389,7 +387,7 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setWidth(14.0),
+                      fontSize: ScreenUtil().setSp(14.0),
                       letterSpacing: 0,
                     ),
                     ),

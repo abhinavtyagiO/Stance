@@ -29,7 +29,7 @@ Future<Null> main() async {
         //print(cred.asMap()); 
         return MaterialApp(
           title: 'STANCE',
-          initialRoute: Home.id,
+          initialRoute: OnBoardingThree.id,
           routes: {
           Home.id: (context) => Home(),
           Profile.id: (context) => Profile(),

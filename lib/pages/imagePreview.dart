@@ -161,7 +161,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                   style: TextStyle(
                     fontFamily: 'roboto',
                     color: Hexcolor('#ffffff'),
-                    fontSize: ScreenUtil().setWidth(14),
+                    fontSize: ScreenUtil().setSp(14),
                     letterSpacing: 0,
                   ),
                 ),

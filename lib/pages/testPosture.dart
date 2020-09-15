@@ -52,7 +52,7 @@ class _TestPostureState extends State<TestPosture> {
                   Container(
                     child: Text('Test your posture',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setHeight(20.0),
+                          fontSize: ScreenUtil().setSp(20.0),
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w800,
                           color: Hexcolor('#000000'),
@@ -68,7 +68,7 @@ class _TestPostureState extends State<TestPosture> {
                       "Scan your body to know what's wrong and get workout recommendations to correct your posture.",
                       style: TextStyle(
                         fontFamily: 'roboto',
-                        fontSize: ScreenUtil().setHeight(14.0),
+                        fontSize: ScreenUtil().setSp(14.0),
                         color: Hexcolor('#000000').withOpacity(0.7),
                       ),
                     ),
@@ -90,13 +90,10 @@ class _TestPostureState extends State<TestPosture> {
         SizedBox(height: ScreenUtil().setHeight(120.0),),
         ButtonTheme(
                     height: ScreenUtil().setHeight(40.0),
+                    minWidth: ScreenUtil().setWidth(328),
                       child: FlatButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
-                      ),
-                      padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(111.5),
-                        right: ScreenUtil().setWidth(111.5),
                       ),
                       color: Hexcolor('#fe3786'),
                       textColor: Hexcolor('#ffffff'),
@@ -107,7 +104,7 @@ class _TestPostureState extends State<TestPosture> {
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setWidth(14.0),
+                      fontSize: ScreenUtil().setSp(14.0),
                       letterSpacing: 0,
                     ),
                     ),

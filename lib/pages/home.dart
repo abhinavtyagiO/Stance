@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localstorage/localstorage.dart';
+import 'components/scoreContainer.dart';
+
 class Home extends StatefulWidget {
   static String id = 'home';
   @override
@@ -15,7 +17,8 @@ class _HomeState extends State<Home> {
 
   bool isPressed = false;
 
-  String name = storage.getItem('firstName')+' '+storage.getItem('lastName');
+  // String name = storage.getItem('firstName')+' '+storage.getItem('lastName');
+  String name = 'Ramdev.';
 
   void handlePress() {
    if(isPressed == false) {
@@ -55,7 +58,7 @@ class _HomeState extends State<Home> {
                          'Good morning,',                        //Main title
                          style: TextStyle(
                            fontFamily: 'neutrifpro',
-                           fontSize: ScreenUtil().setWidth(28),
+                           fontSize: ScreenUtil().setSp(28),
                            height: 1.42, 
                          ),
                        ),
@@ -65,7 +68,7 @@ class _HomeState extends State<Home> {
                          name,
                          style: TextStyle(
                            fontFamily: 'neutrifpro',
-                           fontSize: ScreenUtil().setWidth(28),
+                           fontSize: ScreenUtil().setSp(28),
                            height: 1.42,
                          ),
                        ),
@@ -111,7 +114,7 @@ class _HomeState extends State<Home> {
                       Text('Posture',
                       style: TextStyle(
                         fontFamily: 'Montserrat',
-                        fontSize: ScreenUtil().setWidth(16.0),
+                        fontSize: ScreenUtil().setSp(16.0),
                         height: 1.75,
                       )),
                       Container(
@@ -142,7 +145,7 @@ class _HomeState extends State<Home> {
                           style: TextStyle(
                             fontFamily: 'roboto',
                             color: Hexcolor('#fe3786'),
-                            fontSize: ScreenUtil().setWidth(10.0),
+                            fontSize: ScreenUtil().setSp(10.0),
                           ),
                          items: [
                            DropdownMenuItem(child: Text('02 Feb'), value: '02 Feb',),
@@ -160,194 +163,27 @@ class _HomeState extends State<Home> {
               ),
             ),
             SizedBox(height: ScreenUtil().setHeight(17.0),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                    width: ScreenUtil().setWidth(104.0),           //1st big container starts
-                    height: ScreenUtil().setHeight(128.0),
-                    decoration: BoxDecoration(
-                      color: Hexcolor('#ffeeee'),
-                      borderRadius: BorderRadius.circular(24.0),
-                    ),
-                    margin: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(14.0),
-                    ),
-                    child: Column(                                       //column inside big container starts
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                            width: ScreenUtil().setWidth(24.0),
-                            height: ScreenUtil().setHeight(24.0),
-                            margin: EdgeInsets.only(
-                              top: ScreenUtil().setHeight(15.5),
-                            ),
-                            decoration: BoxDecoration(
-                              color: Hexcolor('#ffffff'),
-                              borderRadius: BorderRadius.circular(8.0),
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: ScreenUtil().setHeight(8.0),           //FHP
-                          ),
-                          child: Text('FHP',
-                              style: TextStyle(
-                                fontFamily: 'roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setWidth(12.0),
-                                color: Hexcolor('#171717'),
-                                letterSpacing: 0.6,
-                              )),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(               //Score 1
-                              top: ScreenUtil().setHeight(6.0),
-                            ),
-                            child: Text(
-                              '75',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setWidth(24),
-                                color: Hexcolor('#171717'),
-                              ),
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: ScreenUtil().setHeight(2.0),
-                          ),
-                          child: Text('SEVERE',                   //Remark 1
-                              style: TextStyle(
-                                fontFamily: 'roboto',
-                                letterSpacing: 0.6,
-                                color: Hexcolor('#ff4747'),
-                                fontSize: ScreenUtil().setWidth(9.0),
-                              )),
-                        ),
-                      ],
-                    )),
-                Container(                                             //Container 2 starts
-                    width: ScreenUtil().setWidth(104.0),
-                    height: ScreenUtil().setHeight(128.0),  
-                    decoration: BoxDecoration(
-                      color: Hexcolor('#e9f9f1'),
-                      borderRadius: BorderRadius.circular(24.0),
-                    ),
-                    child: Column(                                      //Column in Container 2
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                            width: ScreenUtil().setWidth(24.0),
-                            height: ScreenUtil().setHeight(24.0),
-                            margin: EdgeInsets.only(
-                              top: ScreenUtil().setHeight(15.5),
-                            ),
-                            decoration: BoxDecoration(
-                              color: Hexcolor('#ffffff'),
-                              borderRadius: BorderRadius.circular(8.0),
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(               //Scoliosis
-                            top: ScreenUtil().setHeight(6.0),
-                          ),
-                          child: Text('Scoliosis',
-                              style: TextStyle(
-                                fontFamily: 'roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setWidth(12.0),
-                                color: Hexcolor('#171717'),
-                              )),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(
-                              top: ScreenUtil().setHeight(8.0),     //Score 2
-                            ),
-                            child: Text(
-                              '28',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setWidth(24),
-                                color: Hexcolor('#171717'),
-                              ),
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: ScreenUtil().setHeight(2.0),    //Remark 2
-                          ),
-                          child: Text('NORMAL',
-                              style: TextStyle(
-                                fontFamily: 'roboto',
-                                letterSpacing: 0.6,
-                                color: Hexcolor('#00b279'),
-                                fontSize: ScreenUtil().setWidth(9.0),
-                              )),
-                        ),
-                      ],
-                    )),
-                Container(                                         //Container 3
-                    width: ScreenUtil().setWidth(104.0),
-                    height: ScreenUtil().setHeight(128.0),
-                    decoration: BoxDecoration(
-                      color: Hexcolor('#fff4e9'),
-                      borderRadius: BorderRadius.circular(24.0),
-                    ),
-                    margin: EdgeInsets.only(
-                      right: ScreenUtil().setWidth(14.0),
-                    ),
-                    child: Column(                                      //Column in Container 3
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                            width: ScreenUtil().setWidth(24.0),
-                            height: ScreenUtil().setHeight(24.0),
-                            margin: EdgeInsets.only(
-                              top: ScreenUtil().setHeight(15.5),
-                            ),
-                            decoration: BoxDecoration(
-                              color: Hexcolor('#ffffff'),
-                              borderRadius: BorderRadius.circular(8.0),
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: ScreenUtil().setHeight(8.0),    //Slouch
-                          ),
-                          child: Text('Slouch',
-                              style: TextStyle(
-                                fontFamily: 'roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setWidth(12.0),
-                                color: Hexcolor('#171717'),
-                              )),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(
-                              top: ScreenUtil().setHeight(6.0),    //Score 3
-                            ),
-                            child: Text(
-                              '56',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setWidth(24),
-                                color: Hexcolor('#171717'),
-                              ),
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(                   //Remark 3
-                            top: ScreenUtil().setHeight(2.0),
-                          ),
-                          child: Text('CAUTION',
-                              style: TextStyle(
-                                fontFamily: 'roboto',
-                                letterSpacing: 0.6,
-                                color: Hexcolor('#ff7f56'),
-                                fontSize: ScreenUtil().setWidth(9.0),
-                              )),
-                        ),
-                      ],
-                    )),
-              ],
+            //Horizontal Scroll
+            Padding(
+              padding: EdgeInsets.only(
+                left: ScreenUtil().setWidth(16),
+                right: ScreenUtil().setWidth(8),
+              ),
+              child: Container(
+                height: ScreenUtil().setHeight(128),
+                child: Expanded(
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      ScoreContainer(deformality: 'Text Neck', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
+                      ScoreContainer(deformality: 'Kyphosis', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
+                      ScoreContainer(deformality: 'Swayback', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
+                      ScoreContainer(deformality: 'Slouch', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
+                      ScoreContainer(deformality: 'Knock Knees', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),    
+                    ],
+                  ),
+                ),
+              ),
             ),
             Row(                                               //New Row
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -363,7 +199,7 @@ class _HomeState extends State<Home> {
                       Container(
                         child: Text('Your weekly',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setWidth(18.0),
+                              fontSize: ScreenUtil().setSp(18.0),
                               fontFamily: 'Montserrat',
                               height: 1.44,
                               color: Hexcolor('#171717'),
@@ -372,7 +208,7 @@ class _HomeState extends State<Home> {
                       Container(
                         child: Text('Activities',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setWidth(18.0),
+                              fontSize: ScreenUtil().setSp(18.0),
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.bold,
                               height: 1.44,
@@ -388,7 +224,7 @@ class _HomeState extends State<Home> {
                            Container(
                              child: Text('3/5 sessions',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setWidth(12.0),
+                              fontSize: ScreenUtil().setSp(12.0),
                               fontFamily: 'roboto',
                               color: Hexcolor('#171717').withOpacity(0.5),
                             )),
@@ -400,7 +236,7 @@ class _HomeState extends State<Home> {
                              ),
                              child: Text('.',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setWidth(12.0),
+                              fontSize: ScreenUtil().setSp(12.0),
                               fontFamily: 'roboto',
                               color: Hexcolor('#171717').withOpacity(0.5),
                             )),
@@ -408,7 +244,7 @@ class _HomeState extends State<Home> {
                            Container(
                              child: Text('45 min',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setWidth(12.0),
+                              fontSize: ScreenUtil().setSp(12.0),
                               fontFamily: 'roboto',
                               color: Hexcolor('#171717').withOpacity(0.5),
                             )),
@@ -440,7 +276,7 @@ class _HomeState extends State<Home> {
                         style: TextStyle(
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setWidth(24),
+                          fontSize: ScreenUtil().setSp(24),
                           color: Hexcolor('#171717'),
                         ),
                         children: <TextSpan> [
@@ -448,7 +284,7 @@ class _HomeState extends State<Home> {
                             text: '%',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
-                              fontSize: 12.0,
+                              fontSize: ScreenUtil().setSp(12.0),
                               fontWeight: FontWeight.bold,
                               color: Hexcolor('#171717'),
                             ),
@@ -475,7 +311,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           'Sun',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -488,7 +324,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           '9',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -504,7 +340,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           'Mon',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -517,7 +353,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           '10',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -533,7 +369,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           'Tue',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717').withOpacity(0.3), 
                           )
@@ -546,7 +382,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           '11',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717').withOpacity(0.3), 
                           )
@@ -562,7 +398,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           'Wed',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -575,7 +411,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           '12',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -600,7 +436,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           'Thu',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -613,7 +449,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           '13',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -629,7 +465,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           'Fri',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -642,7 +478,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           '14',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -661,7 +497,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           'Sat',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -674,7 +510,7 @@ class _HomeState extends State<Home> {
                         child: Text(
                           '15',
                           style: TextStyle(
-                           fontSize: ScreenUtil().setWidth(10.0),
+                           fontSize: ScreenUtil().setSp(10.0),
                            fontFamily: 'roboto',
                            color: Hexcolor('#171717'), 
                           )
@@ -712,7 +548,7 @@ class _HomeState extends State<Home> {
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setHeight(16.0),
+                                fontSize: ScreenUtil().setSp(16.0),
                                 color: Hexcolor('#171717'),
                               )
                             ),
@@ -720,7 +556,7 @@ class _HomeState extends State<Home> {
                           '10-15 min',
                           style: TextStyle(
                             fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setHeight(12.0),
+                            fontSize: ScreenUtil().setSp(12.0),
                             color: Hexcolor('#171717'),
                           )
                         ),
@@ -740,3 +576,5 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+

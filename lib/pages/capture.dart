@@ -121,7 +121,7 @@ class _CaptureState extends State {
                   style: TextStyle(
                     fontFamily: 'roboto',
                     color: Hexcolor('#ffffff'),
-                    fontSize: ScreenUtil().setWidth(14),
+                    fontSize: ScreenUtil().setSp(14),
                     letterSpacing: 0,
                   ),
                 ),
@@ -146,12 +146,14 @@ class _CaptureState extends State {
   //show ALERT
   void showAlert(BuildContext context) {
     showDialog(context: context,
-    // barrierDismissible: false,
+    barrierDismissible: false,
     builder: (context) => Padding(
       padding: EdgeInsets.only(
-        top: ScreenUtil().setHeight(208),
+        top: ScreenUtil().setHeight(136),
       ),
-      child: AlertDialog(
+          child: AlertDialog(
+            actionsOverflowDirection: VerticalDirection.up,
+            scrollable: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20)),
         ),
@@ -163,7 +165,7 @@ class _CaptureState extends State {
                 style: TextStyle(
                   fontFamily: 'Montserrat',
                   fontWeight: FontWeight.bold,
-                  fontSize: ScreenUtil().setWidth(16),
+                  fontSize: ScreenUtil().setSp(16),
                   color: Hexcolor('#000000'),
                   letterSpacing: 0,
                 ),
@@ -174,7 +176,7 @@ class _CaptureState extends State {
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: 'roboto',
-                fontSize: ScreenUtil().setWidth(14),
+                fontSize: ScreenUtil().setSp(14),
                 height: 1.4,
                 letterSpacing: 0,
                 color: Hexcolor('#000000').withOpacity(0.7),
@@ -206,7 +208,7 @@ class _CaptureState extends State {
                       style: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setWidth(14.0),
+              fontSize: ScreenUtil().setSp(14.0),
               letterSpacing: 0,
                       ),
                       ),
@@ -222,11 +224,11 @@ class _CaptureState extends State {
   /// Display Camera preview.
   Widget cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {
-      return const Text(
+      return Text(
         'Loading',
         style: TextStyle(
           color: Colors.white,
-          fontSize: 20.0,
+          fontSize: ScreenUtil().setSp(20.0),
           fontWeight: FontWeight.w900,
         ),
       );
@@ -336,32 +338,6 @@ class _CaptureState extends State {
     }
   }
 
-  // void onCapturePressed(context) async {
-  //   // Take the Picture in a try / catch block. If anything goes wrong,
-  //   // catch the error.
-  //   try {
-  //     // Attempt to take a picture and log where it's been saved
-  //     final path = join(
-  //       // In this example, store the picture in the temp directory. Find
-  //       // the temp directory using the `path_provider` plugin.
-  //       (await getTemporaryDirectory()).path,
-  //       '${DateTime.now()}.png',
-  //     );
-  //     print(path);
-  //     await controller.takePicture(path);
-
-  //     // If the picture was taken, display it on a new screen
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => PreviewImageScreen(imagePath: path),
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     // If an error occurs, log the error to the console.
-  //     print(e);
-  //   }
-  // }
   void showCameraException(CameraException e) {
     String errorText = 'Error: ${e.code}\nError Message: ${e.description}';
     print(errorText);

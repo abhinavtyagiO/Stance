@@ -141,7 +141,7 @@ class _ProfileState extends State<Profile> {
                                   color: Hexcolor('#ffffff'),
                                   fontFamily: 'roboto',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: ScreenUtil().setWidth(12.0),
+                                  fontSize: ScreenUtil().setSp(12.0),
                                   letterSpacing: 0,
                                 )),
                           ),
@@ -158,7 +158,7 @@ class _ProfileState extends State<Profile> {
                           style: TextStyle(
                             color: Hexcolor('#ffffff'),
                             fontFamily: 'Montserrat',
-                            fontSize: ScreenUtil().setWidth(18.0),
+                            fontSize: ScreenUtil().setSp(18.0),
                             height: 2.0,  
                           ),
                         ),
@@ -187,7 +187,7 @@ class _ProfileState extends State<Profile> {
                             child: Text('410/450',
                                 style: TextStyle(
                                   color: Hexcolor('#ffffff').withOpacity(0.4),
-                                  fontSize: ScreenUtil().setWidth(10.0),
+                                  fontSize: ScreenUtil().setSp(10.0),
                                   fontFamily: 'roboto',
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 0.67,
@@ -227,7 +227,7 @@ class _ProfileState extends State<Profile> {
                                      style: TextStyle(
                                        fontFamily: 'Montserrat',
                                        fontWeight: FontWeight.bold,
-                                       fontSize: ScreenUtil().setWidth(16),
+                                       fontSize: ScreenUtil().setSp(16),
                                        letterSpacing: 0,
                                        color: isFriendsPressed ? Hexcolor('#000000') : Hexcolor('#000000').withOpacity(0.5),
                                      ),
@@ -257,7 +257,7 @@ class _ProfileState extends State<Profile> {
                                     style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       fontWeight: FontWeight.bold,
-                                      fontSize: ScreenUtil().setWidth(16),
+                                      fontSize: ScreenUtil().setSp(16),
                                       letterSpacing: 0,
                                       color: isProgressPressed ? Hexcolor('#000000') : Hexcolor('#000000').withOpacity(0.5),
                                     ),

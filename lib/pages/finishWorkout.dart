@@ -93,7 +93,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   Container(
                     child: Text('Next workout difficulty',
                         style: TextStyle(
-                          fontSize: ScreenUtil().setHeight(20.0),
+                          fontSize: ScreenUtil().setSp(20.0),
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w800,
                           color: Hexcolor('#000000'),
@@ -109,7 +109,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                       'Do you want a more challenging workout session?',
                       style: TextStyle(
                         fontFamily: 'roboto',
-                        fontSize: ScreenUtil().setHeight(14.0),
+                        fontSize: ScreenUtil().setSp(14.0),
                         color: Hexcolor('#000000').withOpacity(0.7),
                       ),
                     ),
@@ -144,7 +144,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               'No, similiar difficulty',
               style: TextStyle(
               fontFamily: 'roboto',
-              fontSize: ScreenUtil().setHeight(14.0),
+              fontSize: ScreenUtil().setSp(14.0),
               color: isFirstPressed ? Hexcolor('#fe3786') : Hexcolor('#000000').withOpacity(0.5), 
               ),
             ),
@@ -179,7 +179,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               'Yeah, bring it on.',
               style: TextStyle(
               fontFamily: 'roboto',
-              fontSize: ScreenUtil().setHeight(14.0),
+              fontSize: ScreenUtil().setSp(14.0),
               color: isSecondPressed ? Hexcolor('#fe3786') : Hexcolor('#000000').withOpacity(0.5),
               ),
             ),
@@ -214,7 +214,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               'Too hard, go easy on me.',
               style: TextStyle(
               fontFamily: 'roboto',
-              fontSize: ScreenUtil().setHeight(14.0),
+              fontSize: ScreenUtil().setSp(14.0),
               color: isThirdPressed ? Hexcolor('#fe3786') : Hexcolor('#000000').withOpacity(0.5),
               ),
             ),
@@ -248,7 +248,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setWidth(14.0),
+                      fontSize: ScreenUtil().setSp(14.0),
                       letterSpacing: 0,
                     ),
                     ),

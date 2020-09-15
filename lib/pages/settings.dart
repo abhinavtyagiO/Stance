@@ -51,7 +51,7 @@ class _SettingsState extends State<Settings> {
                       'Settings',
                       style: TextStyle(
                         fontFamily: 'Montserrat',
-                        fontSize: ScreenUtil().setWidth(18),
+                        fontSize: ScreenUtil().setSp(18),
                         letterSpacing: 0,
                         color: Hexcolor('#000000'),
                         fontWeight: FontWeight.bold,
@@ -76,7 +76,7 @@ class _SettingsState extends State<Settings> {
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w600,
-                        fontSize: ScreenUtil().setWidth(14),
+                        fontSize: ScreenUtil().setSp(14),
                         letterSpacing: 0,
                         color: Hexcolor('#000000'),
                       ),
@@ -103,7 +103,7 @@ class _SettingsState extends State<Settings> {
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w600,
-                        fontSize: ScreenUtil().setWidth(14),
+                        fontSize: ScreenUtil().setSp(14),
                         letterSpacing: 0,
                         color: Hexcolor('#000000'),
                       ),
@@ -118,7 +118,7 @@ class _SettingsState extends State<Settings> {
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w600,
-                        fontSize: ScreenUtil().setWidth(14),
+                        fontSize: ScreenUtil().setSp(14),
                         letterSpacing: 0,
                         color: Hexcolor('#000000'),
                       ),
@@ -133,7 +133,7 @@ class _SettingsState extends State<Settings> {
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w600,
-                        fontSize: ScreenUtil().setWidth(14),
+                        fontSize: ScreenUtil().setSp(14),
                         letterSpacing: 0,
                         color: Hexcolor('#000000'),
                       ),
@@ -168,7 +168,7 @@ class _SettingsState extends State<Settings> {
                         color: Hexcolor('#fe3786'),
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.bold,
-                        fontSize: ScreenUtil().setWidth(14.0),
+                        fontSize: ScreenUtil().setSp(14.0),
                         letterSpacing: 0,
                       ),
                       ),

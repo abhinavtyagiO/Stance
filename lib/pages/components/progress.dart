@@ -55,7 +55,7 @@ class _ProgressState extends State<Progress> {
             child: Text('Workout Stats',
                 style: TextStyle(
                   fontFamily: 'Montserrat',
-                  fontSize: ScreenUtil().setWidth(16.0),
+                  fontSize: ScreenUtil().setSp(16.0),
                   height: 1.44,
                   color: Hexcolor('#000000'),
                 )),
@@ -99,14 +99,14 @@ class _ProgressState extends State<Progress> {
                             style: TextStyle(
                               fontFamily: 'roboto',
                               fontWeight: FontWeight.bold,
-                              fontSize: ScreenUtil().setWidth(9.0),
+                              fontSize: ScreenUtil().setSp(9.0),
                               letterSpacing: 0.6,
                             )),
                         Text('75',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w800,
-                              fontSize: ScreenUtil().setWidth(24.0),
+                              fontSize: ScreenUtil().setSp(24.0),
                               letterSpacing: 0,
                             )),
                       ],
@@ -119,14 +119,14 @@ class _ProgressState extends State<Progress> {
                             style: TextStyle(
                               fontFamily: 'roboto',
                               fontWeight: FontWeight.bold,
-                              fontSize: ScreenUtil().setWidth(9.0),
+                              fontSize: ScreenUtil().setSp(9.0),
                               letterSpacing: 0.6,
                             )),
                         Text('04',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w800,
-                              fontSize: ScreenUtil().setWidth(24.0),
+                              fontSize: ScreenUtil().setSp(24.0),
                               letterSpacing: 0,
                             )),
                       ],
@@ -166,7 +166,7 @@ class _ProgressState extends State<Progress> {
                     'Weekly',
                     style: TextStyle(
                       fontFamily: 'roboto',
-                      fontSize: ScreenUtil().setWidth(10),
+                      fontSize: ScreenUtil().setSp(10),
                       letterSpacing: 0,
                       color: Hexcolor('#000000'),
                     ),
@@ -195,7 +195,7 @@ class _ProgressState extends State<Progress> {
                     'Monthly',
                     style: TextStyle(
                       fontFamily: 'roboto',
-                      fontSize: ScreenUtil().setWidth(10),
+                      fontSize: ScreenUtil().setSp(10),
                       letterSpacing: 0,
                       color: Hexcolor('#000000'),
                     ),
@@ -224,7 +224,7 @@ class _ProgressState extends State<Progress> {
                     'Annually',
                     style: TextStyle(
                       fontFamily: 'roboto',
-                      fontSize: ScreenUtil().setWidth(10),
+                      fontSize: ScreenUtil().setSp(10),
                       letterSpacing: 0,
                       color: Hexcolor('#000000'),
                     ),
@@ -256,7 +256,7 @@ class _ProgressState extends State<Progress> {
               Text('Posture',
                   style: TextStyle(
                     fontFamily: 'Montserrat',
-                    fontSize: ScreenUtil().setWidth(16.0),
+                    fontSize: ScreenUtil().setSp(16.0),
                     height: 1.44,
                     color: Hexcolor('#000000'),
                   )),
@@ -297,7 +297,7 @@ class _ProgressState extends State<Progress> {
                       style: TextStyle(
                         fontFamily: 'roboto',
                         color: Hexcolor('#fe3786'),
-                        fontSize: ScreenUtil().setWidth(10.0),
+                        fontSize: ScreenUtil().setSp(10.0),
                         letterSpacing: 0,
                       ),
                     ),
@@ -362,7 +362,7 @@ class _ProgressState extends State<Progress> {
               style: TextStyle(
                 fontFamily: 'roboto',
                 fontWeight: FontWeight.bold,
-                fontSize: ScreenUtil().setHeight(12.0),
+                fontSize: ScreenUtil().setSp(12.0),
                 color: Hexcolor('#000000'),
               )),
           Icon(
@@ -407,7 +407,7 @@ class _ProgressState extends State<Progress> {
                           fontFamily: 'roboto',
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.6,
-                          fontSize: ScreenUtil().setWidth(12.0),
+                          fontSize: ScreenUtil().setSp(12.0),
                         ),
                       ),
                       Text(
@@ -417,7 +417,7 @@ class _ProgressState extends State<Progress> {
                               Hexcolor('#000000').withOpacity(0.5),
                           fontFamily: 'roboto',
                           letterSpacing: 0.6,
-                          fontSize: ScreenUtil().setWidth(9.0),
+                          fontSize: ScreenUtil().setSp(9.0),
                         ),
                       )
                     ],
@@ -449,7 +449,7 @@ class _ProgressState extends State<Progress> {
                   style: TextStyle(
                     color: Hexcolor('#ff4747'),
                     fontFamily: 'roboto',
-                    fontSize: ScreenUtil().setWidth(10.0),
+                    fontSize: ScreenUtil().setSp(10.0),
                     letterSpacing: 0.0,
                   ),
                 ),
@@ -493,7 +493,7 @@ class _ProgressState extends State<Progress> {
                           fontFamily: 'roboto',
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.6,
-                          fontSize: ScreenUtil().setWidth(12.0),
+                          fontSize: ScreenUtil().setSp(12.0),
                         ),
                       ),
                       Text(
@@ -503,7 +503,7 @@ class _ProgressState extends State<Progress> {
                               Hexcolor('#000000').withOpacity(0.5),
                           fontFamily: 'roboto',
                           letterSpacing: 0.6,
-                          fontSize: ScreenUtil().setWidth(9.0),
+                          fontSize: ScreenUtil().setSp(9.0),
                         ),
                       )
                     ],
@@ -535,7 +535,7 @@ class _ProgressState extends State<Progress> {
                     style: TextStyle(
                       color: Hexcolor('#00b279'),
                       fontFamily: 'roboto',
-                      fontSize: ScreenUtil().setWidth(10.0),
+                      fontSize: ScreenUtil().setSp(10.0),
                       letterSpacing: 0.0,
                     ),
                   ),
@@ -579,7 +579,7 @@ class _ProgressState extends State<Progress> {
                           fontFamily: 'roboto',
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.6,
-                          fontSize: ScreenUtil().setWidth(12.0),
+                          fontSize: ScreenUtil().setSp(12.0),
                         ),
                       ),
                       Text(
@@ -589,7 +589,7 @@ class _ProgressState extends State<Progress> {
                               Hexcolor('#000000').withOpacity(0.5),
                           fontFamily: 'roboto',
                           letterSpacing: 0.6,
-                          fontSize: ScreenUtil().setWidth(9.0),
+                          fontSize: ScreenUtil().setSp(9.0),
                         ),
                       )
                     ],
@@ -621,7 +621,7 @@ class _ProgressState extends State<Progress> {
                     style: TextStyle(
                       color: Hexcolor('#ff7f56'),
                       fontFamily: 'roboto',
-                      fontSize: ScreenUtil().setWidth(10.0),
+                      fontSize: ScreenUtil().setSp(10.0),
                       letterSpacing: 0.0,
                     ),
                   ),
