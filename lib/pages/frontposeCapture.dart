@@ -2,21 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
-import 'imagePreview.dart';
+import 'frontposeimagePreview.dart';
+import 'package:dotted_line/dotted_line.dart';
 
-class Capture extends StatefulWidget {
+class FrontCapture extends StatefulWidget {
+  static String id = 'frontcapture';
   @override
-  _CaptureState createState() => _CaptureState();
+  _FrontCaptureState createState() => _FrontCaptureState();
 }
 
-class _CaptureState extends State {
-   CameraController controller;
+class _FrontCaptureState extends State {
+  CameraController controller;
   List cameras;
   int selectedCameraIdx;
   String imagePath;
+
+  //parameters for timer
+  bool isOff = true;
+   bool isSetThree = true;
 
   @override
   void initState() {
@@ -77,6 +82,20 @@ class _CaptureState extends State {
     setState(() {});
   }
 }
+  void toggleTimer() {
+    if(isOff == true) {
+      if(isSetThree == true) {
+        isOff = false;
+      }
+    } else if(isOff == false) {
+      if(isSetThree == true) {
+        isSetThree = false;
+      } else if(isSetThree == false) {
+        isSetThree = true;
+        isOff = true;
+      }
+    }
+  }
   
 
   @override
@@ -94,6 +113,7 @@ class _CaptureState extends State {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[ 
                   RawMaterialButton(
                     onPressed: () {
@@ -108,36 +128,15 @@ class _CaptureState extends State {
                     padding: EdgeInsets.all(15.0),
                     shape: CircleBorder(),
                   ),
-                  //flash icon
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(129),
-                    ),
-                    child: RawMaterialButton(
-                      materialTapTargetSize: MaterialTapTargetSize.padded,
-                      onPressed: () {
-                        // Navigator.pop(context);
-                      },
-                      // elevation: 2.0,
-                      fillColor: Hexcolor('#000000'),
-                      child: Icon(
-                        Icons.flash_off,
-                        size: ScreenUtil().setWidth(15),
-                        color: Hexcolor('#ffffff'),
-                      ),
-                      padding: EdgeInsets.all(15.0),
-                      shape: CircleBorder(),
-                    ),
-                  ),
-                  //timer icon
                   RawMaterialButton(
                     onPressed: () {
-                      // Navigator.pop(context);
+                      setState(() {
+                        toggleTimer();
+                      });
                     },
-                    // elevation: 2.0,
                     fillColor: Hexcolor('#000000'),
                     child: Icon(
-                      Icons.timer_off,
+                      isOff ? Icons.timer_off : (isSetThree ? Icons.timer_3 : Icons.timer_10),
                       size: ScreenUtil().setWidth(15),
                       color: Hexcolor('#ffffff'),
                     ),
@@ -157,7 +156,7 @@ class _CaptureState extends State {
                   style: TextStyle(
                     fontFamily: 'roboto',
                     color: Hexcolor('#ffffff'),
-                    fontSize: ScreenUtil().setWidth(14),
+                    fontSize: ScreenUtil().setSp(14),
                     letterSpacing: 0,
                   ),
                 ),
@@ -182,12 +181,14 @@ class _CaptureState extends State {
   //show ALERT
   void showAlert(BuildContext context) {
     showDialog(context: context,
-    // barrierDismissible: false,
+    barrierDismissible: false,
     builder: (context) => Padding(
       padding: EdgeInsets.only(
-        top: ScreenUtil().setHeight(208),
+        top: ScreenUtil().setHeight(136),
       ),
-      child: AlertDialog(
+          child: AlertDialog(
+            actionsOverflowDirection: VerticalDirection.up,
+            scrollable: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20)),
         ),
@@ -199,7 +200,7 @@ class _CaptureState extends State {
                 style: TextStyle(
                   fontFamily: 'Montserrat',
                   fontWeight: FontWeight.bold,
-                  fontSize: ScreenUtil().setWidth(16),
+                  fontSize: ScreenUtil().setSp(16),
                   color: Hexcolor('#000000'),
                   letterSpacing: 0,
                 ),
@@ -210,7 +211,7 @@ class _CaptureState extends State {
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: 'roboto',
-                fontSize: ScreenUtil().setWidth(14),
+                fontSize: ScreenUtil().setSp(14),
                 height: 1.4,
                 letterSpacing: 0,
                 color: Hexcolor('#000000').withOpacity(0.7),
@@ -242,7 +243,7 @@ class _CaptureState extends State {
                       style: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setWidth(14.0),
+              fontSize: ScreenUtil().setSp(14.0),
               letterSpacing: 0,
                       ),
                       ),
@@ -258,35 +259,92 @@ class _CaptureState extends State {
   /// Display Camera preview.
   Widget cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {
-      return const Text(
+      return Text(
         'Loading',
         style: TextStyle(
           color: Colors.white,
-          fontSize: 20.0,
+          fontSize: ScreenUtil().setSp(20.0),
           fontWeight: FontWeight.w900,
         ),
       );
     }
-    return Transform.scale(
-          scale: 1.0,
+    return Stack(
+      children: [
+         Positioned.fill(
           child: AspectRatio(
-          aspectRatio: 3/4,
-          child: OverflowBox(
-            alignment: Alignment.center,
-              child: FittedBox(
-              fit: BoxFit.fitWidth,
-                child: Container(
-                width: ScreenUtil().setWidth(360),
-                height: ScreenUtil().setWidth(360) / controller.value.aspectRatio,
-                child: Stack(
-                  children: <Widget>[
-                    CameraPreview(controller)
-                  ],
-                  ),
-              ),
-            ),
-          ),
+            aspectRatio: 3 / 4,
+            child: FittedBox(
+            fit: BoxFit.fitWidth,
+              child: Container(
+              width: ScreenUtil.screenWidth,
+              height: ScreenUtil.screenWidth / controller.value.aspectRatio,
+              child: CameraPreview(controller),
+      ),
         ),
+            ),
+         ),
+         Positioned.fill(
+           child: Padding(
+             padding: EdgeInsets.only(
+               top: ScreenUtil().setHeight(38),
+               bottom: ScreenUtil().setHeight(143.5),
+             ),
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Padding(
+                       padding: EdgeInsets.only(
+                         left: ScreenUtil().setWidth(23.5),
+                         bottom: ScreenUtil().setHeight(5.5),
+                       ),
+                       child: Text(
+                          'Eyes',
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                            fontSize: ScreenUtil().setSp(10),
+                            color: Hexcolor('#ffffff'),
+                            letterSpacing: 0,
+                          ),
+                        ),
+                     ),
+                      DottedLine(
+                        dashColor: Hexcolor('#ffffff'),
+                      ),
+                   ],
+                 ),
+                 Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Padding(
+                       padding: EdgeInsets.only(
+                         left: ScreenUtil().setWidth(23.5),
+                         bottom: ScreenUtil().setHeight(5.5),
+                       ),
+                       child: Text(
+                          'Knees',
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                            fontSize: ScreenUtil().setSp(10),
+                            color: Hexcolor('#ffffff'),
+                            letterSpacing: 0,
+                          ),
+                        ),
+                     ),
+                      DottedLine(
+                        dashColor: Hexcolor('#ffffff'),
+                      ),
+                   ],
+                 ),
+               ],
+             ),
+           ),
+         ),
+      ],
+          
     );
   }
   /// Display the control bar with buttons to take pictures
@@ -328,7 +386,7 @@ class _CaptureState extends State {
           alignment: Alignment.centerLeft,
           child: RawMaterialButton(
               onPressed: onSwitchCamera,
-              child: Icon(getCameraLensIcon(lensDirection), color: Hexcolor('#ffffff'),),
+              child: Icon(getCameraLensIcon(), color: Hexcolor('#ffffff'),),
               shape: CircleBorder(),
               padding: EdgeInsets.all(ScreenUtil().setWidth(15),
         ),
@@ -336,17 +394,8 @@ class _CaptureState extends State {
       )
     );
   }
-  IconData getCameraLensIcon(CameraLensDirection direction) {
-    switch (direction) {
-      case CameraLensDirection.back:
-        return Icons.camera_rear;
-      case CameraLensDirection.front:
-        return Icons.camera_front;
-      case CameraLensDirection.external:
-        return Icons.camera;
-      default:
-        return Icons.device_unknown;
-    }
+  IconData getCameraLensIcon() {
+    return Icons.loop;
   }
   void onSwitchCamera() {
     selectedCameraIdx =
@@ -364,7 +413,7 @@ class _CaptureState extends State {
       await controller.takePicture(path).then((value) {
         print('here');
         print(path);
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>PreviewImageScreen(imagePath: path,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
       });
 
     } catch (e) {
@@ -372,32 +421,6 @@ class _CaptureState extends State {
     }
   }
 
-  // void onCapturePressed(context) async {
-  //   // Take the Picture in a try / catch block. If anything goes wrong,
-  //   // catch the error.
-  //   try {
-  //     // Attempt to take a picture and log where it's been saved
-  //     final path = join(
-  //       // In this example, store the picture in the temp directory. Find
-  //       // the temp directory using the `path_provider` plugin.
-  //       (await getTemporaryDirectory()).path,
-  //       '${DateTime.now()}.png',
-  //     );
-  //     print(path);
-  //     await controller.takePicture(path);
-
-  //     // If the picture was taken, display it on a new screen
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => PreviewImageScreen(imagePath: path),
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     // If an error occurs, log the error to the console.
-  //     print(e);
-  //   }
-  // }
   void showCameraException(CameraException e) {
     String errorText = 'Error: ${e.code}\nError Message: ${e.description}';
     print(errorText);

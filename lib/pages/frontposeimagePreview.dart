@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-// import 'package:path/path.dart';
 import 'dart:io';
-// import 'dart:typed_data';
-// import 'package:path/path.dart';
+import 'package:StartUp/pages/sideposeCapture.dart';
+import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tflite/tflite.dart';
+
 
 class ScoreSide{
   int slouch;
@@ -13,17 +12,16 @@ class ScoreSide{
   int lordotic;
 }
 
-class PreviewImageScreen extends StatefulWidget {
+class FrontposePreviewImageScreen extends StatefulWidget {
+  static String id = 'imagePreview';
   final String imagePath;
 
-  PreviewImageScreen({this.imagePath});
-
-
+  FrontposePreviewImageScreen({this.imagePath});
   @override
-  _PreviewImageScreenState createState() => _PreviewImageScreenState();
+  _FrontposePreviewImageScreenState createState() => _FrontposePreviewImageScreenState();
 }
 
-class _PreviewImageScreenState extends State<PreviewImageScreen> {
+class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScreen> {
   Future loadModel() async {
     Tflite.close();
     try {
@@ -45,10 +43,10 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
     loadModel();
   }
 
-  ScoreSide getScores(recognitions){
+  ScoreSide getScores(recognition){
     //recognitions[0].keypoints;
     var shldr=[0,0],hip=[0,0],knee=[0,0],ear=[0,0];
-    for(var v in recognitions[0]['keypoints'].values){
+    for(var v in recognition['keypoints'].values){
       print(v);
       switch(v['part']){
         case 'leftShoulder':{
@@ -113,6 +111,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
     return scores;
   }
 
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
@@ -143,42 +142,6 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                     padding: EdgeInsets.all(15.0),
                     shape: CircleBorder(),
                   ),
-                  //flash icon
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(129),
-                    ),
-                    child: RawMaterialButton(
-                      materialTapTargetSize: MaterialTapTargetSize.padded,
-                      onPressed: () {
-                        // Navigator.pop(context);
-                      },
-                      // elevation: 2.0,
-                      fillColor: Hexcolor('#000000'),
-                      child: Icon(
-                        Icons.flash_off,
-                        size: ScreenUtil().setWidth(15),
-                        color: Hexcolor('#ffffff'),
-                      ),
-                      padding: EdgeInsets.all(15.0),
-                      shape: CircleBorder(),
-                    ),
-                  ),
-                  //timer icon
-                  RawMaterialButton(
-                    onPressed: () {
-                      // Navigator.pop(context);
-                    },
-                    // elevation: 2.0,
-                    fillColor: Hexcolor('#000000'),
-                    child: Icon(
-                      Icons.timer_off,
-                      size: ScreenUtil().setWidth(15),
-                      color: Hexcolor('#ffffff'),
-                    ),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                  ),
                   ],
               ),
               SizedBox(height: ScreenUtil().setHeight(5),),
@@ -199,7 +162,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                   style: TextStyle(
                     fontFamily: 'roboto',
                     color: Hexcolor('#ffffff'),
-                    fontSize: ScreenUtil().setWidth(14),
+                    fontSize: ScreenUtil().setSp(14),
                     letterSpacing: 0,
                   ),
                 ),
@@ -217,7 +180,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                         Navigator.of(context).pop();
                       },
                         child: Icon(
-                        Icons.refresh,
+                        Icons.replay,
                         color: Hexcolor('#ffffff'),
                       ),
                       padding: EdgeInsets.all(15.0),
@@ -233,7 +196,14 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                           numResults: 2,
                         );
                         print(recognitions);
-                        ScoreSide scoresSide=getScores(recognitions);
+                        if(recognitions.length!=0){
+                          ScoreSide scoresSide=getScores(recognitions[0]);
+                          print(scoresSide);
+                        }
+                        //save image locally
+                        print("//////////////////");
+                        //Navigate to Sidecamera
+                        Navigator.pushNamed(context, SideCapture.id);
                         
                       },
                     child: Icon(Icons.check, color: Hexcolor('#ffffff'), size: ScreenUtil().setWidth(30),),

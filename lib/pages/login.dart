@@ -14,7 +14,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final _prefs = SharedPreferences.getInstance();
 
 postlogin(UserCredential user)async{
-var url = Config.backendUrl+'/api/users/login';
+        var url = Config.backendUrl+'/api/users/login';
         Map<String,String> headers= new Map<String,String>();
         headers['Content-Type']="application/json";
         var bodyData={
@@ -22,7 +22,7 @@ var url = Config.backendUrl+'/api/users/login';
           'lastName': user.additionalUserInfo.profile['family_name'].toString(),
           'email':user.additionalUserInfo.profile['email'].toString(),
           'imageUrl':user.additionalUserInfo.profile['picture'].toString()
-          };
+        };
           print(user);
         print(bodyData);
         var body = jsonEncode(bodyData);
@@ -143,6 +143,7 @@ class _CustomWebViewState extends State<CustomWebView> {
 }
 
 class Login extends StatefulWidget {
+  static String id = 'login';
   @override
   _LoginState createState() => _LoginState();
 }
@@ -192,7 +193,7 @@ class _LoginState extends State<Login> {
                 ),
                 child: Text('Let our AI analyse and guide you to a better posture',
                     style: TextStyle(
-                      fontSize: ScreenUtil().setHeight(20.0),
+                      fontSize: ScreenUtil().setSp(20.0),
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
                       color: Hexcolor('#000000'),
@@ -215,34 +216,26 @@ class _LoginState extends State<Login> {
             ),
           ),
           //google login
-          Container(
-            margin: EdgeInsets.only(
-              left: ScreenUtil().setWidth(16.0),
-            ),
+          Center(
             child: ButtonTheme(
                     height: ScreenUtil().setHeight(40.0),
+                    minWidth: ScreenUtil().setWidth(328),
                       child: FlatButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
                         side: BorderSide(color: Hexcolor('#000000')),
                       ),
-                      padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(91),
-                        right: ScreenUtil().setWidth(91),
-                      ),
+
                       color: Hexcolor('#ffffff'),
                     onPressed: () {
                       _handleSignIn();
-                        // Scaffold
-                        //     .of(context)
-                        //     .showSnackBar(SnackBar(content: Text('Processing Data')));
                     },
                     child: Text('Login with GOOGLE',
                     style: TextStyle(
                       color: Hexcolor('#000000'),
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setWidth(14.0),
+                      fontSize: ScreenUtil().setSp(14.0),
                       letterSpacing: 0,
                     ),
                     ),
@@ -251,33 +244,24 @@ class _LoginState extends State<Login> {
           ),
           SizedBox(height: ScreenUtil().setHeight(23),),
           //fb login
-          Container(
-            margin: EdgeInsets.only(
-              left: ScreenUtil().setWidth(16.0),
-            ),
+          Center(
             child: ButtonTheme(
                     height: ScreenUtil().setHeight(40.0),
+                    minWidth: ScreenUtil().setWidth(328),
                       child: FlatButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
                       ),
-                      padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(80.5),
-                        right: ScreenUtil().setWidth(80.5),
-                      ),
                       color: Hexcolor('#1d8bdf'),
                       textColor: Hexcolor('#ffffff'),
                     onPressed: () {
-                        // Scaffold
-                        //     .of(context)
-                        //     .showSnackBar(SnackBar(content: Text('Processing Data')));
                         signInWithFacebook(context);
                     },
                     child: Text('Login with FACEBOOK',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
-                      fontSize: ScreenUtil().setWidth(14.0),
+                      fontSize: ScreenUtil().setSp(14.0),
                       letterSpacing: 0,
                     ),
                     ),
@@ -297,7 +281,7 @@ class _LoginState extends State<Login> {
                 text: "By continuing, you agree to stance's",
                 style: TextStyle(
                   fontFamily: 'roboto',
-                  fontSize: ScreenUtil().setWidth(12),
+                  fontSize: ScreenUtil().setSp(12),
                   height: 1.4,
                   letterSpacing: 0,
                   color: Hexcolor('#4c4c4c'),
@@ -307,7 +291,7 @@ class _LoginState extends State<Login> {
                     text: ' Privacy Policy ',
                     style: TextStyle(
                   fontFamily: 'roboto',
-                  fontSize: ScreenUtil().setWidth(12),
+                  fontSize: ScreenUtil().setSp(12),
                   height: 1.4,
                   letterSpacing: 0,
                   color: Hexcolor('#fe3786'),
@@ -317,7 +301,7 @@ class _LoginState extends State<Login> {
                 text: 'and',
                 style: TextStyle(
                   fontFamily: 'roboto',
-                  fontSize: ScreenUtil().setWidth(12),
+                  fontSize: ScreenUtil().setSp(12),
                   height: 1.4,
                   letterSpacing: 0,
                   color: Hexcolor('#4c4c4c'),
@@ -327,7 +311,7 @@ class _LoginState extends State<Login> {
                     text: ' Terms and conditions.',
                     style: TextStyle(
                   fontFamily: 'roboto',
-                  fontSize: ScreenUtil().setWidth(12),
+                  fontSize: ScreenUtil().setSp(12),
                   height: 1.4,
                   letterSpacing: 0,
                   color: Hexcolor('#fe3786'),
