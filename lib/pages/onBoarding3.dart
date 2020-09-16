@@ -248,7 +248,6 @@ class _OnBoardingThreeState extends State<OnBoardingThree> {
           ),
           child: Padding(
             padding: EdgeInsets.only(
-              // left: ScreenUtil().setWidth(25),
               top: ScreenUtil().setHeight(20)
             ),
             child: Column(

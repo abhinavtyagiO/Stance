@@ -4,16 +4,17 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
-import 'imagePreview.dart';
+import 'frontposeimagePreview.dart';
+import 'package:dotted_line/dotted_line.dart';
 
-class Capture extends StatefulWidget {
-  static String id = 'capture';
+class FrontCapture extends StatefulWidget {
+  static String id = 'frontcapture';
   @override
-  _CaptureState createState() => _CaptureState();
+  _FrontCaptureState createState() => _FrontCaptureState();
 }
 
-class _CaptureState extends State {
-   CameraController controller;
+class _FrontCaptureState extends State {
+  CameraController controller;
   List cameras;
   int selectedCameraIdx;
   String imagePath;
@@ -233,26 +234,83 @@ class _CaptureState extends State {
         ),
       );
     }
-    return Transform.scale(
-          scale: 1.0,
+    return Stack(
+      children: [
+         Positioned.fill(
           child: AspectRatio(
-          aspectRatio: 3/4,
-          child: OverflowBox(
-            alignment: Alignment.center,
-              child: FittedBox(
-              fit: BoxFit.fitWidth,
-                child: Container(
-                width: ScreenUtil().setWidth(360),
-                height: ScreenUtil().setWidth(360) / controller.value.aspectRatio,
-                child: Stack(
-                  children: <Widget>[
-                    CameraPreview(controller)
-                  ],
-                  ),
-              ),
-            ),
-          ),
+            aspectRatio: 3 / 4,
+            child: FittedBox(
+            fit: BoxFit.fitWidth,
+              child: Container(
+              width: ScreenUtil.screenWidth,
+              height: ScreenUtil.screenWidth / controller.value.aspectRatio,
+              child: CameraPreview(controller),
+      ),
         ),
+            ),
+         ),
+         Positioned.fill(
+           child: Padding(
+             padding: EdgeInsets.only(
+               top: ScreenUtil().setHeight(38),
+               bottom: ScreenUtil().setHeight(143.5),
+             ),
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Padding(
+                       padding: EdgeInsets.only(
+                         left: ScreenUtil().setWidth(23.5),
+                         bottom: ScreenUtil().setHeight(5.5),
+                       ),
+                       child: Text(
+                          'Eyes',
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                            fontSize: ScreenUtil().setSp(10),
+                            color: Hexcolor('#ffffff'),
+                            letterSpacing: 0,
+                          ),
+                        ),
+                     ),
+                      DottedLine(
+                        dashColor: Hexcolor('#ffffff'),
+                      ),
+                   ],
+                 ),
+                 Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Padding(
+                       padding: EdgeInsets.only(
+                         left: ScreenUtil().setWidth(23.5),
+                         bottom: ScreenUtil().setHeight(5.5),
+                       ),
+                       child: Text(
+                          'Knees',
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                            fontSize: ScreenUtil().setSp(10),
+                            color: Hexcolor('#ffffff'),
+                            letterSpacing: 0,
+                          ),
+                        ),
+                     ),
+                      DottedLine(
+                        dashColor: Hexcolor('#ffffff'),
+                      ),
+                   ],
+                 ),
+               ],
+             ),
+           ),
+         ),
+      ],
+          
     );
   }
   /// Display the control bar with buttons to take pictures
@@ -294,7 +352,7 @@ class _CaptureState extends State {
           alignment: Alignment.centerLeft,
           child: RawMaterialButton(
               onPressed: onSwitchCamera,
-              child: Icon(getCameraLensIcon(lensDirection), color: Hexcolor('#ffffff'),),
+              child: Icon(getCameraLensIcon(), color: Hexcolor('#ffffff'),),
               shape: CircleBorder(),
               padding: EdgeInsets.all(ScreenUtil().setWidth(15),
         ),
@@ -302,17 +360,8 @@ class _CaptureState extends State {
       )
     );
   }
-  IconData getCameraLensIcon(CameraLensDirection direction) {
-    switch (direction) {
-      case CameraLensDirection.back:
-        return Icons.camera_rear;
-      case CameraLensDirection.front:
-        return Icons.camera_front;
-      case CameraLensDirection.external:
-        return Icons.camera;
-      default:
-        return Icons.device_unknown;
-    }
+  IconData getCameraLensIcon() {
+    return Icons.loop;
   }
   void onSwitchCamera() {
     selectedCameraIdx =
@@ -330,7 +379,7 @@ class _CaptureState extends State {
       await controller.takePicture(path).then((value) {
         print('here');
         print(path);
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>PreviewImageScreen(imagePath: path,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
       });
 
     } catch (e) {

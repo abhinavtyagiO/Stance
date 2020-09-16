@@ -1,4 +1,4 @@
-import 'package:StartUp/pages/capture.dart';
+import 'package:StartUp/pages/frontposeCapture.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,7 +98,7 @@ class _TestPostureState extends State<TestPosture> {
                       color: Hexcolor('#fe3786'),
                       textColor: Hexcolor('#ffffff'),
                     onPressed: () {
-                            Navigator.pushNamed(context, Capture.id);
+                            Navigator.pushNamed(context, FrontCapture.id);
                     },
                     child: Text('TAKE A PHOTO',
                     style: TextStyle(

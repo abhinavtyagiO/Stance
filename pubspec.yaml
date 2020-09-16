@@ -27,6 +27,7 @@ dependencies:
   video_player: ^0.10.12+2
   localstorage: ^3.0.2+5
   http: ^0.12.2
+  dotted_line: ^2.0.1
 
 dependency_overrides:
   path: 1.7.0

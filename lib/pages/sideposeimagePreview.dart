@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tflite/tflite.dart';
+
 
 class ScoreSide{
   int slouch;
@@ -10,18 +11,18 @@ class ScoreSide{
   int lordotic;
 }
 
-class PreviewImageScreen extends StatefulWidget {
+class SideposePreviewImageScreen extends StatefulWidget {
   static String id = 'imagePreview';
   final String imagePath;
 
-  PreviewImageScreen({this.imagePath});
+  SideposePreviewImageScreen({this.imagePath});
 
 
   @override
-  _PreviewImageScreenState createState() => _PreviewImageScreenState();
+  _SideposePreviewImageScreenState createState() => _SideposePreviewImageScreenState();
 }
 
-class _PreviewImageScreenState extends State<PreviewImageScreen> {
+class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen> {
   Future loadModel() async {
     Tflite.close();
     try {
@@ -111,6 +112,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
     return scores;
   }
 
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
@@ -157,7 +159,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
               SizedBox(height: ScreenUtil().setHeight(10)),
               Center(
                 child: Text(
-                  'FRONT POSE',
+                  'SIDE POSE',
                   style: TextStyle(
                     fontFamily: 'roboto',
                     color: Hexcolor('#ffffff'),
@@ -179,7 +181,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                         Navigator.of(context).pop();
                       },
                         child: Icon(
-                        Icons.refresh,
+                        Icons.replay,
                         color: Hexcolor('#ffffff'),
                       ),
                       padding: EdgeInsets.all(15.0),
@@ -196,6 +198,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                         );
                         print(recognitions);
                         ScoreSide scoresSide=getScores(recognitions);
+                        //save image locally
                         
                       },
                     child: Icon(Icons.check, color: Hexcolor('#ffffff'), size: ScreenUtil().setWidth(30),),
