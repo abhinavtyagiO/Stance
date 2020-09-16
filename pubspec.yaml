@@ -25,8 +25,8 @@ dependencies:
   path:
   flutter_webview_plugin:
   video_player: ^0.10.12+2
-  localstorage: ^3.0.2+5
   http: ^0.12.2
+  shared_preferences: ^0.5.10
 
 dependency_overrides:
   path: 1.7.0

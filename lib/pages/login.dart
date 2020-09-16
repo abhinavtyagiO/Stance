@@ -8,10 +8,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'config.dart';
 import 'package:http/http.dart' as http;
-import 'package:localstorage/localstorage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final LocalStorage storage = new LocalStorage('userInfo');
+final _prefs = SharedPreferences.getInstance();
 
 postlogin(UserCredential user)async{
 var url = Config.backendUrl+'/api/users/login';
@@ -27,12 +27,14 @@ var url = Config.backendUrl+'/api/users/login';
         print(bodyData);
         var body = jsonEncode(bodyData);
         var response = await http.post(url,headers: headers, body: body);
-          storage.setItem('firstName', user.additionalUserInfo.profile['given_name']).toString();
-          storage.setItem('lastName', user.additionalUserInfo.profile['family_name']).toString();
-          storage.setItem('email',user.additionalUserInfo.profile['email']).toString();
-          storage.setItem('imageUrl',user.additionalUserInfo.profile['picture']).toString();
-          storage.setItem('x-auth-token', response.headers['x-auth-token']);
+        var prefs = await _prefs;
+          prefs.setString('firstName', user.additionalUserInfo.profile['given_name']).toString();
+          prefs.setString('lastName', user.additionalUserInfo.profile['family_name']).toString();
+          prefs.setString('email',user.additionalUserInfo.profile['email']).toString();
+          prefs.setString('imageUrl',user.additionalUserInfo.profile['picture']).toString();
+          prefs.setString('x-auth-token', response.headers['x-auth-token']);
         print({"headers",response.headers});
+        print("========="+prefs.getString("firstName"));
 }
 
 Future<void> _handleSignIn() async {
@@ -146,6 +148,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  @override
+  void initState() {
+    _prefs.then((prefs) => 
+      print(prefs.getString("firstName"))
+    ).catchError((e)=>print(e));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(

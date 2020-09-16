@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-final LocalStorage storage = new LocalStorage('userInfo');
+final _prefs = SharedPreferences.getInstance();
 
 class _HomeState extends State<Home> {
 
   bool isPressed = false;
 
-  String name = storage.getItem('firstName')+' '+storage.getItem('lastName');
+  String name = "";
+  
+  @override
+  void initState() {
+
+    _prefs.then((prefs)=>{
+      name=prefs.getString('firstName')+' '+prefs.getString('lastName')
+    })
+    .catchError((e)=>print(e));
+    super.initState();
+  }
+  
 
   void handlePress() {
    if(isPressed == false) {
