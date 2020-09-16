@@ -19,6 +19,10 @@ class _FrontCaptureState extends State {
   int selectedCameraIdx;
   String imagePath;
 
+  //parameters for timer
+  bool isOff = true;
+   bool isSetThree = true;
+
   @override
   void initState() {
     super.initState();
@@ -78,6 +82,20 @@ class _FrontCaptureState extends State {
     setState(() {});
   }
 }
+  void toggleTimer() {
+    if(isOff == true) {
+      if(isSetThree == true) {
+        isOff = false;
+      }
+    } else if(isOff == false) {
+      if(isSetThree == true) {
+        isSetThree = false;
+      } else if(isSetThree == false) {
+        isSetThree = true;
+        isOff = true;
+      }
+    }
+  }
   
 
   @override
@@ -95,6 +113,7 @@ class _FrontCaptureState extends State {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[ 
                   RawMaterialButton(
                     onPressed: () {
@@ -103,6 +122,21 @@ class _FrontCaptureState extends State {
                     fillColor: Hexcolor('#000000'),
                     child: Icon(
                       Icons.arrow_back_ios,
+                      size: ScreenUtil().setWidth(15),
+                      color: Hexcolor('#ffffff'),
+                    ),
+                    padding: EdgeInsets.all(15.0),
+                    shape: CircleBorder(),
+                  ),
+                  RawMaterialButton(
+                    onPressed: () {
+                      setState(() {
+                        toggleTimer();
+                      });
+                    },
+                    fillColor: Hexcolor('#000000'),
+                    child: Icon(
+                      isOff ? Icons.timer_off : (isSetThree ? Icons.timer_3 : Icons.timer_10),
                       size: ScreenUtil().setWidth(15),
                       color: Hexcolor('#ffffff'),
                     ),

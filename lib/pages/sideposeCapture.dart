@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -283,6 +284,50 @@ class _SideCaptureState extends State<SideCapture> {
                         dashColor: Hexcolor('#ffffff'),
                       ),
                    ],
+                 ),
+                 Padding(
+                   padding: EdgeInsets.only(
+                     left: ScreenUtil().setWidth(24),
+                     bottom: ScreenUtil().setHeight(120),
+                   ),
+                   child: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           Padding(
+                             padding: EdgeInsets.only(
+                               bottom: ScreenUtil().setHeight(16),
+                             ),
+                             child: Container(
+                               height: ScreenUtil().setHeight(20),
+                               child: Image.asset('assets/images/arrow.png'),
+                               ),
+                           ),
+                           Text(
+                             'Face',
+                             style: TextStyle(
+                               fontFamily: 'Montserrat',
+                               fontSize: ScreenUtil().setSp(16),
+                               color: Hexcolor('#ffffff'),
+                               fontWeight: FontWeight.bold,
+                             ),
+                           ),
+                           Text(
+                             'this side',
+                             style: TextStyle(
+                               fontFamily: 'Montserrat',
+                               fontSize: ScreenUtil().setSp(16),
+                               color: Hexcolor('#ffffff'),
+                                fontWeight: FontWeight.bold,
+                             ),
+                           ),
+                         ],
+                       ),
+                      //  Image.asset('assets/images/arrow.png'),
+                     ],
+                   ),
                  ),
                  Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
