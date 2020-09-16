@@ -206,6 +206,17 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                             prefs.setInt("swayback", scoresSide.swayback);
                           }).catchError((e)=>print(e));
                           print(scoresSide);
+                          //todo: navigate to report
+                          //todo: using shared prefs display scores in report(PS prefs is stored locally, not on server), as I have dislayed name;
+                          //todo: on report page send post request to config.url+'/api/users/scores' and send body as
+                          /*
+                          slouch: Number,
+                          kyphosis: Number,
+                          swayback: Number,
+                          knees: Number*/// if theres some problem with 4th value or you need 5 values in body, just use 4 for now, and add some random value in knees
+                          // dont forget to add x-auth-token, see get request in home.dart for reference
+                        }else{
+                          //tell user that "Image is not useable, click again" tnhen navigate to side capture
                         }
                         
                       },

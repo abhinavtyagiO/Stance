@@ -198,7 +198,11 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                         print(recognitions);
                         if(recognitions.length!=0){
                           ScoreSide scoresSide=getScores(recognitions[0]);
+                          //TODO save scores from front pose in prefs
                           print(scoresSide);
+                        }
+                        else{
+                          //tell user image is not usable then navigate to frontpose capture
                         }
                         //save image locally
                         print("//////////////////");
