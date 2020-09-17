@@ -129,9 +129,10 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                           
                         }
                         else{
-                          Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text("Image not usable. Try Again."),
-    ));
+    //                       Scaffold.of(context).showSnackBar(SnackBar(
+    //   content: Text("Image not usable. Try Again."),
+    // ));
+                        //todo show toast image not usable
                           Navigator.of(context).pop();
                         }
                         

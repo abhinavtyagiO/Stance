@@ -13,7 +13,7 @@ final _prefs = SharedPreferences.getInstance();
 
 class Scores{
   int slouch;
-  int kyphotic;
+  int kyphosis;
   int swayback;
   int knees;
 }
@@ -54,7 +54,7 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
 
   Scores getScores(recognitionSide, recognitionFront){
     //recognitions[0].keypoints;
-    var shldr=[0,0],hip=[0,0],knee=[0,0],ear=[0,0];
+    var shldr=[0.toDouble(),0.toDouble()],hip=[0.toDouble(),0.toDouble()],knee=[0.toDouble(),0.toDouble()],ear=[0.toDouble(),0.toDouble()];
     for(var v in recognitionSide['keypoints'].values){
       print(v);
       switch(v['part']){
@@ -113,11 +113,11 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
     var kypho_scr = (-1)*(eart-ear[0])/(hip[1]-shldr[1]);
     var hipt_ = ((ear[0]-knee[0])/(ear[1]-knee[1]))*(hip[1]-ear[1])+ear[0];
     var lordo_scr = ((hipt_-hip[0])/(ear[1]-knee[1])).abs();
-    Scores scores;
+    Scores scores= new Scores();
     scores.slouch=slch_scr.toInt();
-    scores.kyphotic=kypho_scr.toInt();
+    scores.kyphosis=kypho_scr.toInt();
     scores.swayback=lordo_scr.toInt();
-    scores.knees=1;
+    scores.knees=1.toInt();
     return scores;
   }
 
@@ -213,21 +213,21 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                               headers['x-auth-token']=prefs.getString('x-auth-token');
                               var bodyData={
                                 'slouch': scores.slouch,
-                                'kyphotic': scores.kyphotic,
+                                'kyphosis': scores.kyphosis,
                                 'swayback': scores.swayback,
                                 'knees': scores.knees, 
                               };
 
                               prefs.setInt('slouch', scores.slouch);
-                              prefs.setInt('kyphotic', scores.kyphotic);
+                              prefs.setInt('kyphosis', scores.kyphosis);
                               prefs.setInt('swayback', scores.swayback);
                               prefs.setInt('knees', scores.knees);
                               print(bodyData);
                               var body = jsonEncode(bodyData);
                             var response= await http.post(url,headers: headers, body: body);
                             print(response.body);
-                            var bodyc=scores=JsonDecoder().convert(response.body);
-                          if(bodyc.success==true){
+                            var bodyc=JsonDecoder().convert(response.body);
+                          if(bodyc['success']==true){
                               Navigator.pushNamed(context, Report.id);
                           }
                           else{
@@ -235,9 +235,10 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                               //TODO handle this
                             }
                             }else{
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text("Image not usable. Try Again."),
-                              ));
+                              // Scaffold.of(context).showSnackBar(SnackBar(
+                              // content: Text("Image not usable. Try Again."),
+                              // ));
+                              //todo show toast image not usable
                                Navigator.of(context).pop();
                             }
                           
