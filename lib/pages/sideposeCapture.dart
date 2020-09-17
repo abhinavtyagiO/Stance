@@ -10,6 +10,8 @@ import 'package:dotted_line/dotted_line.dart';
 
 
 class SideCapture extends StatefulWidget {
+  SideCapture(this.frontRecognition);
+  var frontRecognition;
   static String id = 'sidecapture';
   @override
   _SideCaptureState createState() => _SideCaptureState();
@@ -26,7 +28,7 @@ class _SideCaptureState extends State<SideCapture> {
   void initState() {
     super.initState();
     
-
+    print(widget.frontRecognition);
     availableCameras().then((availableCameras) {
       cameras = availableCameras;
       if(cameras.length > 0) {
@@ -426,7 +428,7 @@ class _SideCaptureState extends State<SideCapture> {
       await controller.takePicture(path).then((value) {
         print('here');
         print(path);
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>SideposePreviewImageScreen(imagePath: path,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>SideposePreviewImageScreen(imagePath: path,frontRecognition: widget.frontRecognition,)));
       });
 
     } catch (e) {

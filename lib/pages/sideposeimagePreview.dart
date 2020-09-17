@@ -1,22 +1,28 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tflite/tflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config.dart'; 
+import 'package:http/http.dart' as http;
+
 final _prefs = SharedPreferences.getInstance();
 
-class ScoreSide{
+class Scores{
   int slouch;
   int kyphotic;
   int swayback;
+  int knees;
 }
 
 class SideposePreviewImageScreen extends StatefulWidget {
   static String id = 'imagePreview';
   final String imagePath;
+  var frontRecognition;
 
-  SideposePreviewImageScreen({this.imagePath});
+  SideposePreviewImageScreen({this.imagePath,this.frontRecognition});
 
 
   @override
@@ -45,72 +51,8 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
     loadModel();
   }
 
-  ScoreSide getScores(recognitions){
-    //recognitions[0].keypoints;
-    var shldr=[0,0],hip=[0,0],knee=[0,0],ear=[0,0];
-    for(var v in recognitions[0]['keypoints'].values){
-      print(v);
-      switch(v['part']){
-        case 'leftShoulder':{
-          shldr[0]=v['x'];
-          shldr[1]=v['y'];
-        }
-        break;
-
-        case 'rightShoulder':{
-          shldr[0]=v['x'];
-          shldr[1]=v['y'];
-        }
-        break;
-
-        case 'leftHip':{
-          hip[0]=v['x'];
-          hip[1]=v['y'];
-        }
-        break;
-        
-        case 'rightHip':{
-          hip[0]=v['x'];
-          hip[1]=v['y'];
-        }
-        break;
-
-        case 'leftKnee':{
-          knee[0]=v['x'];
-          knee[1]=v['y'];
-        }
-        break;
-        
-        case 'rightKnee':{
-          knee[0]=v['x'];
-          knee[1]=v['y'];
-        }
-        break;
-
-        case 'leftEar':{
-          ear[0]=v['x'];
-          ear[1]=v['y'];
-        }
-        break;
-        
-        case 'rightEar':{
-          ear[0]=v['x'];
-          ear[1]=v['y'];
-        }
-        break;
-      }
-    }
-    var hipt = ((knee[0]-shldr[0])/(knee[1]-shldr[1]))*(hip[1]-knee[1])+knee[0];
-    var slch_scr = (-1)*(hipt-hip[0])/(knee[1]-shldr[1]);
-    var eart = ((hip[0]-shldr[0])/(hip[1]-shldr[1]))*(ear[1]-shldr[1])+shldr[0];
-    var kypho_scr = (-1)*(eart-ear[0])/(hip[1]-shldr[1]);
-    var hipt_ = ((ear[0]-knee[0])/(ear[1]-knee[1]))*(hip[1]-ear[1])+ear[0];
-    var lordo_scr = ((hipt_-hip[0])/(ear[1]-knee[1])).abs();  
-    ScoreSide scores;
-    scores.slouch=slch_scr.toInt();
-    scores.kyphotic=kypho_scr.toInt();
-    scores.swayback=lordo_scr.toInt();
-    return scores;
+  Scores getScores(recognitionSide, recognitionFront){
+    
   }
 
 
@@ -191,35 +133,47 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                   ),
                   Center(
                     child: FloatingActionButton(
-                      onPressed: ()async {
+                      onPressed: () async {
                         //pass image to tensorflow model
-                        var recognitions = await Tflite.runPoseNetOnImage(
-                          path: widget.imagePath,
+                          var recognitions=await Tflite.runPoseNetOnImage(path: widget.imagePath,
                           numResults: 2,
-                        );
-
-                        if(recognitions.length!=0){
-                          ScoreSide scoresSide=getScores(recognitions[0]);
-                          _prefs.then((prefs){
-                            prefs.setInt("slouch", scoresSide.slouch);
-                            prefs.setInt("kyphotic", scoresSide.kyphotic);
-                            prefs.setInt("swayback", scoresSide.swayback);
-                          }).catchError((e)=>print(e));
-                          print(scoresSide);
-                          //todo: navigate to report
-                          //todo: using shared prefs display scores in report(PS prefs is stored locally, not on server), as I have dislayed name;
-                          //todo: on report page send post request to config.url+'/api/users/scores' and send body as
-                          /*
-                          slouch: Number,
-                          kyphosis: Number,
-                          swayback: Number,
-                          knees: Number*/// if theres some problem with 4th value or you need 5 values in body, just use 4 for now, and add some random value in knees
-                          // dont forget to add x-auth-token, see get request in home.dart for reference
-                        }else{
-                          //tell user that "Image is not useable, click again" tnhen navigate to side capture
-                        }
+                            );
+                            if(recognitions.length!=0){
+                              var scores= getScores(recognitions[0],widget.frontRecognition);
+                              var prefs=await _prefs;
+                              var url = Config.backendUrl+'/api/users/scores';
+                              Map<String,String> headers= new Map<String,String>();
+                              headers['Content-Type']="application/json";
+                              headers['x-auth-token']=prefs.getString('x-auth-token');
+                              var bodyData={
+                                'slouch': scores.slouch,
+                                'kyphotic': scores.kyphotic,
+                                'swayback': scores.swayback,
+                                'knees': scores.knees, 
+                              };
+                              
+                              print(bodyData);
+                              var body = jsonEncode(bodyData);
+                            var response= await http.post(url,headers: headers, body: body);
+                            print(response.body);
+                            var bodyc=scores=JsonDecoder().convert(response.body);
+                          if(bodyc.scores==true){
+                                  //todo: navigate to report
+                          }
+                          else{
+                            //todo nvigate to report
+                              //TODO handle this
+                            }
+                            }else{
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text("Image not usable. Try Again."),
+                              ));
+                               Navigator.of(context).pop();
+                            }
+                          
+                      }
                         
-                      },
+                      ,
                     child: Icon(Icons.check, color: Hexcolor('#ffffff'), size: ScreenUtil().setWidth(30),),
                     backgroundColor: Hexcolor('#fe3786'),
                     ),

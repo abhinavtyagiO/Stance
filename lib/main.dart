@@ -30,7 +30,7 @@ Future<Null> main() async {
         //print(cred.asMap()); 
         return MaterialApp(
           title: 'STANCE',
-          initialRoute: Home.id,
+          initialRoute: FrontCapture.id,
           routes: {
           Home.id: (context) => Home(),
           Profile.id: (context) => Profile(),
@@ -42,7 +42,7 @@ Future<Null> main() async {
           FinishWorkout.id: (context) => FinishWorkout(),
           FrontposePreviewImageScreen.id: (context) => FrontposePreviewImageScreen(),
           Settings.id: (context) => Settings(),
-          SideCapture.id: (context) => SideCapture(),
+          SideCapture.id: (context,) => SideCapture(ModalRoute.of(context).settings.arguments),
     },
   );
       }
