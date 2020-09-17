@@ -22,6 +22,9 @@ class _SideCaptureState extends State<SideCapture> {
   int selectedCameraIdx;
   String imagePath;
 
+  bool isOff = true;
+   bool isSetThree = true;
+
   @override
   void initState() {
     super.initState();
@@ -81,6 +84,21 @@ class _SideCaptureState extends State<SideCapture> {
     setState(() {});
   }
 }
+
+void toggleTimer() {
+    if(isOff == true) {
+      if(isSetThree == true) {
+        isOff = false;
+      }
+    } else if(isOff == false) {
+      if(isSetThree == true) {
+        isSetThree = false;
+      } else if(isSetThree == false) {
+        isSetThree = true;
+        isOff = true;
+      }
+    }
+  }
 
 
   @override
@@ -418,6 +436,7 @@ class _SideCaptureState extends State<SideCapture> {
   }
 
   onCapturePressed(context) async {
+    if(isOff == true){
     try {
       final p = await getTemporaryDirectory();
       final name = DateTime.now();
@@ -432,6 +451,45 @@ class _SideCaptureState extends State<SideCapture> {
     } catch (e) {
       showCameraException(e);
     }
+  } else if (isOff == false) {
+    if(isSetThree == true) {
+    Timer(Duration(seconds: 3), () async {
+      try {
+      final p = await getTemporaryDirectory();
+      final name = DateTime.now();
+      final path = "${p.path}/$name.png";
+
+      await controller.takePicture(path).then((value) {
+        print('here');
+        print(path);
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>SideposePreviewImageScreen(imagePath: path,)));
+      });
+
+    } catch (e) {
+      showCameraException(e);
+    }
+    });
+    } else { 
+      Timer(Duration(seconds: 10), () async {
+        try {
+      final p = await getTemporaryDirectory();
+      final name = DateTime.now();
+      final path = "${p.path}/$name.png";
+
+      await controller.takePicture(path).then((value) {
+        print('here');
+        print(path);
+        
+        // Navigator.push(context, MaterialPageRoute(builder: (context) =>Report(imagePath: path,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>SideposePreviewImageScreen(imagePath: path,)));
+      });
+
+    } catch (e) {
+      showCameraException(e);
+    }
+      });
+    }
+  }
   }
 
   void showCameraException(CameraException e) {
