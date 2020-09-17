@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'sideposeimagePreview.dart';
 import 'package:dotted_line/dotted_line.dart';
-
+import 'dart:io';
 
 class SideCapture extends StatefulWidget {
   SideCapture(this.frontRecognition);
@@ -440,9 +440,15 @@ void toggleTimer() {
   onCapturePressed(context) async {
     if(isOff == true){
     try {
-      final p = await getTemporaryDirectory();
-      final name = DateTime.now();
-      final path = "${p.path}/$name.png";
+      final p = await getExternalStorageDirectory();
+      print(p.path);
+      final folderPath=p.path+'/Stance';
+      final folder=new Directory(folderPath);
+      if(await folder.exists()==false){
+        await folder.create();
+      }
+      final name = "side";
+      final path = "${folder.path}/$name.png";
 
       await controller.takePicture(path).then((value) {
         print('here');

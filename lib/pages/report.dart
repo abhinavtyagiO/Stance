@@ -3,21 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
-
+import 'package:path_provider/path_provider.dart';
 
 class Report extends StatefulWidget {
   static String id = 'report';
-  final String imagePath;
 
-  Report({this.imagePath});
   @override
   _ReportState createState() => _ReportState();
 }
 
 class _ReportState extends State<Report> {
-  
+
+  var imageFrontPath;
+  var imageSidePath;
+
+  initPaths() async{
+    final p = await getExternalStorageDirectory();
+      print(p.path);
+      final folderPath=p.path+'/Stance';
+      final folder=new Directory(folderPath);
+      if(await folder.exists()==false){
+        await folder.create();
+      }
+      imageFrontPath = "${folder.path}/front.png";
+      imageSidePath = "${folder.path}/side.png";
+
+  }
+  @override
+  void initState() {
+    initPaths();    
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
 
     ScreenUtil.init(
       context,
@@ -79,7 +99,7 @@ class _ReportState extends State<Report> {
           Container(
               width: ScreenUtil().setWidth(160),
               height: ScreenUtil().setHeight(216.0),
-              child: Image.file(File(widget.imagePath), fit: BoxFit.fitWidth),
+              child: Image.file(File(imageFrontPath), fit: BoxFit.fitWidth),
               decoration: BoxDecoration(
                 color: Hexcolor('#f3f3f7'),
                 borderRadius: BorderRadius.circular(
