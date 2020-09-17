@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:path/path.dart';
 import 'config.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final _prefs = SharedPreferences.getInstance();
 
-postlogin(UserCredential user)async{
+postlogin(UserCredential user, context)async{
         var url = Config.backendUrl+'/api/users/login';
         Map<String,String> headers= new Map<String,String>();
         headers['Content-Type']="application/json";
@@ -35,7 +36,8 @@ postlogin(UserCredential user)async{
           prefs.setString('imageUrl',user.additionalUserInfo.profile['picture']).toString();
           prefs.setString('x-auth-token', response.headers['x-auth-token']);
           //Navigate to Test Posture
-          // Navigator.pushNamed(context, TestPosture.id);
+          Navigator.pushNamed(context, TestPosture.id);
+          
         });
 
           
@@ -55,7 +57,7 @@ Future<void> _handleSignIn() async {
           idToken: googleAuth.idToken,
         );
         UserCredential user = await _auth.signInWithCredential(googleAuthCredential);
-        postlogin(user);
+        postlogin(user, context);
         
 
   } catch (error) {
@@ -91,8 +93,8 @@ String your_redirect_url =
     UserCredential user =
         await _auth.signInWithCredential(facebookAuthCred);
         print(user.additionalUserInfo.profile['first_name'].toString());
-        postlogin(user);
-        Navigator.pushNamed(context, TestPosture.id);
+        postlogin(user, context);
+        
   } catch (e) {print({"error",e});}
 }
 }
@@ -117,21 +119,21 @@ class _CustomWebViewState extends State<CustomWebView> {
 
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
       if (url.contains("#access_token")) {
-        succeed(url);
+        succeed(url, context);
       }
 
       if (url.contains(
           "https://www.facebook.com/connect/login_success.html?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied")) {
-        denied();
+        denied(context);
       }
     });
   }
 
-  denied() {
+  denied(context) {
     Navigator.pop(context);
   }
 
-  succeed(String url) {
+  succeed(String url, context) {
     var params = url.split("access_token=");
 
     var endparam = params[1].split("&");

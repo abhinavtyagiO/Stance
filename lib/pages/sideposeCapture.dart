@@ -451,15 +451,23 @@ void toggleTimer() {
       final path = "${folder.path}/$name.png";
       var file = new File(path);
       if ( await file.exists() == true) {
-        file.delete();
-      }
-
-
-      await controller.takePicture(path).then((value) {
+        file.delete().then((value) {
+       controller.takePicture(path).then((value) {
         print('here');
         print(path);
         Navigator.push(context, MaterialPageRoute(builder: (context) =>SideposePreviewImageScreen(imagePath: path,frontRecognition: widget.frontRecognition,)));
       });
+        });
+      } else {
+        controller.takePicture(path).then((value) {
+        print('here');
+        print(path);
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>SideposePreviewImageScreen(imagePath: path,frontRecognition: widget.frontRecognition,)));
+      });
+      }
+
+
+     
 
     } catch (e) {
       showCameraException(e);

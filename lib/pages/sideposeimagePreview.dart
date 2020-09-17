@@ -51,6 +51,7 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
   @override initState(){
     super.initState();
     loadModel();
+    imageCache.clear();
   }
 
   Scores getScores(recognitionSide, recognitionFront){
@@ -114,6 +115,8 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
     var kypho_scr = (-1)*(eart-ear[0])/(hip[1]-shldr[1]);
     var hipt_ = ((ear[0]-knee[0])/(ear[1]-knee[1]))*(hip[1]-ear[1])+ear[0];
     var lordo_scr = ((hipt_-hip[0])/(ear[1]-knee[1])).abs();
+
+
     Scores scores= new Scores();
     scores.slouch=slch_scr.toInt();
     scores.kyphosis=kypho_scr.toInt();
@@ -218,6 +221,7 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                                 'swayback': scores.swayback,
                                 'knees': scores.knees, 
                               };
+                              print(prefs.getString('x-auth-token'));
 
                               prefs.setInt('slouch', scores.slouch);
                               prefs.setInt('kyphosis', scores.kyphosis);

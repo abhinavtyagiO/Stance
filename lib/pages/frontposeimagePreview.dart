@@ -37,6 +37,7 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
 
   @override initState(){
     super.initState();
+    imageCache.clear();
     loadModel();
   }
   @override
