@@ -43,7 +43,7 @@ Future<Null> main() async {
           FinishWorkout.id: (context) => FinishWorkout(),
           FrontposePreviewImageScreen.id: (context) => FrontposePreviewImageScreen(),
           Settings.id: (context) => Settings(),
-          SideCapture.id: (context) => SideCapture(),
+          SideCapture.id: (context,) => SideCapture(ModalRoute.of(context).settings.arguments),
           Report.id: (context) => Report(),
     },
   );
