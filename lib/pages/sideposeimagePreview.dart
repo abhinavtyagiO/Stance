@@ -8,6 +8,7 @@ import 'package:tflite/tflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config.dart'; 
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 final _prefs = SharedPreferences.getInstance();
 
@@ -239,6 +240,12 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                               // content: Text("Image not usable. Try Again."),
                               // ));
                               //todo show toast image not usable
+                              Fluttertoast.showToast(
+                                  msg: "This is Toast messaget",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1
+                              );
                                Navigator.of(context).pop();
                             }
                           
