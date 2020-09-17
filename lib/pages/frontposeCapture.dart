@@ -1,3 +1,4 @@
+import 'package:StartUp/pages/report.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -437,7 +438,7 @@ class _FrontCaptureState extends State {
       showCameraException(e);
     }
     });
-    } else {
+    } else { 
       Timer(Duration(seconds: 10), () async {
         try {
       final p = await getTemporaryDirectory();
@@ -447,6 +448,8 @@ class _FrontCaptureState extends State {
       await controller.takePicture(path).then((value) {
         print('here');
         print(path);
+        
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>Report(imagePath: path,)));
         Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
       });
 

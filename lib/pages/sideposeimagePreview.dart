@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:StartUp/pages/report.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -206,6 +207,8 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                             prefs.setInt("swayback", scoresSide.swayback);
                           }).catchError((e)=>print(e));
                           print(scoresSide);
+
+                          Navigator.pushNamed(context, Report.id);
                           //todo: navigate to report
                           //todo: using shared prefs display scores in report(PS prefs is stored locally, not on server), as I have dislayed name;
                           //todo: on report page send post request to config.url+'/api/users/scores' and send body as

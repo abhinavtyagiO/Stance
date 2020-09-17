@@ -2,15 +2,20 @@ import 'package:StartUp/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:io';
 
 
 class Report extends StatefulWidget {
   static String id = 'report';
+  final String imagePath;
+
+  Report({this.imagePath});
   @override
   _ReportState createState() => _ReportState();
 }
 
 class _ReportState extends State<Report> {
+  
   @override
   Widget build(BuildContext context) {
 
@@ -74,6 +79,7 @@ class _ReportState extends State<Report> {
           Container(
               width: ScreenUtil().setWidth(160),
               height: ScreenUtil().setHeight(216.0),
+              child: Image.file(File(widget.imagePath), fit: BoxFit.fitWidth),
               decoration: BoxDecoration(
                 color: Hexcolor('#f3f3f7'),
                 borderRadius: BorderRadius.circular(
