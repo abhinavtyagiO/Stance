@@ -29,6 +29,7 @@ postlogin(UserCredential user, context)async{
         print(bodyData);
         var body = jsonEncode(bodyData);
         var response = await http.post(url,headers: headers, body: body);
+        print(response);
         _prefs.then((prefs) {
           prefs.setString('firstName', user.additionalUserInfo.profile['given_name']).toString();
           prefs.setString('lastName', user.additionalUserInfo.profile['family_name']).toString();
