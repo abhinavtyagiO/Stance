@@ -117,6 +117,7 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
     scores.slouch=slch_scr.toInt();
     scores.kyphotic=kypho_scr.toInt();
     scores.swayback=lordo_scr.toInt();
+    scores.knees=1;
     return scores;
   }
 
@@ -218,9 +219,9 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                               };
 
                               prefs.setInt('slouch', scores.slouch);
-                              prefs.setInt('kyphotic', scores.slouch);
-                              prefs.setInt('swayback', scores.slouch);
-                              prefs.setInt('knees', scores.slouch);
+                              prefs.setInt('kyphotic', scores.kyphotic);
+                              prefs.setInt('swayback', scores.swayback);
+                              prefs.setInt('knees', scores.knees);
                               print(bodyData);
                               var body = jsonEncode(bodyData);
                             var response= await http.post(url,headers: headers, body: body);
