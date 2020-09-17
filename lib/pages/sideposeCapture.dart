@@ -449,6 +449,11 @@ void toggleTimer() {
       }
       final name = "side";
       final path = "${folder.path}/$name.png";
+      var file = new File(path);
+      if ( await file.exists() == true) {
+        file.delete();
+      }
+
 
       await controller.takePicture(path).then((value) {
         print('here');
@@ -466,6 +471,11 @@ void toggleTimer() {
       final p = await getTemporaryDirectory();
       final name = DateTime.now();
       final path = "${p.path}/$name.png";
+      var file = new File(path);
+      if ( await file.exists() == true) {
+        file.delete();
+      }
+
 
       await controller.takePicture(path).then((value) {
         print('here');
@@ -483,6 +493,11 @@ void toggleTimer() {
       final p = await getTemporaryDirectory();
       final name = DateTime.now();
       final path = "${p.path}/$name.png";
+      var file = new File(path);
+      if ( await file.exists() == true) {
+        file.delete();
+      }
+
 
       await controller.takePicture(path).then((value) {
         print('here');

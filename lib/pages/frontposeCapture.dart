@@ -198,7 +198,7 @@ class _FrontCaptureState extends State {
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('How to pose for picture?',
+            Text('Front pose assessment',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontFamily: 'Montserrat',
@@ -210,7 +210,7 @@ class _FrontCaptureState extends State {
                 ),
                 SizedBox(height: ScreenUtil().setHeight(13),),
             Text(
-              'Don\'t try to stand extra erect, be relaxed and in your natural posture. Show side profile and align your eyes and knees to the respective marked lines.',
+              'Don\'t try to stand extra erect, be relaxed and in your natural posture. Show front profile and align your eyes and knees to the respective marked lines.',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: 'roboto',
@@ -227,7 +227,7 @@ class _FrontCaptureState extends State {
                 Container(
                   width: ScreenUtil().setWidth(148),
                   child: Center(
-                    child: Image.asset('assets/images/stance.png'),
+                    child: Image.asset('assets/images/frontPose.png'),
                   ),
                 ),
               ],
@@ -418,12 +418,25 @@ class _FrontCaptureState extends State {
       }
       final name = "front";
       final path = "${folder.path}/$name.png";
-
-      await controller.takePicture(path).then((value) {
-        print('here');
+      var file = new File(path);
+      if ( await file.exists() == true) {
+        file.delete().then((value){
+        controller.takePicture(path).then((value) {
+        print('here1');
+        print(path);
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
+        });
+        
+      });
+      } else {
+       controller.takePicture(path).then((value) {
+        print('here2');
         print(path);
         Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
       });
+      }
+
+      
 
     } catch (e) {
       showCameraException(e);
@@ -441,6 +454,11 @@ final p = await getExternalStorageDirectory();
       }
       final name = "front";
       final path = "${folder.path}/$name.png";
+      var file = new File(path);
+      if ( await file.exists() == true) {
+        file.delete();
+      }
+
 
       await controller.takePicture(path).then((value) {
         print('here');
@@ -464,6 +482,11 @@ final p = await getExternalStorageDirectory();
       }
       final name = "front";
       final path = "${folder.path}/$name.png";
+      var file = new File(path);
+      if ( await file.exists() == true) {
+        file.delete();
+      }
+
 
       await controller.takePicture(path).then((value) {
         print('here');

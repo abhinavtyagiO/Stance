@@ -25,9 +25,11 @@ class _ReportState extends State<Report> {
       if(await folder.exists()==false){
         await folder.create();
       }
-      imageFrontPath = "${folder.path}/front.png";
+      setState(() {
+         imageFrontPath = "${folder.path}/front.png";
       imageSidePath = "${folder.path}/side.png";
-
+      });
+     
   }
   @override
   void initState() {
@@ -472,7 +474,7 @@ class _ReportState extends State<Report> {
                         color: Hexcolor('#fe3786'),
                         textColor: Hexcolor('#ffffff'),
                       onPressed: () {
-                              Navigator.pushNamed(context, Home.id);
+                       Navigator.pushNamed(context, Home.id);
                       },
                       child: Text('CONTINUE',
                       style: TextStyle(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:StartUp/pages/testPosture.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,14 +28,19 @@ postlogin(UserCredential user)async{
         print(bodyData);
         var body = jsonEncode(bodyData);
         var response = await http.post(url,headers: headers, body: body);
-        var prefs = await _prefs;
+        _prefs.then((prefs) {
           prefs.setString('firstName', user.additionalUserInfo.profile['given_name']).toString();
           prefs.setString('lastName', user.additionalUserInfo.profile['family_name']).toString();
           prefs.setString('email',user.additionalUserInfo.profile['email']).toString();
           prefs.setString('imageUrl',user.additionalUserInfo.profile['picture']).toString();
           prefs.setString('x-auth-token', response.headers['x-auth-token']);
-        print({"headers",response.headers});
-        print("========="+prefs.getString("firstName"));
+          //Navigate to Test Posture
+          // Navigator.pushNamed(context, TestPosture.id);
+        });
+
+          
+        // print({"headers",response.headers});
+        // print("========="+prefs.getString("firstName"));
 }
 
 Future<void> _handleSignIn() async {
@@ -50,6 +56,7 @@ Future<void> _handleSignIn() async {
         );
         UserCredential user = await _auth.signInWithCredential(googleAuthCredential);
         postlogin(user);
+        
 
   } catch (error) {
     print({"error",error});
@@ -85,6 +92,7 @@ String your_redirect_url =
         await _auth.signInWithCredential(facebookAuthCred);
         print(user.additionalUserInfo.profile['first_name'].toString());
         postlogin(user);
+        Navigator.pushNamed(context, TestPosture.id);
   } catch (e) {print({"error",e});}
 }
 }
@@ -228,7 +236,10 @@ class _LoginState extends State<Login> {
 
                       color: Hexcolor('#ffffff'),
                     onPressed: () {
-                      _handleSignIn();
+                      _handleSignIn().whenComplete(() {
+                        Navigator.pushNamed(context, TestPosture.id);
+                      });
+                      
                     },
                     child: Text('Login with GOOGLE',
                     style: TextStyle(

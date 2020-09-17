@@ -241,7 +241,7 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                               // ));
                               //todo show toast image not usable
                               Fluttertoast.showToast(
-                                  msg: "This is Toast messaget",
+                                  msg: "Image not usable. Try Again.",
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.CENTER,
                                   timeInSecForIosWeb: 1

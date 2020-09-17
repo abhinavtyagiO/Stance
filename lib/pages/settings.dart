@@ -1,7 +1,11 @@
+import 'package:StartUp/pages/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+final _prefs = SharedPreferences.getInstance();
 
 class Settings extends StatefulWidget {
   static String id = 'settings';
@@ -12,6 +16,14 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
 
   bool switchValue = true;
+
+
+  void logOut(context) async {
+    var prefs = await _prefs;
+    prefs.clear();
+    //
+    Navigator.pushNamed(context, Login.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +174,7 @@ class _SettingsState extends State<Settings> {
                         color: Hexcolor('#ffffff'),
                       onPressed: () {
                         //Implement Log out
+                        logOut(context);
                       },
                       child: Text('LOG OUT',
                       style: TextStyle(

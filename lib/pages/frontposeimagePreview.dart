@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tflite/tflite.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 
@@ -129,10 +130,14 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                           
                         }
                         else{
-    //                       Scaffold.of(context).showSnackBar(SnackBar(
-    //   content: Text("Image not usable. Try Again."),
-    // ));
-                        //todo show toast image not usable
+
+                          Fluttertoast.showToast(
+                                  msg: "Image not usable. Try Again.",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1
+                              );
+                        
                           Navigator.of(context).pop();
                         }
                         
