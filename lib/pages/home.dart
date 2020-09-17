@@ -18,6 +18,8 @@ final _prefs = SharedPreferences.getInstance();
 
 class _HomeState extends State<Home> {
 
+  String selectedDate = "Select";
+
   bool isPressed = false;
 
   String name = "";
@@ -68,12 +70,11 @@ class _HomeState extends State<Home> {
     
     for(var score in scores){
       print("dbg---");
-      array.add(DropdownMenuItem(child: Text(score['date'].substring(0,7)), value: score['date'].substring(7),));
+      array.add(DropdownMenuItem(child: Text(score['date'].substring(0,7)), value: score['date'].substring(0, 7),));
     }
-    
-    
     return array;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +189,7 @@ class _HomeState extends State<Home> {
                             color: Hexcolor('#fe3786'),
                             size: ScreenUtil().setWidth(10),
                           ),
-                          value: 'Select Date',
+                          value: selectedDate,
                           style: TextStyle(
                             fontFamily: 'roboto',
                             color: Hexcolor('#fe3786'),
@@ -198,7 +199,9 @@ class _HomeState extends State<Home> {
                           getDropDownItems()
                          ,
                          onChanged: (value) {
-                           print(value);
+                          setState(() {
+                            selectedDate = value;
+                          });
                          },
                          ),
                       ),

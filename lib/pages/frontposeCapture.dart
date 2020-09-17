@@ -1,3 +1,4 @@
+import 'package:StartUp/pages/report.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -403,8 +404,8 @@ class _FrontCaptureState extends State {
     CameraDescription selectedCamera = cameras[selectedCameraIdx];
     initCameraController(selectedCamera);
   }
-
   onCapturePressed(context) async {
+    if(isOff == true){
     try {
       final p = await getTemporaryDirectory();
       final name = DateTime.now();
@@ -419,6 +420,45 @@ class _FrontCaptureState extends State {
     } catch (e) {
       showCameraException(e);
     }
+  } else if (isOff == false) {
+    if(isSetThree == true) {
+    Timer(Duration(seconds: 3), () async {
+      try {
+      final p = await getTemporaryDirectory();
+      final name = DateTime.now();
+      final path = "${p.path}/$name.png";
+
+      await controller.takePicture(path).then((value) {
+        print('here');
+        print(path);
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
+      });
+
+    } catch (e) {
+      showCameraException(e);
+    }
+    });
+    } else { 
+      Timer(Duration(seconds: 10), () async {
+        try {
+      final p = await getTemporaryDirectory();
+      final name = DateTime.now();
+      final path = "${p.path}/$name.png";
+
+      await controller.takePicture(path).then((value) {
+        print('here');
+        print(path);
+        
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>Report(imagePath: path,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
+      });
+
+    } catch (e) {
+      showCameraException(e);
+    }
+      });
+    }
+  }
   }
 
   void showCameraException(CameraException e) {
