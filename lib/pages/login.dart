@@ -45,7 +45,7 @@ postlogin(UserCredential user, context)async{
         // print("========="+prefs.getString("firstName"));
 }
 
-Future<void> _handleSignIn() async {
+Future<void> _handleSignIn(context) async {
   print("logging in with google");
   try {
     var googleUser= await _googleSignIn.signIn();
@@ -238,9 +238,7 @@ class _LoginState extends State<Login> {
 
                       color: Hexcolor('#ffffff'),
                     onPressed: () {
-                      _handleSignIn().whenComplete(() {
-                        Navigator.pushNamed(context, TestPosture.id);
-                      });
+                      _handleSignIn(context);
                       
                     },
                     child: Text('Login with GOOGLE',
