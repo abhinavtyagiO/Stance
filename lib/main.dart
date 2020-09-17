@@ -5,6 +5,7 @@ import 'package:StartUp/pages/frontposeimagePreview.dart';
 import 'package:StartUp/pages/login.dart';
 import 'package:StartUp/pages/onBoarding3.dart';
 import 'package:StartUp/pages/profile.dart';
+import 'package:StartUp/pages/report.dart';
 import 'package:StartUp/pages/settings.dart';
 import 'package:StartUp/pages/sideposeCapture.dart';
 import 'package:StartUp/pages/testPosture.dart';
@@ -30,7 +31,7 @@ Future<Null> main() async {
         //print(cred.asMap()); 
         return MaterialApp(
           title: 'STANCE',
-          initialRoute: Home.id,
+          initialRoute: FrontCapture.id,
           routes: {
           Home.id: (context) => Home(),
           Profile.id: (context) => Profile(),
@@ -43,6 +44,7 @@ Future<Null> main() async {
           FrontposePreviewImageScreen.id: (context) => FrontposePreviewImageScreen(),
           Settings.id: (context) => Settings(),
           SideCapture.id: (context) => SideCapture(),
+          Report.id: (context) => Report(),
     },
   );
       }
