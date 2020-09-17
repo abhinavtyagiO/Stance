@@ -29,6 +29,7 @@ postlogin(UserCredential user, context)async{
         print(bodyData);
         var body = jsonEncode(bodyData);
         var response = await http.post(url,headers: headers, body: body);
+        print(response);
         _prefs.then((prefs) {
           prefs.setString('firstName', user.additionalUserInfo.profile['given_name']).toString();
           prefs.setString('lastName', user.additionalUserInfo.profile['family_name']).toString();
@@ -45,7 +46,7 @@ postlogin(UserCredential user, context)async{
         // print("========="+prefs.getString("firstName"));
 }
 
-Future<void> _handleSignIn() async {
+Future<void> _handleSignIn(context) async {
   print("logging in with google");
   try {
     var googleUser= await _googleSignIn.signIn();
@@ -238,9 +239,7 @@ class _LoginState extends State<Login> {
 
                       color: Hexcolor('#ffffff'),
                     onPressed: () {
-                      _handleSignIn().whenComplete(() {
-                        Navigator.pushNamed(context, TestPosture.id);
-                      });
+                      _handleSignIn(context);
                       
                     },
                     child: Text('Login with GOOGLE',
