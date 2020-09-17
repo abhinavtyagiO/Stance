@@ -216,14 +216,18 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                                 'swayback': scores.swayback,
                                 'knees': scores.knees, 
                               };
-                              
+
+                              prefs.setInt('slouch', scores.slouch);
+                              prefs.setInt('kyphotic', scores.slouch);
+                              prefs.setInt('swayback', scores.slouch);
+                              prefs.setInt('knees', scores.slouch);
                               print(bodyData);
                               var body = jsonEncode(bodyData);
                             var response= await http.post(url,headers: headers, body: body);
                             print(response.body);
                             var bodyc=scores=JsonDecoder().convert(response.body);
-                          if(bodyc.scores==true){
-                                  //todo: navigate to report
+                          if(bodyc.success==true){
+                              Navigator.pushNamed(context, Report.id);
                           }
                           else{
                             //todo nvigate to report
