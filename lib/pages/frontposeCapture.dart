@@ -432,9 +432,15 @@ class _FrontCaptureState extends State {
     if(isSetThree == true) {
     Timer(Duration(seconds: 3), () async {
       try {
-      final p = await getTemporaryDirectory();
-      final name = DateTime.now();
-      final path = "${p.path}/$name.png";
+final p = await getExternalStorageDirectory();
+      print(p.path);
+      final folderPath=p.path+'/Stance';
+      final folder=new Directory(folderPath);
+      if(await folder.exists()==false){
+        await folder.create();
+      }
+      final name = "front";
+      final path = "${folder.path}/$name.png";
 
       await controller.takePicture(path).then((value) {
         print('here');
@@ -449,15 +455,20 @@ class _FrontCaptureState extends State {
     } else { 
       Timer(Duration(seconds: 10), () async {
         try {
-      final p = await getTemporaryDirectory();
-      final name = DateTime.now();
-      final path = "${p.path}/$name.png";
+final p = await getExternalStorageDirectory();
+      print(p.path);
+      final folderPath=p.path+'/Stance';
+      final folder=new Directory(folderPath);
+      if(await folder.exists()==false){
+        await folder.create();
+      }
+      final name = "front";
+      final path = "${folder.path}/$name.png";
 
       await controller.takePicture(path).then((value) {
         print('here');
         print(path);
         
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>Report(imagePath: path,)));
         Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
       });
 
