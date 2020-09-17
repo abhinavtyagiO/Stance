@@ -25,9 +25,12 @@ class _ReportState extends State<Report> {
       if(await folder.exists()==false){
         await folder.create();
       }
-      imageFrontPath = "${folder.path}/front.png";
+      setState(() {
+        imageFrontPath = "${folder.path}/front.png";
       imageSidePath = "${folder.path}/side.png";
-
+  
+      });
+      
   }
   @override
   void initState() {
@@ -99,7 +102,7 @@ class _ReportState extends State<Report> {
           Container(
               width: ScreenUtil().setWidth(160),
               height: ScreenUtil().setHeight(216.0),
-              child: Image.file(File(imageFrontPath), fit: BoxFit.fitWidth),
+              child: Image.file((imageFrontPath!=null)?File(imageFrontPath):Container(), fit: BoxFit.fitWidth),
               decoration: BoxDecoration(
                 color: Hexcolor('#f3f3f7'),
                 borderRadius: BorderRadius.circular(
