@@ -101,7 +101,7 @@ class _ReportState extends State<Report> {
           Container(
               width: ScreenUtil().setWidth(160),
               height: ScreenUtil().setHeight(216.0),
-              child: Image.file((imageFrontPath!=null)?File(imageFrontPath):Container(), fit: BoxFit.fitWidth),
+              child: (imageFrontPath!=null)? Image.file(File(imageFrontPath), fit: BoxFit.fitWidth) :Container(),
               decoration: BoxDecoration(
                 color: Hexcolor('#f3f3f7'),
                 borderRadius: BorderRadius.circular(
@@ -110,7 +110,7 @@ class _ReportState extends State<Report> {
           Container(
               width: ScreenUtil().setWidth(160),
               height: ScreenUtil().setHeight(216.0),
-              child: Image.file((imageSidePath!=null)?File(imageSidePath):Container(), fit: BoxFit.fitWidth),
+              child: (imageSidePath!=null)? Image.file(File(imageSidePath), fit: BoxFit.fitWidth):Container(),
               decoration: BoxDecoration(
                 color: Hexcolor('#f3f3f7'),
                 borderRadius: BorderRadius.circular(

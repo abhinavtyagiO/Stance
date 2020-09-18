@@ -56,7 +56,11 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
 
   Scores getScores(recognitionSide, recognitionFront){
     //recognitions[0].keypoints;
-    var shldr=[0.toDouble(),0.toDouble()],hip=[0.toDouble(),0.toDouble()],knee=[0.toDouble(),0.toDouble()],ear=[0.toDouble(),0.toDouble()];
+    var shldr=[0.toDouble(),0.toDouble()],
+        hip=[0.toDouble(),0.toDouble()],
+        knee=[0.toDouble(),0.toDouble()],
+        ear=[0.toDouble(),0.toDouble()];
+
     for(var v in recognitionSide['keypoints'].values){
       print(v);
       switch(v['part']){
@@ -109,6 +113,54 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
         break;
       }
     }
+        var left_hip = [0.toDouble(),0.toDouble()],
+        right_hip=[0.toDouble(),0.toDouble()],
+        left_knee=[0.toDouble(),0.toDouble()],
+        right_knee=[0.toDouble(),0.toDouble()],
+        left_foot=[0.toDouble(),0.toDouble()],
+        right_foot=[0.toDouble(),0.toDouble()];
+
+    for(var f in recognitionFront['keypoints'].values) {
+      print(f);
+      switch(f['part']) {
+        case 'rightHip': {
+          right_hip[0] = f['x'];
+          right_hip[1] = f['y'];
+        } 
+        break;
+
+        case 'rightKnee' : {
+          right_knee[0] = f['x'];
+          right_knee[1] = f['y'];
+        }
+        break;
+
+        case 'rightFoot': {
+          right_foot[0] = f['x'];
+          right_foot[1] = f['y'];
+        }
+        break;
+
+        case 'leftHip': {
+          left_hip[0] = f['x'];
+          left_hip[1] = f['y'];
+        }
+        break;
+
+        case 'leftKnee': {
+          left_knee[0] = f['x'];
+          left_knee[1] = f['y'];
+        } 
+        break;
+
+        case 'leftFoot': {
+          left_foot[0] = f['x'];
+          left_foot[1] = f['y'];
+        }
+        break;
+      }
+    }
+    //Scores side
     var hipt = ((knee[0]-shldr[0])/(knee[1]-shldr[1]))*(hip[1]-knee[1])+knee[0];
     var slch_scr = (-1)*(hipt-hip[0])/(knee[1]-shldr[1]);
     var eart = ((hip[0]-shldr[0])/(hip[1]-shldr[1]))*(ear[1]-shldr[1])+shldr[0];
@@ -116,12 +168,19 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
     var hipt_ = ((ear[0]-knee[0])/(ear[1]-knee[1]))*(hip[1]-ear[1])+ear[0];
     var lordo_scr = ((hipt_-hip[0])/(ear[1]-knee[1])).abs();
 
+    //scores front
+    var l_knee_t = ((left_foot[0]-left_hip[0])/(left_foot[1]-left_hip[1]))*(left_knee[1]-left_foot[1])+left_foot[0];
+    var left_leg_scr = (-1)*((l_knee_t-left_knee[0])/(left_foot[1]-left_hip[1]))*250;
 
+    var r_knee_t = ((right_foot[0]-right_hip[0])/(right_foot[1]-right_hip[1]))*(right_knee[1]-right_foot[1])+right_foot[0];
+    var right_leg_scr = ((r_knee_t-right_knee[0])/(right_foot[1]-right_hip[1]))*250;
+
+    var knock_knees_score = (left_leg_scr + right_leg_scr) / 2;
     Scores scores= new Scores();
     scores.slouch=slch_scr.toInt();
     scores.kyphosis=kypho_scr.toInt();
     scores.swayback=lordo_scr.toInt();
-    scores.knees=1.toInt();
+    scores.knees=knock_knees_score.toInt();
     return scores;
   }
 

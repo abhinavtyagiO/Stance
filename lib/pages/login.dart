@@ -84,7 +84,7 @@ String your_redirect_url =
       builder: (context) => CustomWebView(
             selectedUrl:
                 'https://www.facebook.com/dialog/oauth?client_id=$your_client_id&redirect_uri=$your_redirect_url&response_type=token&scope=email,public_profile,',
-          ),
+          context: context),
       maintainState: true),
 );
   if (result != null) {
@@ -104,8 +104,9 @@ String your_redirect_url =
 
 class CustomWebView extends StatefulWidget {
   final String selectedUrl;
+  final BuildContext context;
 
-  CustomWebView({this.selectedUrl});
+  CustomWebView({this.selectedUrl, this.context});
 
   @override
   _CustomWebViewState createState() => _CustomWebViewState();
@@ -120,12 +121,12 @@ class _CustomWebViewState extends State<CustomWebView> {
 
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
       if (url.contains("#access_token")) {
-        succeed(url, context);
+        succeed(url, widget.context);
       }
 
       if (url.contains(
           "https://www.facebook.com/connect/login_success.html?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied")) {
-        denied(context);
+        denied(widget.context);
       }
     });
   }
