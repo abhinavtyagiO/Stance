@@ -4,6 +4,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class Report extends StatefulWidget {
   static String id = 'report';
@@ -11,6 +14,8 @@ class Report extends StatefulWidget {
   @override
   _ReportState createState() => _ReportState();
 }
+
+final _prefs = SharedPreferences.getInstance();
 
 class _ReportState extends State<Report> {
 
@@ -475,7 +480,7 @@ class _ReportState extends State<Report> {
                         color: Hexcolor('#fe3786'),
                         textColor: Hexcolor('#ffffff'),
                       onPressed: () {
-                       Navigator.pushNamed(context, Home.id);
+                       Navigator.pushNamedAndRemoveUntil(context, Home.id, (Route<dynamic> route)=> false);
                       },
                       child: Text('CONTINUE',
                       style: TextStyle(

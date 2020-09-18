@@ -27,6 +27,12 @@ class _SideCaptureState extends State<SideCapture> {
   bool isOff = true;
    bool isSetThree = true;
 
+   int firstCounter = 3;
+   Timer firstTimer;
+
+   int secondCounter = 10;
+   Timer secondTimer;
+
   @override
   void initState() {
     super.initState();
@@ -118,6 +124,7 @@ void toggleTimer() {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[ 
                   RawMaterialButton(
                     onPressed: () {
@@ -126,6 +133,22 @@ void toggleTimer() {
                     fillColor: Hexcolor('#000000'),
                     child: Icon(
                       Icons.arrow_back_ios,
+                      size: ScreenUtil().setWidth(15),
+                      color: Hexcolor('#ffffff'),
+                    ),
+                    padding: EdgeInsets.all(15.0),
+                    shape: CircleBorder(),
+                  ),
+                  Center(child: isOff ? Container() : (isSetThree ? CountdownThree(firstCounter: firstCounter) : CountdownTen(secondCounter: secondCounter))),
+                  RawMaterialButton(
+                    onPressed: () {
+                      setState(() {
+                        toggleTimer();
+                      });
+                    },
+                    fillColor: Hexcolor('#000000'),
+                    child: Icon(
+                      isOff ? Icons.timer_off : (isSetThree ? Icons.timer_3 : Icons.timer_10),
                       size: ScreenUtil().setWidth(15),
                       color: Hexcolor('#ffffff'),
                     ),
@@ -276,7 +299,7 @@ void toggleTimer() {
            child: Padding(
              padding: EdgeInsets.only(
                top: ScreenUtil().setHeight(38),
-               bottom: ScreenUtil().setHeight(143.5),
+               bottom: ScreenUtil().setHeight(100),
              ),
              child: Column(
                crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,6 +326,7 @@ void toggleTimer() {
                       DottedLine(
                         dashColor: Hexcolor('#ffffff'),
                       ),
+                     
                    ],
                  ),
                  Padding(
@@ -474,6 +498,19 @@ void toggleTimer() {
     }
   } else if (isOff == false) {
     if(isSetThree == true) {
+      firstTimer = Timer.periodic(Duration(seconds: 1), (timer) { 
+        setState(() {
+          if( firstCounter > 0) {
+            firstCounter--;
+
+           
+
+          }else {
+            timer.cancel();
+          }
+        });
+      });
+      
     Timer(Duration(seconds: 3), () async {
       try {
       final p = await getTemporaryDirectory();
@@ -490,12 +527,22 @@ void toggleTimer() {
         print(path);
         Navigator.push(context, MaterialPageRoute(builder: (context) =>SideposePreviewImageScreen(imagePath: path,)));
       });
+      
 
     } catch (e) {
       showCameraException(e);
     }
     });
     } else { 
+      secondTimer = Timer.periodic(Duration(seconds: 1), (timer) { 
+        setState(() {
+          if( secondCounter > 0) {
+            secondCounter--;
+          }else {
+            timer.cancel();
+          }
+        });
+      });
       Timer(Duration(seconds: 10), () async {
         try {
       final p = await getTemporaryDirectory();
@@ -513,6 +560,9 @@ void toggleTimer() {
         
         // Navigator.push(context, MaterialPageRoute(builder: (context) =>Report(imagePath: path,)));
         Navigator.push(context, MaterialPageRoute(builder: (context) =>SideposePreviewImageScreen(imagePath: path,)));
+      });
+      setState(() {
+        secondCounter = 10;
       });
 
     } catch (e) {
@@ -536,4 +586,49 @@ void toggleTimer() {
 
 
 
+}
+
+class CountdownThree extends StatelessWidget {
+  const CountdownThree({
+    Key key,
+    @required this.firstCounter,
+  }) : super(key: key);
+
+  final int firstCounter;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      '$firstCounter',
+      style: TextStyle(
+        color: Hexcolor('#ffffff'),
+        fontSize: ScreenUtil().setSp(26),
+        fontFamily: 'Monntserrat',
+        fontWeight: FontWeight.bold,
+        letterSpacing: 0,
+      ),
+    );
+  }
+}
+class CountdownTen extends StatelessWidget {
+  const CountdownTen({
+    Key key,
+    @required this.secondCounter,
+  }) : super(key: key);
+
+  final int secondCounter;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      '$secondCounter',
+      style: TextStyle(
+        color: Hexcolor('#ffffff'),
+        fontSize: ScreenUtil().setSp(26),
+        fontFamily: 'Monntserrat',
+        fontWeight: FontWeight.bold,
+        letterSpacing: 0,
+      ),
+    );
+  }
 }

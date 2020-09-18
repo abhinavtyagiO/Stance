@@ -31,7 +31,7 @@ Future<Null> main() async {
         //print(cred.asMap()); 
         return MaterialApp(
           title: 'STANCE',
-          initialRoute: FrontCapture.id,
+          initialRoute: Report.id,
           routes: {
           Home.id: (context) => Home(),
           Profile.id: (context) => Profile(),

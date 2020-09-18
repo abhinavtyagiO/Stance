@@ -86,7 +86,6 @@ class _HomeState extends State<Home> {
     );
     return Scaffold(
       backgroundColor: Hexcolor('#ffffff'),
-      //760*360
       body: SafeArea(
               child: Column(
           children: <Widget>[

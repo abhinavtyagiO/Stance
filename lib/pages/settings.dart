@@ -66,7 +66,7 @@ class _SettingsState extends State<Settings> {
                         fontSize: ScreenUtil().setSp(18),
                         letterSpacing: 0,
                         color: Hexcolor('#000000'),
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
