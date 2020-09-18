@@ -77,10 +77,7 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                 scale: 1.0,
                   child: AspectRatio(
                   aspectRatio: 0.68,
-                     child: Container(
-                        width: ScreenUtil().setWidth(360),
-                height: ScreenUtil().setWidth(760),
-                      child: Image.file(File(widget.imagePath), fit: BoxFit.fitWidth)),
+                     child: Image.file(File(widget.imagePath), fit: BoxFit.fitWidth,),
                 ),
               ),
               SizedBox(height: ScreenUtil().setHeight(10)),
@@ -151,7 +148,7 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                   ),
                 ],
               ),
-              SizedBox(height: ScreenUtil().setHeight(65)),
+              // SizedBox(height: ScreenUtil().setHeight(65)),
             ],
           ),
         ),

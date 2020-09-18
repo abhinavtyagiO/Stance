@@ -176,6 +176,8 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
     var right_leg_scr = ((r_knee_t-right_knee[0])/(right_foot[1]-right_hip[1]))*250;
 
     var knock_knees_score = (left_leg_scr + right_leg_scr) / 2;
+
+    
     Scores scores= new Scores();
     scores.slouch=slch_scr.toInt();
     scores.kyphosis=kypho_scr.toInt();
@@ -321,7 +323,6 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                   ),
                 ],
               ),
-              SizedBox(height: ScreenUtil().setHeight(65)),
             ],
           ),
         ),
