@@ -118,7 +118,7 @@ class _CustomWebViewState extends State<CustomWebView> {
   @override
   void initState() {
     super.initState();
-
+    
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
       if (url.contains("#access_token")) {
         succeed(url, widget.context);
@@ -161,12 +161,23 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
+  BuildContext _context;
+  checkLogin(context){
+    _prefs.then((prefs){
+      print(prefs.getString("firstName"));
+      if(prefs.containsKey("x-auth-token")){
+                  Navigator.pushNamed(_context, TestPosture.id);
+    
+      }
+    }).catchError((e)=>print(e));
+  }
+  
   @override
   void initState() {
-    _prefs.then((prefs) => 
-      print(prefs.getString("firstName"))
-    ).catchError((e)=>print(e));
+    
+    
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => checkLogin(context));
     super.initState();
   }
   @override
@@ -176,6 +187,7 @@ class _LoginState extends State<Login> {
       width: 360,
       height: 760,
     );
+    _context=context;
     return Scaffold(
       backgroundColor: Hexcolor('#ffffff'),
       body: Column(

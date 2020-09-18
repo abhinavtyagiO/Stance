@@ -28,10 +28,11 @@ Future<Null> main() async {
         //var cred=FacebookAuthProvider.credential("accessToken");
         //print(cred);
         //print(cred.accessToken);
-        //print(cred.asMap()); 
+        //print(cred.asMap());
+     
         return MaterialApp(
           title: 'STANCE',
-          initialRoute: FrontCapture.id,
+          initialRoute: Login.id,
           routes: {
           Home.id: (context) => Home(),
           Profile.id: (context) => Profile(),
