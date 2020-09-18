@@ -17,6 +17,10 @@ class Report extends StatefulWidget {
 
 class _ReportState extends State<Report> {
 
+  getColor(swayback_){
+    return (int.parse(swayback_).abs()<normal)?Hexcolor('#00b279'):((int.parse(swayback_).abs()<caution)?Hexcolor('#ff7f56'):Hexcolor('#ff4747'));
+  }
+
   var imageFrontPath;
   var imageSidePath;
 
@@ -24,7 +28,10 @@ class _ReportState extends State<Report> {
   String kyphosis="...";  
 
   String swayback="...";
-  String lordosis="...";  
+  String knees="...";  
+
+  int normal=30;
+  int caution=70;
 
   initPaths() async{
     final p = await getExternalStorageDirectory();
@@ -47,7 +54,7 @@ class _ReportState extends State<Report> {
                               slouch=prefs.getInt('slouch').toString();
                               kyphosis=prefs.getInt('kyphosis').toString();
                               swayback=prefs.getInt('swayback').toString();
-                              lordosis=prefs.getInt('knees').toString();
+                              knees=prefs.getInt('knees').toString();
       });
           
     super.initState();
@@ -172,7 +179,7 @@ class _ReportState extends State<Report> {
                         ),
                       ),
                       Text(
-                        '50/100',
+                        slouch+'/100',
                         style: TextStyle(
                           color:
                               Hexcolor('#000000').withOpacity(0.5),
@@ -206,9 +213,9 @@ class _ReportState extends State<Report> {
               ),
               child: Center(
                 child: Text(
-                    'Caution',
+                    (int.parse(slouch)<normal)?'Normal':((int.parse(slouch)<caution)?'Caution':'Severe'),
                     style: TextStyle(
-                      color: Hexcolor('#ff7f56'),
+                      color: getColor(slouch),
                       fontFamily: 'roboto',
                       fontSize: ScreenUtil().setSp(10.0),
                       letterSpacing: 0.0,
@@ -247,7 +254,7 @@ class _ReportState extends State<Report> {
                         MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'FHP',
+                        'Kyphosis',
                         style: TextStyle(
                           color: Hexcolor('#000000'),
                           fontFamily: 'roboto',
@@ -257,7 +264,7 @@ class _ReportState extends State<Report> {
                         ),
                       ),
                       Text(
-                        '80/100',
+                        kyphosis+'/100',
                         style: TextStyle(
                           color:
                               Hexcolor('#000000').withOpacity(0.5),
@@ -291,9 +298,9 @@ class _ReportState extends State<Report> {
             ),
             child: Center(
               child: Text(
-                  'Severe',
+                  (int.parse(kyphosis)<normal)?'Normal':((int.parse(kyphosis)<caution)?'Caution':'Severe'),
                   style: TextStyle(
-                    color: Hexcolor('#ff4747'),
+                    color: getColor(swayback),
                     fontFamily: 'roboto',
                     fontSize: ScreenUtil().setSp(10.0),
                     letterSpacing: 0.0,
@@ -333,7 +340,7 @@ class _ReportState extends State<Report> {
                         MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Scoliosis',
+                        'Swayback',
                         style: TextStyle(
                           color: Hexcolor('#000000'),
                           fontFamily: 'roboto',
@@ -343,7 +350,7 @@ class _ReportState extends State<Report> {
                         ),
                       ),
                       Text(
-                        '20/100',
+                        swayback+'/100',
                         style: TextStyle(
                           color:
                               Hexcolor('#000000').withOpacity(0.5),
@@ -377,9 +384,9 @@ class _ReportState extends State<Report> {
               ),
               child: Center(
                 child: Text(
-                    'Normal',
+                    (int.parse(swayback)<normal)?'Normal':((int.parse(swayback)<caution)?'Caution':'Severe'),
                     style: TextStyle(
-                      color: Hexcolor('#00b279'),
+                      color: getColor(swayback),
                       fontFamily: 'roboto',
                       fontSize: ScreenUtil().setSp(10.0),
                       letterSpacing: 0.0,
@@ -418,7 +425,7 @@ class _ReportState extends State<Report> {
                         MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Scoliosis',
+                        (int.parse(knees)>0)?'Bow Legs':'Knock knees',
                         style: TextStyle(
                           color: Hexcolor('#000000'),
                           fontFamily: 'roboto',
@@ -462,9 +469,9 @@ class _ReportState extends State<Report> {
               ),
               child: Center(
                 child: Text(
-                    'Normal',
+                    (int.parse(knees).abs()<normal)?'Normal':((int.parse(knees).abs()<caution)?'Caution':'Severe'),
                     style: TextStyle(
-                      color: Hexcolor('#00b279'),
+                      color: getColor(knees),
                       fontFamily: 'roboto',
                       fontSize: ScreenUtil().setSp(10.0),
                       letterSpacing: 0.0,
