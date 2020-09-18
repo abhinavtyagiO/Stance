@@ -4,6 +4,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+final _prefs = SharedPreferences.getInstance();
 
 class Report extends StatefulWidget {
   static String id = 'report';
@@ -16,6 +19,12 @@ class _ReportState extends State<Report> {
 
   var imageFrontPath;
   var imageSidePath;
+
+  String slouch="...";
+  String kyphosis="...";  
+
+  String swayback="...";
+  String lordosis="...";  
 
   initPaths() async{
     final p = await getExternalStorageDirectory();
@@ -33,7 +42,14 @@ class _ReportState extends State<Report> {
   }
   @override
   void initState() {
-    initPaths();    
+    initPaths();
+      _prefs.then((prefs){
+                              slouch=prefs.getInt('slouch').toString();
+                              kyphosis=prefs.getInt('kyphosis').toString();
+                              swayback=prefs.getInt('swayback').toString();
+                              lordosis=prefs.getInt('knees').toString();
+      });
+          
     super.initState();
   }
 
