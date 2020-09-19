@@ -204,7 +204,7 @@ class _ReportState extends State<Report> {
                   width: ScreenUtil().setWidth(160.0),
                   height: ScreenUtil().setHeight(4.0),
                   decoration: BoxDecoration(
-                    color: getBgColor(textNeck),
+                    color: Hexcolor('#f3f3f7'),
                   ),
                 )
               ],
@@ -215,7 +215,7 @@ class _ReportState extends State<Report> {
               height: ScreenUtil().setHeight(24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.3)),
-                color: Hexcolor('#fff4e9'),
+                color: getBgColor(textNeck),
               ),
               child: Center(
                 child: Text(
