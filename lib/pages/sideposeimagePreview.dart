@@ -11,11 +11,13 @@ import 'config.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'dart:math';
 
 final _prefs = SharedPreferences.getInstance();
+const double radians2Degrees = 180 / pi;
 
 class Scores{
-  int slouch;
+  int textNeck;
   int kyphosis;
   int swayback;
   int knees;
@@ -25,6 +27,7 @@ class SideposePreviewImageScreen extends StatefulWidget {
   static String id = 'imagePreview';
   final String imagePath;
   var frontRecognition;
+  
 
   SideposePreviewImageScreen({this.imagePath,this.frontRecognition});
 
@@ -34,6 +37,10 @@ class SideposePreviewImageScreen extends StatefulWidget {
 }
 
 class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen> {
+
+  
+
+
   Future loadModel() async {
     Tflite.close();
     try {
@@ -162,15 +169,23 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
         break;
       }
     }
+
     //Scores side
-    var hipt = ((knee[0]-shldr[0])/(knee[1]-shldr[1]))*(hip[1]-knee[1])+knee[0];
-    var slch_scr = (-1)*(hipt-hip[0])/(knee[1]-shldr[1]);
+    double length(List<dynamic> arr1, List<dynamic> arr2) {
+      return (sqrt(pow(arr1[0]-arr2[0], 2) +pow(arr1[1]-arr2[1], 2)));
+    }
+
+    var ang = acos((((ear[0]-shldr[0])*(shldr[0]-hip[0]))+((ear[1]-shldr[1])*(shldr[1]-hip[1])))/((length(ear,shldr))*(length(shldr, hip))));
+    double degrees(double radians) => radians * radians2Degrees;                
+    var ang_ = degrees(ang)*100/90;
+    // var hipt = ((knee[0]-shldr[0])/(knee[1]-shldr[1]))*(hip[1]-knee[1])+knee[0];
+    // var slch_scr = (-1)*(hipt-hip[0])/(knee[1]-shldr[1]);
     var eart = ((hip[0]-shldr[0])/(hip[1]-shldr[1]))*(ear[1]-shldr[1])+shldr[0];
     var kypho_scr = (-1)*(eart-ear[0])/(hip[1]-shldr[1]);
     var hipt_ = ((ear[0]-knee[0])/(ear[1]-knee[1]))*(hip[1]-ear[1])+ear[0];
     var lordo_scr = ((hipt_-hip[0])/(ear[1]-knee[1])).abs();
 
-    print({hipt, slch_scr, eart, kypho_scr, hipt_, lordo_scr});
+    print({ang_, eart, kypho_scr, hipt_, lordo_scr});
 
     //scores front
     var l_knee_t = ((left_foot[0]-left_hip[0])/(left_foot[1]-left_hip[1]))*(left_knee[1]-left_foot[1])+left_foot[0];
@@ -183,7 +198,7 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
 
     
     Scores scores= new Scores();
-    scores.slouch=slch_scr.toInt();
+    scores.textNeck=ang_.toInt();
     scores.kyphosis=kypho_scr.toInt();
     scores.swayback=lordo_scr.toInt();
     scores.knees=knock_knees_score.toInt();
@@ -288,14 +303,14 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
                                 headers['Content-Type']="application/json";
                                 headers['x-auth-token']=prefs.getString('x-auth-token');
                                 var bodyData={
-                                  'slouch': scores.slouch,
+                                  'textNeck': scores.textNeck,
                                   'kyphosis': scores.kyphosis,
                                   'swayback': scores.swayback,
                                   'knees': scores.knees, 
                                 };
                                 print(prefs.getString('x-auth-token'));
 
-                                prefs.setInt('slouch', scores.slouch);
+                                prefs.setInt('textNeck', scores.textNeck);
                                 prefs.setInt('kyphosis', scores.kyphosis);
                                 prefs.setInt('swayback', scores.swayback);
                                 prefs.setInt('knees', scores.knees);
