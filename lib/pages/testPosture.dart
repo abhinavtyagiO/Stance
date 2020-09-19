@@ -1,8 +1,11 @@
 import 'package:StartUp/pages/frontposeCapture.dart';
+import 'package:StartUp/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+final _prefs = SharedPreferences.getInstance();
 
 class TestPosture extends StatefulWidget {
   static String id = 'testPosture';
@@ -11,11 +14,29 @@ class TestPosture extends StatefulWidget {
 }
 
 class _TestPostureState extends State<TestPosture> {
-
+  BuildContext _context;
+  checkLoggedIn(){
+    _prefs.then((prefs){
+      if(prefs.containsKey('x-auth-token')){
+        print(prefs.getString('x-auth-token'));
+      }
+      else{
+        print("User not logged id");
+        Navigator.pushNamedAndRemoveUntil(_context, Login.id, (Route<dynamic> route) => false);          
+      }
+    });
+  }
+  @override
+  initState(){
+    
+    checkLoggedIn();
+    super.initState();
+  }
+  
   bool showSpinner = false;
   @override
   Widget build(BuildContext context) {
-
+    _context=context;
     ScreenUtil.init(
       context,
       width: 360,

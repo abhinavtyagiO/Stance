@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:StartUp/pages/home.dart';
 import 'package:StartUp/pages/testPosture.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -30,7 +31,7 @@ postlogin(UserCredential user, context)async{
         print(bodyData);
         var body = jsonEncode(bodyData);
         var response = await http.post(url,headers: headers, body: body);
-        print(response);
+        print(response.body);
         _prefs.then((prefs) {
           prefs.setString('firstName', user.additionalUserInfo.profile['given_name']).toString();
           prefs.setString('lastName', user.additionalUserInfo.profile['family_name']).toString();
@@ -38,12 +39,9 @@ postlogin(UserCredential user, context)async{
           prefs.setString('imageUrl',user.additionalUserInfo.profile['picture']).toString();
           prefs.setString('x-auth-token', response.headers['x-auth-token']);
           //Navigate to Test Posture
-          Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route) => false);
-
-          
+          Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route) => false);          
         });
 
-          
         // print({"headers",response.headers});
         // print("========="+prefs.getString("firstName"));
 }
@@ -172,11 +170,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
    bool showSpinner = false;
   BuildContext _context;
-  checkLogin(context){
+  checkLogin(){
     _prefs.then((prefs){
       print(prefs.getString("firstName"));
       if(prefs.containsKey("x-auth-token")){
-                  Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route) => false);
+                  Navigator.pushNamedAndRemoveUntil(_context, Home.id, (Route<dynamic> route) => false);
     
       }
     }).catchError((e)=>print(e));
@@ -187,7 +185,7 @@ class _LoginState extends State<Login> {
     
     
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => checkLogin(context));
+        .addPostFrameCallback((_) => checkLogin());
     super.initState();
   }
   @override

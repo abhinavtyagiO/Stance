@@ -25,6 +25,23 @@ class _HomeState extends State<Home> {
   String name = "";
   var scores=[];
 
+  String textNeck = "...";
+  String kyphosis = "...";
+  String swayback = "...";
+  String knees = "...";
+
+  String getName() {
+    if(knees == "...") {
+      return "Knock Knees";
+    } else {
+      if(int.parse(knees) > 0){
+        return "Bowl Legs";
+      }
+      return "Knock Knees";
+    }
+  }
+
+
   @override
   void initState() {
     print("debug");
@@ -67,12 +84,13 @@ class _HomeState extends State<Home> {
 
   getDropDownItems(){
     List<DropdownMenuItem<String>> array=new List<DropdownMenuItem<String>>();
-      // array.add(DropdownMenuItem(child: Text("Select Date"), value: "Select Date",));
+      array.add(DropdownMenuItem(child: Text("Select Date"), value: "Select",));
     
     for(var score in scores){
       print("dbg---");
-      array.add(DropdownMenuItem(child: Text(score['date'].substring(0,7)), value: score['date'].substring(0, 7),));
+      array.add(DropdownMenuItem(child: Text(score['date'].substring(0,7)), value: score['date'],));
     }
+    print(array);
     return array;
   }
 
@@ -199,9 +217,21 @@ class _HomeState extends State<Home> {
                           getDropDownItems()
                          ,
                          onChanged: (value) {
+                        var temp =  scores.where((element) {
+                              if(element['date'] == value) {
+                                return true;
+                              } return false;
+                            }).elementAt(0);
                           setState(() {
                             selectedDate = value;
+
+                            knees = temp['knees'];
+                            swayback = temp['swayback'];
+                            kyphosis = temp['kyphosis'];
+                            textNeck = temp['textNeck'];
+
                           });
+                          
                          },
                          ),
                       ),
@@ -223,11 +253,11 @@ class _HomeState extends State<Home> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      ScoreContainer(deformality: 'Text Neck', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
-                      ScoreContainer(deformality: 'Kyphosis', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
-                      ScoreContainer(deformality: 'Swayback', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
-                      ScoreContainer(deformality: 'Slouch', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
-                      ScoreContainer(deformality: 'Knock Knees', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),    
+                      ScoreContainer(deformality: 'Text Neck', score: textNeck, bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
+                      ScoreContainer(deformality: 'Kyphosis', score: kyphosis, bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
+                      ScoreContainer(deformality: 'Swayback', score: swayback, bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
+                      // ScoreContainer(deformality: 'Slouch', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
+                      ScoreContainer(deformality: getName(), score: knees, bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),    
                     ],
                   ),
                 ),
