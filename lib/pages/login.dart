@@ -38,9 +38,7 @@ postlogin(UserCredential user, context)async{
           prefs.setString('imageUrl',user.additionalUserInfo.profile['picture']).toString();
           prefs.setString('x-auth-token', response.headers['x-auth-token']);
           //Navigate to Test Posture
-          Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route) => false);
-
-          
+          Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route) => false);          
         });
 
           

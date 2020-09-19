@@ -13,21 +13,29 @@ class TestPosture extends StatefulWidget {
 }
 
 class _TestPostureState extends State<TestPosture> {
-
+  BuildContext _context;
+  checkLoggedIn(){
+    _prefs.then((prefs){
+      if(prefs.containsKey('x-auth-token')){
+        print(prefs.getString('x-auth-token'));
+      }
+      else{
+        print("User not logged id");
+        Navigator.pushNamedAndRemoveUntil(_context, TestPosture.id, (Route<dynamic> route) => false);          
+      }
+    });
+  }
   @override
   initState(){
-    _prefs.then((prefs){
-      print(prefs.getString('x-auth-token'));
-      print(prefs.getString('email'));
-    });
-
+    
+    checkLoggedIn();
     super.initState();
   }
   
   bool showSpinner = false;
   @override
   Widget build(BuildContext context) {
-
+    _context=context;
     ScreenUtil.init(
       context,
       width: 360,
