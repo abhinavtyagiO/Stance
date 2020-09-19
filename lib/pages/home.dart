@@ -30,7 +30,8 @@ class _HomeState extends State<Home> {
     print("debug");
       _prefs.then((prefs)=>{
         setState(() {
-          name=prefs.getString('firstName')+' '+prefs.getString('lastName');
+          name=prefs.getString('firstName')+'.';
+          // +prefs.getString('lastName');
 
       })
     }).catchError((e)=>print(e));
@@ -66,7 +67,7 @@ class _HomeState extends State<Home> {
 
   getDropDownItems(){
     List<DropdownMenuItem<String>> array=new List<DropdownMenuItem<String>>();
-      array.add(DropdownMenuItem(child: Text("Select Date"), value: "Select Date",));
+      // array.add(DropdownMenuItem(child: Text("Select Date"), value: "Select Date",));
     
     for(var score in scores){
       print("dbg---");
