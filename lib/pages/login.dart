@@ -196,8 +196,17 @@ class _LoginState extends State<Login> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: ScreenUtil().setHeight(35),),
+                // SizedBox(height: ScreenUtil().setHeight(35),),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: ScreenUtil().setWidth(16),
+                    top: ScreenUtil().setHeight(15),
+                    bottom: ScreenUtil().setHeight(18),
+                  ),
+                  child: Image.asset('assets/images/logoStance.png', height: ScreenUtil().setHeight(9),),
+                ),
             //title
             Padding(
               padding: EdgeInsets.only(

@@ -12,7 +12,6 @@ import 'package:StartUp/pages/testPosture.dart';
 import 'package:StartUp/pages/workoutVideo.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 
 Future<Null> main() async {
@@ -32,11 +31,7 @@ Future<Null> main() async {
      
         return MaterialApp(
           title: 'STANCE',
-<<<<<<< HEAD
-          initialRoute: Report.id,
-=======
           initialRoute: Login.id,
->>>>>>> 1c4184361fac634b9e3ebfa079a7ee2387dc2173
           routes: {
           Home.id: (context) => Home(),
           Profile.id: (context) => Profile(),
