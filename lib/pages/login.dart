@@ -30,7 +30,7 @@ postlogin(UserCredential user, context)async{
         print(bodyData);
         var body = jsonEncode(bodyData);
         var response = await http.post(url,headers: headers, body: body);
-        print(response);
+        print(response.body);
         _prefs.then((prefs) {
           prefs.setString('firstName', user.additionalUserInfo.profile['given_name']).toString();
           prefs.setString('lastName', user.additionalUserInfo.profile['family_name']).toString();
@@ -172,11 +172,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
    bool showSpinner = false;
   BuildContext _context;
-  checkLogin(context){
+  checkLogin(){
     _prefs.then((prefs){
       print(prefs.getString("firstName"));
       if(prefs.containsKey("x-auth-token")){
-                  Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route) => false);
+                  Navigator.pushNamedAndRemoveUntil(_context, TestPosture.id, (Route<dynamic> route) => false);
     
       }
     }).catchError((e)=>print(e));
@@ -187,7 +187,7 @@ class _LoginState extends State<Login> {
     
     
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => checkLogin(context));
+        .addPostFrameCallback((_) => checkLogin());
     super.initState();
   }
   @override
