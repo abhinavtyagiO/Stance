@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:StartUp/pages/report.dart';
+import 'package:StartUp/pages/sideposeCapture.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'config.dart'; 
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final _prefs = SharedPreferences.getInstance();
 
@@ -168,6 +170,8 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
     var hipt_ = ((ear[0]-knee[0])/(ear[1]-knee[1]))*(hip[1]-ear[1])+ear[0];
     var lordo_scr = ((hipt_-hip[0])/(ear[1]-knee[1])).abs();
 
+    print({hipt, slch_scr, eart, kypho_scr, hipt_, lordo_scr});
+
     //scores front
     var l_knee_t = ((left_foot[0]-left_hip[0])/(left_foot[1]-left_hip[1]))*(left_knee[1]-left_foot[1])+left_foot[0];
     var left_leg_scr = (-1)*((l_knee_t-left_knee[0])/(left_foot[1]-left_hip[1]))*250;
@@ -185,6 +189,7 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
     scores.knees=knock_knees_score.toInt();
     return scores;
   }
+  bool showSpinner = false;
 
 
   @override
@@ -197,133 +202,146 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
 
     return Scaffold(
       backgroundColor: Hexcolor('#000000'),
-      body: Container(
-        child: SafeArea(
-            child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Row(
-                children: <Widget>[ 
-                  RawMaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    fillColor: Hexcolor('#000000'),
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      size: ScreenUtil().setWidth(15),
-                      color: Hexcolor('#ffffff'),
-                    ),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                  ),
-                  ],
-              ),
-              SizedBox(height: ScreenUtil().setHeight(5),),
-              Transform.scale(
-                scale: 1.0,
-                  child: AspectRatio(
-                  aspectRatio: 0.68,
-                     child: Container(
-                        width: ScreenUtil().setWidth(360),
-                height: ScreenUtil().setWidth(760),
-                      child: Image.file(File(widget.imagePath), fit: BoxFit.fitWidth)),
-                ),
-              ),
-              SizedBox(height: ScreenUtil().setHeight(10)),
-              Center(
-                child: Text(
-                  'SIDE POSE',
-                  style: TextStyle(
-                    fontFamily: 'roboto',
-                    color: Hexcolor('#ffffff'),
-                    fontSize: ScreenUtil().setSp(14),
-                    letterSpacing: 0,
-                  ),
-                ),
-              ),
-              SizedBox(height: ScreenUtil().setHeight(30)),
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(30),
-                      right: ScreenUtil().setWidth(50),
-                    ),
-                    child: RawMaterialButton(
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+              child: Container(
+          child: SafeArea(
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[ 
+                    RawMaterialButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.pushNamed(context, SideCapture.id);
                       },
-                        child: Icon(
-                        Icons.replay,
+                      fillColor: Hexcolor('#000000'),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: ScreenUtil().setWidth(15),
                         color: Hexcolor('#ffffff'),
                       ),
                       padding: EdgeInsets.all(15.0),
                       shape: CircleBorder(),
                     ),
+                    ],
+                ),
+                SizedBox(height: ScreenUtil().setHeight(5),),
+                Transform.scale(
+                  scale: 1.0,
+                    child: AspectRatio(
+                    aspectRatio: 0.68,
+                       child: Container(
+                          width: ScreenUtil().setWidth(360),
+                  height: ScreenUtil().setWidth(760),
+                        child: Image.file(File(widget.imagePath), fit: BoxFit.fitWidth)),
                   ),
-                  Center(
-                    child: FloatingActionButton(
-                      onPressed: () async {
-                        //pass image to tensorflow model
-                          var recognitions=await Tflite.runPoseNetOnImage(path: widget.imagePath,
-                          numResults: 2,
-                            );
-                            if(recognitions.length!=0){
-                              var scores= getScores(recognitions[0],widget.frontRecognition);
-                              var prefs=await _prefs;
-                              var url = Config.backendUrl+'/api/users/scores';
-                              Map<String,String> headers= new Map<String,String>();
-                              headers['Content-Type']="application/json";
-                              headers['x-auth-token']=prefs.getString('x-auth-token');
-                              var bodyData={
-                                'slouch': scores.slouch,
-                                'kyphosis': scores.kyphosis,
-                                'swayback': scores.swayback,
-                                'knees': scores.knees, 
-                              };
-                              print(prefs.getString('x-auth-token'));
-
-                              prefs.setInt('slouch', scores.slouch);
-                              prefs.setInt('kyphosis', scores.kyphosis);
-                              prefs.setInt('swayback', scores.swayback);
-                              prefs.setInt('knees', scores.knees);
-                              print(bodyData);
-                              var body = jsonEncode(bodyData);
-                            var response= await http.post(url,headers: headers, body: body);
-                            print(response.body);
-                            var bodyc=JsonDecoder().convert(response.body);
-                          if(bodyc['success']==true){
-                              Navigator.pushNamed(context, Report.id);
-                          }
-                          else{
-                            //todo nvigate to report
-                              //TODO handle this
-                            }
-                            }else{
-                              // Scaffold.of(context).showSnackBar(SnackBar(
-                              // content: Text("Image not usable. Try Again."),
-                              // ));
-                              //todo show toast image not usable
-                              Fluttertoast.showToast(
-                                  msg: "Image not usable. Try Again.",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1
-                              );
-                               Navigator.of(context).pop();
-                            }
-                          
-                      }
-                        
-                      ,
-                    child: Icon(Icons.check, color: Hexcolor('#ffffff'), size: ScreenUtil().setWidth(30),),
-                    backgroundColor: Hexcolor('#fe3786'),
+                ),
+                SizedBox(height: ScreenUtil().setHeight(10)),
+                Center(
+                  child: Text(
+                    'SIDE POSE',
+                    style: TextStyle(
+                      fontFamily: 'roboto',
+                      color: Hexcolor('#ffffff'),
+                      fontSize: ScreenUtil().setSp(14),
+                      letterSpacing: 0,
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+                SizedBox(height: ScreenUtil().setHeight(30)),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: ScreenUtil().setWidth(30),
+                        right: ScreenUtil().setWidth(50),
+                      ),
+                      child: RawMaterialButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(SideCapture.id);
+                        },
+                          child: Icon(
+                          Icons.replay,
+                          color: Hexcolor('#ffffff'),
+                        ),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
+                      ),
+                    ),
+                    Center(
+                      child: FloatingActionButton(
+                        onPressed: () async {
+
+                          //pass image to tensorflow model
+                            var recognitions=await Tflite.runPoseNetOnImage(path: widget.imagePath,
+                            numResults: 2,
+                              );
+                              if(recognitions.length!=0){
+                                setState(() {
+                                  showSpinner = true;
+                                });
+                                var scores= getScores(recognitions[0],widget.frontRecognition);
+                                var prefs=await _prefs;
+                                var url = Config.backendUrl+'/api/users/scores';
+                                Map<String,String> headers= new Map<String,String>();
+                                headers['Content-Type']="application/json";
+                                headers['x-auth-token']=prefs.getString('x-auth-token');
+                                var bodyData={
+                                  'slouch': scores.slouch,
+                                  'kyphosis': scores.kyphosis,
+                                  'swayback': scores.swayback,
+                                  'knees': scores.knees, 
+                                };
+                                print(prefs.getString('x-auth-token'));
+
+                                prefs.setInt('slouch', scores.slouch);
+                                prefs.setInt('kyphosis', scores.kyphosis);
+                                prefs.setInt('swayback', scores.swayback);
+                                prefs.setInt('knees', scores.knees);
+                                print(bodyData);
+                                var body = jsonEncode(bodyData);
+                              var response= await http.post(url,headers: headers, body: body);
+                              print(response.body);
+                              var bodyc=JsonDecoder().convert(response.body);
+                            if(bodyc['success']==true){
+                              print('success');
+                              setState(() {
+                                  showSpinner = false;
+                                });
+                                Navigator.pushNamedAndRemoveUntil(context, Report.id, (Route<dynamic> route) => false);
+                                
+                            }
+                            else{
+                              print('e');
+                              //todo nvigate to report
+                                //TODO handle this
+                              }
+                              }else{
+                                // Scaffold.of(context).showSnackBar(SnackBar(
+                                // content: Text("Image not usable. Try Again."),
+                                // ));
+                                //todo show toast image not usable
+                                Fluttertoast.showToast(
+                                    msg: "Image not usable. Try Again.",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1
+                                );
+                                 Navigator.of(context).pushNamed(SideCapture.id);
+                              }
+                            
+                        }
+                          
+                        ,
+                      child: Icon(Icons.check, color: Hexcolor('#ffffff'), size: ScreenUtil().setWidth(30),),
+                      backgroundColor: Hexcolor('#fe3786'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

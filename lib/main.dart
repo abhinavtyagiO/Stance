@@ -31,7 +31,7 @@ Future<Null> main() async {
      
         return MaterialApp(
           title: 'STANCE',
-          initialRoute: Login.id,
+          initialRoute: FrontCapture.id,
           routes: {
           Home.id: (context) => Home(),
           Profile.id: (context) => Profile(),

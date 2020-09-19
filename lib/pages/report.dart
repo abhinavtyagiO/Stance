@@ -437,7 +437,7 @@ class _ReportState extends State<Report> {
                         ),
                       ),
                       Text(
-                        '20/100',
+                       int.parse(knees).abs().toString()+'/100',
                         style: TextStyle(
                           color:
                               Hexcolor('#000000').withOpacity(0.5),

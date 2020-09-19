@@ -485,9 +485,7 @@ class _FrontCaptureState extends State {
         print(path);
             
         setState(() {
-         if(firstCounter == 0) {
            firstCounter = 3;
-         }
       });
         Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
       });

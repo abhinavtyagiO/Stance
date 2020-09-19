@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:StartUp/pages/frontposeCapture.dart';
 import 'package:StartUp/pages/sideposeCapture.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -59,7 +60,7 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                 children: <Widget>[ 
                   RawMaterialButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushNamedAndRemoveUntil(context, FrontCapture.id, (Route<dynamic> route) => false);
                     },
                     fillColor: Hexcolor('#000000'),
                     child: Icon(
@@ -102,7 +103,7 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                     ),
                     child: RawMaterialButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.pushNamedAndRemoveUntil(context, FrontCapture.id, (Route<dynamic> route) => false);
                       },
                         child: Icon(
                         Icons.replay,
@@ -136,7 +137,7 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                                   timeInSecForIosWeb: 1
                               );
                         
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pushNamed(FrontCapture.id);
                         }
                         
                         
