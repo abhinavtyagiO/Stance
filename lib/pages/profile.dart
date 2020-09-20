@@ -2,6 +2,7 @@ import 'package:StartUp/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'components/progress.dart';
 import 'components/friends.dart';
 
@@ -10,8 +11,11 @@ class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
 }
+final _prefs = SharedPreferences.getInstance();
 
 class _ProfileState extends State<Profile> {
+
+  String name = "";
 
    bool isFriendsPressed = true;
    bool isProgressPressed = false;
@@ -30,6 +34,19 @@ class _ProfileState extends State<Profile> {
        }
      }
    }
+   @override
+  void initState() {
+    print('debug');
+    _prefs.then((prefs) {
+      setState(() {
+        name = prefs.getString('firstName')+ ' ' +prefs.getString('lastName');
+      });
+    });
+
+
+    super.initState();
+
+  }
 
    
 
@@ -154,7 +171,7 @@ class _ProfileState extends State<Profile> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          'Ramdev Saharan',
+                          name,
                           style: TextStyle(
                             color: Hexcolor('#ffffff'),
                             fontFamily: 'Montserrat',

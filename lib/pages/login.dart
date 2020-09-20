@@ -174,7 +174,7 @@ class _LoginState extends State<Login> {
     _prefs.then((prefs){
       print(prefs.getString("firstName"));
       if(prefs.containsKey("x-auth-token")){
-                  Navigator.pushNamedAndRemoveUntil(_context, Home.id, (Route<dynamic> route) => false);
+        Navigator.pushNamedAndRemoveUntil(_context, Home.id, (Route<dynamic> route) => false);
     
       }
     }).catchError((e)=>print(e));

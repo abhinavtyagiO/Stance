@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:StartUp/pages/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -8,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'components/scoreContainer.dart';
 import 'config.dart';
+
+
 class Home extends StatefulWidget {
   static String id = 'home';
   @override
@@ -25,13 +26,16 @@ class _HomeState extends State<Home> {
   String name = "";
   var scores=[];
 
-  String textNeck = "...";
-  String kyphosis = "...";
-  String swayback = "...";
-  String knees = "...";
+  String textNeck = "0";
+  String kyphosis = "0";
+  String swayback = "0";
+  String knees = "0";
+
+  int normal=30;
+  int caution=70;
 
   String getName() {
-    if(knees == "...") {
+    if(knees == "0") {
       return "Knock Knees";
     } else {
       if(int.parse(knees) > 0){
@@ -40,6 +44,15 @@ class _HomeState extends State<Home> {
       return "Knock Knees";
     }
   }
+  getTextColor(deformity){
+    return (int.parse(deformity).abs()<normal)?Hexcolor('#00b279'):((int.parse(deformity).abs()<caution)?Hexcolor('#ff7f56'):Hexcolor('#ff4747'));
+  }
+  getBgColor(deformity){
+    return (int.parse(deformity).abs()<normal)?Hexcolor('#e9f9f1'):((int.parse(deformity).abs()<caution)?Hexcolor('#fff4e9'):Hexcolor('#ffeeee'));
+  }
+
+  DateTime now = DateTime.now();
+
 
 
   @override
@@ -61,10 +74,10 @@ class _HomeState extends State<Home> {
       headers['x-auth-token']=token;
       return http.get(url,headers: headers);
     }).then((response){
-      print(response.body);
       setState(() {
         
         scores=JsonDecoder().convert(response.body);
+        print(scores);
       });
     }).catchError((e)=>print(e));
     
@@ -84,13 +97,13 @@ class _HomeState extends State<Home> {
 
   getDropDownItems(){
     List<DropdownMenuItem<String>> array=new List<DropdownMenuItem<String>>();
-      array.add(DropdownMenuItem(child: Text("Select Date"), value: "Select",));
+      array.add(DropdownMenuItem(child: Text("Select"), value: "Select",));
     
     for(var score in scores){
       print("dbg---");
       array.add(DropdownMenuItem(child: Text(score['date'].substring(0,7)), value: score['date'],));
     }
-    print(array);
+    // print(array);
     return array;
   }
 
@@ -121,7 +134,7 @@ class _HomeState extends State<Home> {
                    children: <Widget>[
                      Container(
                        child: Text(
-                         'Good morning,',                        //Main title
+                         'Good '+ (now.hour > 12 ? (now.hour < 15 ? 'afternoon,' : 'evening,') : 'morning,' ),                        //Main title
                          style: TextStyle(
                            fontFamily: 'neutrifpro',
                            fontSize: ScreenUtil().setSp(28),
@@ -224,11 +237,13 @@ class _HomeState extends State<Home> {
                             }).elementAt(0);
                           setState(() {
                             selectedDate = value;
+                            print(temp);
 
-                            knees = temp['knees'];
-                            swayback = temp['swayback'];
-                            kyphosis = temp['kyphosis'];
-                            textNeck = temp['textNeck'];
+                           swayback=  temp['scores']['swayback'].toString();
+                            kyphosis = temp['scores']['kyphosis'].toString();
+                            textNeck = temp['scores']['textNeck'].toString();
+                            knees = temp['scores']['knees'].toString();
+                            
 
                           });
                           
@@ -249,130 +264,155 @@ class _HomeState extends State<Home> {
               ),
               child: Container(
                 height: ScreenUtil().setHeight(128),
-                child: Expanded(
                   child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      ScoreContainer(deformality: 'Text Neck', score: textNeck, bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
-                      ScoreContainer(deformality: 'Kyphosis', score: kyphosis, bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
-                      ScoreContainer(deformality: 'Swayback', score: swayback, bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
-                      // ScoreContainer(deformality: 'Slouch', score: '75', bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),
-                      ScoreContainer(deformality: getName(), score: knees, bgColour: Hexcolor('#ffeeee'),textColour: Hexcolor('#ff4747'), remark: 'SEVERE',),    
-                    ],
-                  ),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    ScoreContainer(
+                      deformality: 'Text Neck', 
+                      score: textNeck, 
+                      bgColour: getBgColor(textNeck),
+                      textColour: getTextColor(textNeck),
+                      remark: (int.parse(textNeck)<normal)?'NORMAL':((int.parse(textNeck)<caution)?'CAUTION':'SEVERE'),),
+                    ScoreContainer(
+                      deformality: 'Kyphosis',
+                      score: kyphosis, 
+                      bgColour: getBgColor(kyphosis),
+                      textColour: getTextColor(kyphosis), 
+                      remark: (int.parse(kyphosis)<normal)?'NORMAL':((int.parse(textNeck)<caution)?'CAUTION':'SEVERE'),),
+                    ScoreContainer(
+                      deformality: 'Swayback', 
+                      score: swayback, 
+                      bgColour: getBgColor(swayback),
+                      textColour: getTextColor(swayback), 
+                      remark: (int.parse(swayback)<normal)?'NORMAL':((int.parse(textNeck)<caution)?'CAUTION':'SEVERE'),),
+                    ScoreContainer(
+                      deformality: getName(), 
+                      score: knees, 
+                      bgColour: getBgColor(knees),
+                      textColour: getTextColor(knees), 
+                      remark: (int.parse(knees)<normal)?'NORMAL':((int.parse(textNeck)<caution)?'CAUTION':'SEVERE'),),    
+                  ],
                 ),
               ),
             ),
-            Row(                                               //New Row
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(
-                    left: ScreenUtil().setWidth(40.0),
-                    top: ScreenUtil().setHeight(40.0),
-                  ),
-                  child: Column(                           //Column for Weekly Activities
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        child: Text('Your weekly',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(18.0),
-                              fontFamily: 'Montserrat',
-                              height: 1.44,
-                              color: Hexcolor('#171717'),
-                            )),
-                      ),
-                      Container(
-                        child: Text('Activities',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(18.0),
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              height: 1.44,
-                              color: Hexcolor('#171717'),
-                            )),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: ScreenUtil().setHeight(13.8),
+            Padding(
+              padding: EdgeInsets.only(
+                top: ScreenUtil().setHeight(29),
+                left: ScreenUtil().setWidth(40),
+                right: ScreenUtil().setWidth(44),
+              ),
+              child: Row(                                               //New Row
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    // margin: EdgeInsets.only(
+                    //   left: ScreenUtil().setWidth(40.0),
+                    //   top: ScreenUtil().setHeight(40.0),
+                    // ),
+                    child: Column(                           //Column for Weekly Activities
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child: Text('Your weekly',
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(18.0),
+                                fontFamily: 'Montserrat',
+                                height: 1.44,
+                                color: Hexcolor('#171717'),
+                              )),
                         ),
-                        child: Row(                      //Row implanted for sessions and time
-                         children: <Widget>[
-                           Container(
-                             child: Text('3/5 sessions',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(12.0),
-                              fontFamily: 'roboto',
-                              color: Hexcolor('#171717').withOpacity(0.5),
-                            )),
-                           ),
-                           Container(
-                             margin: EdgeInsets.only(
-                               left: ScreenUtil().setWidth(5.5),
-                               right: ScreenUtil().setWidth(5.5),
-                             ),
-                             child: Text('.',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(12.0),
-                              fontFamily: 'roboto',
-                              color: Hexcolor('#171717').withOpacity(0.5),
-                            )),
-                           ),
-                           Container(
-                             child: Text('45 min',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(12.0),
-                              fontFamily: 'roboto',
-                              color: Hexcolor('#171717').withOpacity(0.5),
-                            )),
-                           )
-                         ], 
+                        Container(
+                          child: Text('Activities',
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(18.0),
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                height: 1.44,
+                                color: Hexcolor('#171717'),
+                              )),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: ScreenUtil().setWidth(112.0),      //Round Graph
-                  height: ScreenUtil().setHeight(112.0),
-                  margin: EdgeInsets.only(
-                    top: ScreenUtil().setHeight(25.0),
-                    right: ScreenUtil().setWidth(42.0),
-                  ),
-                  decoration: BoxDecoration(
-                   shape: BoxShape.circle,
-                   border: Border.all(
-                     color: Hexcolor('#e9f6fe'),
-                     width: 9,
-                   ),
-                  ),
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(
-                        text: '60',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(24),
-                          color: Hexcolor('#171717'),
-                        ),
-                        children: <TextSpan> [
-                          TextSpan(
-                            text: '%',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: ScreenUtil().setSp(12.0),
-                              fontWeight: FontWeight.bold,
-                              color: Hexcolor('#171717'),
-                            ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: ScreenUtil().setHeight(13.8),
                           ),
-                        ]
+                          child: Row(                      //Row implanted for sessions and time
+                           children: <Widget>[
+                             Container(
+                               child: Text('3/5 sessions',
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(12.0),
+                                fontFamily: 'roboto',
+                                color: Hexcolor('#171717').withOpacity(0.5),
+                              )),
+                             ),
+                             Container(
+                               margin: EdgeInsets.only(
+                                 left: ScreenUtil().setWidth(5.5),
+                                 right: ScreenUtil().setWidth(5.5),
+                               ),
+                               child: Text('.',
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(12.0),
+                                fontFamily: 'roboto',
+                                color: Hexcolor('#171717').withOpacity(0.5),
+                              )),
+                             ),
+                             Container(
+                               child: Text('45 min',
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(12.0),
+                                fontFamily: 'roboto',
+                                color: Hexcolor('#171717').withOpacity(0.5),
+                              )),
+                             )
+                           ], 
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: ScreenUtil().setWidth(112.0),      //Round Graph
+                    height: ScreenUtil().setHeight(112.0),
+                    // margin: EdgeInsets.only(
+                    //   top: ScreenUtil().setHeight(25.0),
+                    //   right: ScreenUtil().setWidth(42.0),
+                    // ),
+                    decoration: BoxDecoration(
+                     shape: BoxShape.circle,
+                     border: Border.all(
+                       color: Hexcolor('#e9f6fe'),
+                       width: 9,
+                     ),
+                    ),
+                    child: Center(
+                      child: RichText(
+                        text: TextSpan(
+                          text: '60',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenUtil().setSp(24),
+                            color: Hexcolor('#171717'),
+                          ),
+                          children: <TextSpan> [
+                            TextSpan(
+                              text: '%',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: ScreenUtil().setSp(12.0),
+                                fontWeight: FontWeight.bold,
+                                color: Hexcolor('#171717'),
+                              ),
+                            ),
+                          ]
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(height: ScreenUtil().setHeight(18.5)),
             Row(
