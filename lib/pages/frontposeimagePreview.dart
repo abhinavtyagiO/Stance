@@ -1,8 +1,4 @@
 import 'dart:io';
-<<<<<<< HEAD
-=======
-import 'package:StartUp/pages/frontposeCapture.dart';
->>>>>>> 639b54e332a7de071dc50724baa20b542e2133c8
 import 'package:StartUp/pages/sideposeCapture.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -63,11 +59,7 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                 children: <Widget>[ 
                   RawMaterialButton(
                     onPressed: () {
-<<<<<<< HEAD
                       Navigator.pop(context);
-=======
-                      Navigator.pushNamedAndRemoveUntil(context, FrontCapture.id, (Route<dynamic> route) => false);
->>>>>>> 639b54e332a7de071dc50724baa20b542e2133c8
                     },
                     fillColor: Hexcolor('#000000'),
                     child: Icon(
@@ -110,11 +102,7 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                     ),
                     child: RawMaterialButton(
                       onPressed: () {
-<<<<<<< HEAD
                         Navigator.of(context).pop();
-=======
-                        Navigator.pushNamedAndRemoveUntil(context, FrontCapture.id, (Route<dynamic> route) => false);
->>>>>>> 639b54e332a7de071dc50724baa20b542e2133c8
                       },
                         child: Icon(
                         Icons.replay,
@@ -148,11 +136,7 @@ class _FrontposePreviewImageScreenState extends State<FrontposePreviewImageScree
                                   timeInSecForIosWeb: 1
                               );
                         
-<<<<<<< HEAD
                           Navigator.of(context).pop();
-=======
-                          Navigator.of(context).pushNamed(FrontCapture.id);
->>>>>>> 639b54e332a7de071dc50724baa20b542e2133c8
                         }
                         
                         
