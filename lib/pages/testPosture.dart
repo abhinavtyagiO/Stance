@@ -2,6 +2,13 @@ import 'package:StartUp/pages/frontposeCapture.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:StartUp/pages/login.dart';
+import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+final _prefs = SharedPreferences.getInstance();
 
 class TestPosture extends StatefulWidget {
   static String id = 'testPosture';

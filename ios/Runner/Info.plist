@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
+<<<<<<< HEAD
 
 <dict>
 	<key>NSAppTransportSecurity</key>  
  		<dict>  
       		<key>NSAllowsArbitraryLoads</key><true/>  
  		</dict>
+=======
+<key>NSAppTransportSecurity</key>
+<dict>
+	<key>NSAllowsArbitraryLoads</key>
+    <true/>
+>>>>>>> 639b54e332a7de071dc50724baa20b542e2133c8
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -46,6 +53,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+<<<<<<< HEAD
 	<!-- Google Sign-in Section -->
 	<key>CFBundleURLTypes</key>
 	<array>
@@ -59,5 +67,7 @@
 		</dict>
 	</array>
 <!-- End of the Google Sign-in Section -->
+=======
+>>>>>>> 639b54e332a7de071dc50724baa20b542e2133c8
 </dict>
 </plist>
