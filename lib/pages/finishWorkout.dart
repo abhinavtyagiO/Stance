@@ -1,4 +1,5 @@
 // import 'package:flutter/gestures.dart';
+import 'package:StartUp/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,7 +92,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    child: Text('Next workout difficulty',
+                    child: Text('Completed',
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(20.0),
                           fontFamily: 'Montserrat',
@@ -106,7 +107,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                       top: ScreenUtil().setHeight(7.0),
                     ),
                     child: Text(
-                      'Do you want a more challenging workout session?',
+                      'How are you feeling about today\'s workout?',
                       style: TextStyle(
                         fontFamily: 'roboto',
                         fontSize: ScreenUtil().setSp(14.0),
@@ -141,7 +142,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               top: ScreenUtil().setHeight(14.0),
             ),
             child: Text(
-              'No, similiar difficulty',
+              'Too easy',
               style: TextStyle(
               fontFamily: 'roboto',
               fontSize: ScreenUtil().setSp(14.0),
@@ -176,7 +177,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               top: ScreenUtil().setHeight(14.0),
             ),
             child: Text(
-              'Yeah, bring it on.',
+              'Tough, in a good way',
               style: TextStyle(
               fontFamily: 'roboto',
               fontSize: ScreenUtil().setSp(14.0),
@@ -211,7 +212,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               top: ScreenUtil().setHeight(14.0),
             ),
             child: Text(
-              'Too hard, go easy on me.',
+              'Way too hard',
               style: TextStyle(
               fontFamily: 'roboto',
               fontSize: ScreenUtil().setSp(14.0),
@@ -240,9 +241,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                       color: isFirstPressed || isSecondPressed || isThirdPressed ? Hexcolor('#fe3786') : Hexcolor('#000000').withOpacity(0.5),
                       textColor: Hexcolor('#ffffff'),
                     onPressed: () {
-                        Scaffold
-                            .of(context)
-                            .showSnackBar(SnackBar(content: Text('Processing Data')));
+                      Navigator.pushNamedAndRemoveUntil(context, Home.id, (Route<dynamic> route)=> false);
                     },
                     child: Text('FINISH WORKOUT',
                     style: TextStyle(

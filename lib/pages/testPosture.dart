@@ -1,9 +1,9 @@
 import 'package:StartUp/pages/frontposeCapture.dart';
 import 'package:StartUp/pages/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 final _prefs = SharedPreferences.getInstance();
 
@@ -36,6 +36,11 @@ class _TestPostureState extends State<TestPosture> {
   bool showSpinner = false;
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
+
     _context=context;
     ScreenUtil.init(
       context,

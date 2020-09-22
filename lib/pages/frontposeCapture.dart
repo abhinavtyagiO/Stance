@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:StartUp/pages/report.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:hexcolor/hexcolor.dart';

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'dart:io';
 
 class Progress extends StatefulWidget {
 
@@ -13,6 +16,9 @@ class _ProgressState extends State<Progress> {
   bool isWeeklyPressed = false;
   bool isMonthlyPressed = false;
   bool isAnnuallyPressed = false;
+
+  // var imageFrontPath;
+  // var imageSidePath;
 
   //function to change style
   void updateStyle(int serialNumber) {
@@ -38,6 +44,22 @@ class _ProgressState extends State<Progress> {
       }
     }
   }
+
+  // initPaths() async{
+  //   final p = await getExternalStorageDirectory();
+  //     print(p.path);
+  //     final folderPath=p.path+'/Stance';
+  //     final folder=new Directory(folderPath);
+  //     if(await folder.exists()==false){
+  //       await folder.create();
+  //     }
+  //     setState(() {
+  //        imageFrontPath = "${folder.path}/front.png";
+  //     imageSidePath = "${folder.path}/side.png";
+  //     });
+     
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -324,6 +346,7 @@ class _ProgressState extends State<Progress> {
           Container(
               width: ScreenUtil().setWidth(160),
               height: ScreenUtil().setHeight(216.0),
+              // child: (imageFrontPath!=null)? Image.file(File(imageFrontPath), fit: BoxFit.fitWidth) :Container(),
               decoration: BoxDecoration(
                 color: Hexcolor('#f3f3f7'),
                 borderRadius: BorderRadius.circular(
@@ -332,6 +355,7 @@ class _ProgressState extends State<Progress> {
           Container(
               width: ScreenUtil().setWidth(160),
               height: ScreenUtil().setHeight(216.0),
+              // child: (imageSidePath!=null)? Image.file(File(imageSidePath), fit: BoxFit.fitWidth):Container(),
               decoration: BoxDecoration(
                 color: Hexcolor('#f3f3f7'),
                 borderRadius: BorderRadius.circular(

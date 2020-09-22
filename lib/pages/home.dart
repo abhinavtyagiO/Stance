@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:StartUp/pages/profile.dart';
+import 'package:StartUp/pages/testPosture.dart';
+import 'package:StartUp/pages/workoutVideo.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -78,6 +80,10 @@ class _HomeState extends State<Home> {
         
         scores=JsonDecoder().convert(response.body);
         print(scores);
+        print(scores.last['scores']['textNeck']);
+        if(scores.length == 0) {
+          Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route)=> false);
+        }
       });
     }).catchError((e)=>print(e));
     
@@ -641,50 +647,55 @@ class _HomeState extends State<Home> {
             ),
             SizedBox(height: ScreenUtil().setHeight(16.0)),
             Center(
-              child: Container(
-                width: ScreenUtil().setWidth(328.0),
-                height: ScreenUtil().setHeight(169.0),
-                decoration: BoxDecoration(
-                  color: Hexcolor('#ffdaf7'),
-                  borderRadius: BorderRadius.circular(24.0),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: ScreenUtil().setHeight(21),
-                        left: ScreenUtil().setWidth(18),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              "Today's workout",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setSp(16.0),
-                                color: Hexcolor('#171717'),
-                              )
-                            ),
-                            Text(
-                          '10-15 min',
-                          style: TextStyle(
-                            fontFamily: 'roboto',
-                            fontSize: ScreenUtil().setSp(12.0),
-                            color: Hexcolor('#171717'),
-                          )
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, WorkoutVideo.id);
+                },
+                   child: Container(
+                  width: ScreenUtil().setWidth(328.0),
+                  height: ScreenUtil().setHeight(169.0),
+                  decoration: BoxDecoration(
+                    color: Hexcolor('#ffdaf7'),
+                    borderRadius: BorderRadius.circular(24.0),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: ScreenUtil().setHeight(21),
+                          left: ScreenUtil().setWidth(18),
                         ),
-                        ],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                "Today's workout",
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: ScreenUtil().setSp(16.0),
+                                  color: Hexcolor('#171717'),
+                                )
+                              ),
+                              Text(
+                            '10-15 min',
+                            style: TextStyle(
+                              fontFamily: 'roboto',
+                              fontSize: ScreenUtil().setSp(12.0),
+                              color: Hexcolor('#171717'),
+                            )
+                          ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                     width: ScreenUtil().setWidth(150),
-                     child: Image.asset('assets/images/chick.png')),
-                  ],
+                      Container(
+                       width: ScreenUtil().setWidth(150),
+                       child: Image.asset('assets/images/chick.png')),
+                    ],
+                  ),
                 ),
               ),
             ),

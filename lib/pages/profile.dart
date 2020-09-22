@@ -20,6 +20,8 @@ class _ProfileState extends State<Profile> {
    bool isFriendsPressed = true;
    bool isProgressPressed = false;
 
+   
+
    //update tab
    void updateTab(int serialNumber) {
      if(serialNumber == 1) {
@@ -34,6 +36,8 @@ class _ProfileState extends State<Profile> {
        }
      }
    }
+
+   
    @override
   void initState() {
     print('debug');

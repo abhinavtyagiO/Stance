@@ -1,32 +1,141 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:StartUp/pages/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WorkoutVideo extends StatefulWidget {
   static String id = 'workoutVideo';
   @override
   _WorkoutVideoState createState() => _WorkoutVideoState();
 }
+final _prefs = SharedPreferences.getInstance();
 
 class _WorkoutVideoState extends State<WorkoutVideo> {
+  var scores=[];
 
-  VideoPlayerController controller;
-  VoidCallback listener;
+  YoutubePlayerController controller;
+  TextEditingController idController;
+  TextEditingController seekToController;
+
+  PlayerState playerState;
+  YoutubeMetaData videoMetaData;
+  double volume = 100;
+  bool muted = false;
+  bool isPlayerReady = false;
+
+  final List<String> listz = [
+    'W9nZ6u15yis',
+  ];
+
+  final List<String> listk = [
+    //k1, k2-pre, k2, k3.....
+    'xNIVcf0uXDI',
+    '15PscOkG_cM',
+    'hceOGYHxUXs',
+    'xeupG7ErZUM',
+    'W--jDiGrFIg',
+    'xoxtDxCQmCM',
+    'vnK2BOfQFEE',
+    'F5fb-OFNamQ',
+  ];
+  final List<String> listf = [
+    'sHUg1XbQZXo',
+    'MFzTJSVImac',
+    'bP9yPhZYLTU',
+    'VhgVT5mcejs',
+    'wo4iZS0z9Q8',
+    'VdRUBZOeC0Q',
+  ];
+
+  List<String> getList() {
+    
+    if(scores.length == 0) {
+      return listz;
+    } else {
+      if(scores.last['scores']['textNeck'] > 30) {
+      return listf;
+    } else if (scores.last['scores']['textNeck'] < 30) {
+      return getList();
+    }
+    }
+  }
 
   @override
   void initState() {
-    super.initState();
-    listener = () {
+
+    _prefs.then((prefs){
+      var url = Config.backendUrl+'/api/users/scores';
+      var token = prefs.getString('x-auth-token');  
+      Map<String,String> headers= new Map<String,String>();
+      headers['x-auth-token']=token;
+      return http.get(url,headers: headers);
+    }).then((response){
       setState(() {
-        
+        scores=JsonDecoder().convert(response.body);
+        print(scores);
       });
-    };
+    }).catchError((e)=>print(e));
+
+
+    super.initState();
+
+    controller = YoutubePlayerController(
+      initialVideoId: getList().first,
+      flags: const YoutubePlayerFlags(
+        mute: false,
+        autoPlay: true,
+        disableDragSeek: false,
+        loop: false,
+        isLive: false,
+        forceHD: false,
+        enableCaption: true,
+      ),
+      )..addListener(listener);
+      idController = TextEditingController();
+      seekToController = TextEditingController();
+      videoMetaData =  const YoutubeMetaData();
+      playerState = PlayerState.unknown;
+
+
   } 
 
+  void listener() {
+    if (isPlayerReady && mounted && !controller.value.isFullScreen) {
+      setState(() {
+        playerState = controller.value.playerState;
+        videoMetaData = controller.metadata;
+      });
+    }
+  }
+  @override
+  void deactivate() {
+    //pauses video while navigating to next page
+    controller.pause();
+    super.deactivate();
+  }
+  @override
+  void dispose() {
+    controller.dispose();
+    idController.dispose();
+    seekToController.dispose();
+    super.dispose();
+
+  }
+  
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
     ScreenUtil.init(
       context,
       width: 360,
@@ -35,379 +144,86 @@ class _WorkoutVideoState extends State<WorkoutVideo> {
     return Scaffold(
       backgroundColor: Hexcolor('#ffffff'),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 360 / 408,
-                child: Container(
-                width: ScreenUtil().setWidth(360.0),
-                height: ScreenUtil().setHeight(408.0),
-                color: Hexcolor('#000000').withOpacity(0.1),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: YoutubePlayerBuilder(
+
+          player: YoutubePlayer(
+            controller: controller,
+            showVideoProgressIndicator: true,
+            onReady: () {
+              isPlayerReady = true;
+            },
+            onEnded: (metaData) {
+              controller.load(getList()[(getList().indexOf(metaData.videoId) + 1) % getList().length]);
+              print('Next Video started!');
+            },
+            topActions: [
+              Spacer(),
+              IconButton(
+                icon: Icon(
+                  controller.value.isPlaying
+                  ? Icons.pause
+                  : Icons.play_arrow,
+                  color: Hexcolor('#ffffff'),
+                ),
+                onPressed: isPlayerReady 
+                ? () {
+                  
+                  controller.value.isPlaying
+                  ? controller.pause()
+                  : controller.play();
+                  setState(() {
+                    
+                  });
+                } : () {
+                  print('Play pressed');
+                }
+                ,
+                
+              ),
+            ],
+            bottomActions: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: ScreenUtil().setHeight(16),
+                ),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: ScreenUtil().setWidth(16.6),
-                            top: ScreenUtil().setHeight(16.6),
-                          ),
-                          child: Icon(
-                            Icons.clear,
-                            color: Hexcolor('#ffffff'),
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(
-                              left: ScreenUtil().setWidth(16.0),
-                              bottom: ScreenUtil().setHeight(11.0),
-                            ),
-                            child: Text('03:20',
-                                style: TextStyle(
-                                  color: Hexcolor('#ffffff'),
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: ScreenUtil().setSp(20.0),
-                                  letterSpacing: 0.0,
-                                ))),
-                      ],
+                  children: [
+                    RemainingDuration(controller: controller,),
+                    Text(
+                      'Name of video',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(10),
+                        letterSpacing: 0,
+                        color: Hexcolor('#ffffff'),
+                      ),
                     ),
-                    Container(
-                        margin: EdgeInsets.only(
-                          top: ScreenUtil().setHeight(16.6),
-                          right: ScreenUtil().setWidth(16.0),
-                        ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Hexcolor('#ffffff'),
-                        )),
                   ],
                 ),
               ),
-            ),
-            Expanded(
-              child: ListView(
-                children: [
-                   Container(
-                margin: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(40.0),
-                  top: ScreenUtil().setHeight(5.0),
+              Spacer(),
+              IconButton(
+                icon: Icon(
+                  Icons.skip_next,
+                  color: Hexcolor('#ffffff'),
+                ), 
+                onPressed: isPlayerReady 
+                ? () {
+                  controller.load(getList()[(getList().indexOf(controller.metadata.videoId) + 1) % getList().length]); 
+                  
+                } : null,
                 ),
-                child: Text(
-                  'STRETCHING',
-                 style: TextStyle(
-                   color: Hexcolor('#171717').withOpacity(0.6),
-                   height: 1.44,
-                   letterSpacing: 0.0,
-                   fontFamily: 'roboto',
-                 ) 
-                )
-              ),
-              SizedBox(height: ScreenUtil().setHeight(5),),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: ScreenUtil().setHeight(4.0),
-                  left: ScreenUtil().setWidth(16.0),
-                ),
-                width: ScreenUtil().setWidth(328.0),
-                height: ScreenUtil().setHeight(48.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.0)),
-                  color: Hexcolor('#f7f7fa'),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                 children: <Widget>[
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(23.3),
-                     ),
-                     child: Text(
-                       '13',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontWeight: FontWeight.bold,
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(16.7),
-                     ),
-                     child: Text(
-                       'Overhead reach to side stretch',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                 ], 
-                )
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: ScreenUtil().setHeight(4.0),
-                  left: ScreenUtil().setWidth(16.0),
-                ),
-                width: ScreenUtil().setWidth(328.0),
-                height: ScreenUtil().setHeight(48.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.0)),
-                  color: Hexcolor('#f7f7fa'),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                 children: <Widget>[
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(23.3),
-                     ),
-                     child: Text(
-                       '30',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontWeight: FontWeight.bold,
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(16.7),
-                     ),
-                     child: Text(
-                       'Dynamic quadriceps stretch',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                 ], 
-                )
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: ScreenUtil().setHeight(4.0),
-                  left: ScreenUtil().setWidth(16.0),
-                ),
-                width: ScreenUtil().setWidth(328.0),
-                height: ScreenUtil().setHeight(48.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.0)),
-                  color: Hexcolor('#f7f7fa'),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                 children: <Widget>[
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(23.3),
-                     ),
-                     child: Text(
-                       '30',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontWeight: FontWeight.bold,
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(16.7),
-                     ),
-                     child: Text(
-                       'Dynamic quadriceps stretch',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                 ], 
-                )
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(40.0),
-                ),
-                child: Text(
-                  'STRENGTHENING',
-                 style: TextStyle(
-                   color: Hexcolor('#171717').withOpacity(0.6),
-                   height: 1.44,
-                   letterSpacing: 0.0,
-                   fontFamily: 'roboto',
-                 ) 
-                )
-              ),
-              SizedBox(height: ScreenUtil().setHeight(5),),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: ScreenUtil().setHeight(4.0),
-                  left: ScreenUtil().setWidth(16.0),
-                ),
-                width: ScreenUtil().setWidth(328.0),
-                height: ScreenUtil().setHeight(48.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.0)),
-                  color: Hexcolor('#f7f7fa'),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                 children: <Widget>[
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(23.3),
-                     ),
-                     child: Text(
-                       '13',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontWeight: FontWeight.bold,
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(16.7),
-                     ),
-                     child: Text(
-                       'Overhead reach to side stretch',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                 ], 
-                )
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: ScreenUtil().setHeight(4.0),
-                  left: ScreenUtil().setWidth(16.0),
-                ),
-                width: ScreenUtil().setWidth(328.0),
-                height: ScreenUtil().setHeight(48.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.0)),
-                  color: Hexcolor('#f7f7fa'),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                 children: <Widget>[
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(23.3),
-                     ),
-                     child: Text(
-                       '30',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontWeight: FontWeight.bold,
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(16.7),
-                     ),
-                     child: Text(
-                       'Dynamic quadriceps stretch',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                 ], 
-                )
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: ScreenUtil().setHeight(4.0),
-                  left: ScreenUtil().setWidth(16.0),
-                ),
-                width: ScreenUtil().setWidth(328.0),
-                height: ScreenUtil().setHeight(48.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.0)),
-                  color: Hexcolor('#f7f7fa'),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                 children: <Widget>[
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(23.3),
-                     ),
-                     child: Text(
-                       '30',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontWeight: FontWeight.bold,
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                   Container(
-                     margin: EdgeInsets.only(
-                       left: ScreenUtil().setWidth(16.7),
-                     ),
-                     child: Text(
-                       'Dynamic quadriceps stretch',
-                       style: TextStyle(
-                         color: Hexcolor('#171717'),
-                         fontFamily: 'roboto',
-                         fontSize: ScreenUtil().setSp(14.0),
-                         letterSpacing: 0.0,
-                       ),
-                     ),
-                   ),
-                 ], 
-                )
-              ),
-              SizedBox(height: ScreenUtil().setHeight(24),),
-                ],
-              ),
-            ),
-           
-          ],
-        ),
+            ],
+            ), 
+          builder: (context, player) {
+           return Container();
+          },
+          ),
       ),
     );
   }
 }
+
+
