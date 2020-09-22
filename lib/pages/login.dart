@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:StartUp/pages/home.dart';
 import 'package:StartUp/pages/testPosture.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -12,7 +11,6 @@ import 'package:path/path.dart';
 import 'config.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final _prefs = SharedPreferences.getInstance();
@@ -31,7 +29,7 @@ postlogin(UserCredential user, context)async{
         print(bodyData);
         var body = jsonEncode(bodyData);
         var response = await http.post(url,headers: headers, body: body);
-        print(response.body);
+        print(response);
         _prefs.then((prefs) {
           prefs.setString('firstName', user.additionalUserInfo.profile['given_name']).toString();
           prefs.setString('lastName', user.additionalUserInfo.profile['family_name']).toString();
@@ -39,9 +37,11 @@ postlogin(UserCredential user, context)async{
           prefs.setString('imageUrl',user.additionalUserInfo.profile['picture']).toString();
           prefs.setString('x-auth-token', response.headers['x-auth-token']);
           //Navigate to Test Posture
-          Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route) => false);          
+          Navigator.pushNamed(context, TestPosture.id);
+          
         });
 
+          
         // print({"headers",response.headers});
         // print("========="+prefs.getString("firstName"));
 }
@@ -113,10 +113,6 @@ class CustomWebView extends StatefulWidget {
 }
 
 class _CustomWebViewState extends State<CustomWebView> {
-
-  
-
-
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
 
   @override
@@ -149,9 +145,6 @@ class _CustomWebViewState extends State<CustomWebView> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return WebviewScaffold(
         url: widget.selectedUrl,
         appBar: new AppBar(
@@ -168,13 +161,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-   bool showSpinner = false;
   BuildContext _context;
-  checkLogin(){
+  checkLogin(context){
     _prefs.then((prefs){
       print(prefs.getString("firstName"));
       if(prefs.containsKey("x-auth-token")){
-        Navigator.pushNamedAndRemoveUntil(_context, Home.id, (Route<dynamic> route) => false);
+                  Navigator.pushNamed(_context, TestPosture.id);
     
       }
     }).catchError((e)=>print(e));
@@ -185,14 +177,11 @@ class _LoginState extends State<Login> {
     
     
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => checkLogin());
+        .addPostFrameCallback((_) => checkLogin(context));
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-
-     
-
     ScreenUtil.init(
       context,
       width: 360,
@@ -201,192 +190,174 @@ class _LoginState extends State<Login> {
     _context=context;
     return Scaffold(
       backgroundColor: Hexcolor('#ffffff'),
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-              child: SafeArea(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // SizedBox(height: ScreenUtil().setHeight(35),),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(16),
-                      top: ScreenUtil().setHeight(15),
-                      bottom: ScreenUtil().setHeight(18),
-                    ),
-                    child: Image.asset('assets/images/logoStance.png', height: ScreenUtil().setHeight(9),),
-                  ),
-              //title
-              Padding(
-                padding: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(17.5),
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        width: ScreenUtil().setWidth(4.0),
-                        height: ScreenUtil().setHeight(81.0),
-                        decoration: BoxDecoration(color: Hexcolor('#e9f6fe'),),
-                        ),
-                        Container(
-                          width: ScreenUtil().setWidth(278),
-                      margin: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(21.5),
+      body: SafeArea(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Column(
+              children: [
+                SizedBox(height: ScreenUtil().setHeight(35),),
+            //title
+            Padding(
+              padding: EdgeInsets.only(
+                left: ScreenUtil().setWidth(17.5),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                      width: ScreenUtil().setWidth(4.0),
+                      height: ScreenUtil().setHeight(81.0),
+                      decoration: BoxDecoration(color: Hexcolor('#e9f6fe'),),
                       ),
-                      child: Text('Let our AI analyse and guide you to a better posture',
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(20.0),
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w800,
-                            color: Hexcolor('#000000'),
-                            letterSpacing: 0.0,
-                            height: 1.4,
-                          )),
+                      Container(
+                        width: ScreenUtil().setWidth(278),
+                    margin: EdgeInsets.only(
+                      left: ScreenUtil().setWidth(21.5),
                     ),
-                  ],
-                ),
-              ),
-              //image
-              Padding(
-                padding: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(22.6),
-                  right: ScreenUtil().setWidth(22.6),
-                  top: ScreenUtil().setHeight(105.7),
-                ),
-                child: Center(
-                  child: Image.asset('assets/images/signin.png'),
-                ),
-              ),
+                    child: Text('Let our AI analyse and guide you to a better posture',
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(20.0),
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w800,
+                          color: Hexcolor('#000000'),
+                          letterSpacing: 0.0,
+                          height: 1.4,
+                        )),
+                  ),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  bottom: ScreenUtil().setHeight(29),
-                ),
-                child: Column(
-                  children: [
-                    //google login
-                Center(
-                  child: ButtonTheme(
-                          height: ScreenUtil().setHeight(40.0),
-                          minWidth: ScreenUtil().setWidth(328),
-                            child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
-                              side: BorderSide(color: Hexcolor('#000000')),
-                            ),
-
-                            color: Hexcolor('#ffffff'),
-                          onPressed: () {
-                            setState(() {
-                              showSpinner = true;
-                            });
-                            _handleSignIn(context);
-                            // setState(() {
-                            //   showSpinner = false;
-                            // });
-                            
-                          },
-                          child: Text('Login with GOOGLE',
-                          style: TextStyle(
-                            color: Hexcolor('#000000'),
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            fontSize: ScreenUtil().setSp(14.0),
-                            letterSpacing: 0,
-                          ),
-                          ),
-                      ),
-                        ),
-                ),
-                SizedBox(height: ScreenUtil().setHeight(23),),
-                //fb login
-                Center(
-                  child: ButtonTheme(
-                          height: ScreenUtil().setHeight(40.0),
-                          minWidth: ScreenUtil().setWidth(328),
-                            child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
-                            ),
-                            color: Hexcolor('#1d8bdf'),
-                            textColor: Hexcolor('#ffffff'),
-                          onPressed: () {
-                              signInWithFacebook(context);
-                          },
-                          child: Text('Login with FACEBOOK',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            fontSize: ScreenUtil().setSp(14.0),
-                            letterSpacing: 0,
-                          ),
-                          ),
-                          
-                      ),
-                        ),
-                ),
-                SizedBox(height: ScreenUtil().setHeight(15),),
-                //terms and conditions
-                Container(
-                  margin: EdgeInsets.only(
-                    left: ScreenUtil().setWidth(40),
-                    right: ScreenUtil().setWidth(40),
-                  ),
-                  child: RichText(
-                    text: TextSpan(
-                      text: "By continuing, you agree to stance's",
-                      style: TextStyle(
-                        fontFamily: 'roboto',
-                        fontSize: ScreenUtil().setSp(12),
-                        height: 1.4,
-                        letterSpacing: 0,
-                        color: Hexcolor('#4c4c4c'),
-                      ),
-                      children: <TextSpan> [
-                        TextSpan(
-                          text: ' Privacy Policy ',
-                          style: TextStyle(
-                        fontFamily: 'roboto',
-                        fontSize: ScreenUtil().setSp(12),
-                        height: 1.4,
-                        letterSpacing: 0,
-                        color: Hexcolor('#fe3786'),
-                        ),
-                        ),
-                        TextSpan(
-                      text: 'and',
-                      style: TextStyle(
-                        fontFamily: 'roboto',
-                        fontSize: ScreenUtil().setSp(12),
-                        height: 1.4,
-                        letterSpacing: 0,
-                        color: Hexcolor('#4c4c4c'),
-                      ),
-                        ),
-                        TextSpan(
-                          text: ' Terms and conditions.',
-                          style: TextStyle(
-                        fontFamily: 'roboto',
-                        fontSize: ScreenUtil().setSp(12),
-                        height: 1.4,
-                        letterSpacing: 0,
-                        color: Hexcolor('#fe3786'),
-                        ),
-                        ),
-                      ]
-                    ),
-                  ),
-                  ),
-                  ],
-                ),
+            ),
+            //image
+            Padding(
+              padding: EdgeInsets.only(
+                left: ScreenUtil().setWidth(22.6),
+                right: ScreenUtil().setWidth(22.6),
+                top: ScreenUtil().setHeight(105.7),
               ),
-            ],
-          ),
+              child: Center(
+                child: Image.asset('assets/images/signin.png'),
+              ),
+            ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: ScreenUtil().setHeight(29),
+              ),
+              child: Column(
+                children: [
+                  //google login
+              Center(
+                child: ButtonTheme(
+                        height: ScreenUtil().setHeight(40.0),
+                        minWidth: ScreenUtil().setWidth(328),
+                          child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
+                            side: BorderSide(color: Hexcolor('#000000')),
+                          ),
+
+                          color: Hexcolor('#ffffff'),
+                        onPressed: () {
+                          _handleSignIn(context);
+                          
+                        },
+                        child: Text('Login with GOOGLE',
+                        style: TextStyle(
+                          color: Hexcolor('#000000'),
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          fontSize: ScreenUtil().setSp(14.0),
+                          letterSpacing: 0,
+                        ),
+                        ),
+                    ),
+                      ),
+              ),
+              SizedBox(height: ScreenUtil().setHeight(23),),
+              //fb login
+              Center(
+                child: ButtonTheme(
+                        height: ScreenUtil().setHeight(40.0),
+                        minWidth: ScreenUtil().setWidth(328),
+                          child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20.0)),
+                          ),
+                          color: Hexcolor('#1d8bdf'),
+                          textColor: Hexcolor('#ffffff'),
+                        onPressed: () {
+                            signInWithFacebook(context);
+                        },
+                        child: Text('Login with FACEBOOK',
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          fontSize: ScreenUtil().setSp(14.0),
+                          letterSpacing: 0,
+                        ),
+                        ),
+                        
+                    ),
+                      ),
+              ),
+              SizedBox(height: ScreenUtil().setHeight(15),),
+              //terms and conditions
+              Container(
+                margin: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(40),
+                  right: ScreenUtil().setWidth(40),
+                ),
+                child: RichText(
+                  text: TextSpan(
+                    text: "By continuing, you agree to stance's",
+                    style: TextStyle(
+                      fontFamily: 'roboto',
+                      fontSize: ScreenUtil().setSp(12),
+                      height: 1.4,
+                      letterSpacing: 0,
+                      color: Hexcolor('#4c4c4c'),
+                    ),
+                    children: <TextSpan> [
+                      TextSpan(
+                        text: ' Privacy Policy ',
+                        style: TextStyle(
+                      fontFamily: 'roboto',
+                      fontSize: ScreenUtil().setSp(12),
+                      height: 1.4,
+                      letterSpacing: 0,
+                      color: Hexcolor('#fe3786'),
+                      ),
+                      ),
+                      TextSpan(
+                    text: 'and',
+                    style: TextStyle(
+                      fontFamily: 'roboto',
+                      fontSize: ScreenUtil().setSp(12),
+                      height: 1.4,
+                      letterSpacing: 0,
+                      color: Hexcolor('#4c4c4c'),
+                    ),
+                      ),
+                      TextSpan(
+                        text: ' Terms and conditions.',
+                        style: TextStyle(
+                      fontFamily: 'roboto',
+                      fontSize: ScreenUtil().setSp(12),
+                      height: 1.4,
+                      letterSpacing: 0,
+                      color: Hexcolor('#fe3786'),
+                      ),
+                      ),
+                    ]
+                  ),
+                ),
+                ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

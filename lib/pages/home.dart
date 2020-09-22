@@ -9,8 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'components/scoreContainer.dart';
 import 'config.dart';
-
-
 class Home extends StatefulWidget {
   static String id = 'home';
   @override
@@ -55,8 +53,6 @@ class _HomeState extends State<Home> {
 
   DateTime now = DateTime.now();
 
-
-
   @override
   void initState() {
     print("debug");
@@ -76,6 +72,7 @@ class _HomeState extends State<Home> {
       headers['x-auth-token']=token;
       return http.get(url,headers: headers);
     }).then((response){
+      print(response.body);
       setState(() {
         
         scores=JsonDecoder().convert(response.body);
@@ -109,7 +106,6 @@ class _HomeState extends State<Home> {
       print("dbg---");
       array.add(DropdownMenuItem(child: Text(score['date'].substring(0,7)), value: score['date'],));
     }
-    // print(array);
     return array;
   }
 
@@ -236,7 +232,7 @@ class _HomeState extends State<Home> {
                           getDropDownItems()
                          ,
                          onChanged: (value) {
-                        var temp =  scores.where((element) {
+                           var temp =  scores.where((element) {
                               if(element['date'] == value) {
                                 return true;
                               } return false;
@@ -245,14 +241,11 @@ class _HomeState extends State<Home> {
                             selectedDate = value;
                             print(temp);
 
-                           swayback=  temp['scores']['swayback'].toString();
+                            swayback=  temp['scores']['swayback'].toString();
                             kyphosis = temp['scores']['kyphosis'].toString();
                             textNeck = temp['scores']['textNeck'].toString();
                             knees = temp['scores']['knees'].toString();
-                            
-
                           });
-                          
                          },
                          ),
                       ),
@@ -270,7 +263,7 @@ class _HomeState extends State<Home> {
               ),
               child: Container(
                 height: ScreenUtil().setHeight(128),
-                  child: ListView(
+                child: ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
@@ -297,7 +290,7 @@ class _HomeState extends State<Home> {
                       score: knees, 
                       bgColour: getBgColor(knees),
                       textColour: getTextColor(knees), 
-                      remark: (int.parse(knees)<normal)?'NORMAL':((int.parse(textNeck)<caution)?'CAUTION':'SEVERE'),),    
+                      remark: (int.parse(knees)<normal)?'NORMAL':((int.parse(textNeck)<caution)?'CAUTION':'SEVERE'),),      
                   ],
                 ),
               ),

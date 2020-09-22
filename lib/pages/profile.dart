@@ -2,8 +2,8 @@ import 'package:StartUp/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'components/progress.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'components/friends.dart';
 
 class Profile extends StatefulWidget {

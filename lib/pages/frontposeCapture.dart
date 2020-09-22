@@ -33,8 +33,6 @@ class _FrontCaptureState extends State {
   @override
   void initState() {
     super.initState();
-     
-     
     
 
     availableCameras().then((availableCameras) {
@@ -460,7 +458,9 @@ class _FrontCaptureState extends State {
           }
         });
       });
-     
+      setState(() {
+         
+      });
     Timer(Duration(seconds: 3), () async {
       try {
      final p = await getExternalStorageDirectory();
@@ -481,10 +481,6 @@ class _FrontCaptureState extends State {
       await controller.takePicture(path).then((value) {
         print('here');
         print(path);
-            
-        setState(() {
-           firstCounter = 3;
-      });
         Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
       });
 
@@ -525,7 +521,6 @@ final p = await getExternalStorageDirectory();
         
         Navigator.push(context, MaterialPageRoute(builder: (context) =>FrontposePreviewImageScreen(imagePath: path,)));
       });
-       
 
     } catch (e) {
       showCameraException(e);

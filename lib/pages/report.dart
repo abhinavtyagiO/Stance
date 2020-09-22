@@ -19,17 +19,14 @@ final _prefs = SharedPreferences.getInstance();
 
 class _ReportState extends State<Report> {
 
-  getTextColor(deformity){
-    return (int.parse(deformity).abs()<normal)?Hexcolor('#00b279'):((int.parse(deformity).abs()<caution)?Hexcolor('#ff7f56'):Hexcolor('#ff4747'));
-  }
-  getBgColor(deformity){
-    return (int.parse(deformity).abs()<normal)?Hexcolor('#e9f9f1'):((int.parse(deformity).abs()<caution)?Hexcolor('#fff4e9'):Hexcolor('#ffeeee'));
+  getColor(swayback_){
+    return (int.parse(swayback_).abs()<normal)?Hexcolor('#00b279'):((int.parse(swayback_).abs()<caution)?Hexcolor('#ff7f56'):Hexcolor('#ff4747'));
   }
 
   var imageFrontPath;
   var imageSidePath;
 
-  String textNeck="...";
+  String slouch="...";
   String kyphosis="...";  
 
   String swayback="...";
@@ -56,7 +53,7 @@ class _ReportState extends State<Report> {
   void initState() {
     initPaths();
       _prefs.then((prefs){
-                              textNeck=prefs.getInt('textNeck').toString();
+                              slouch=prefs.getInt('slouch').toString();
                               kyphosis=prefs.getInt('kyphosis').toString();
                               swayback=prefs.getInt('swayback').toString();
                               knees=prefs.getInt('knees').toString();
@@ -147,7 +144,6 @@ class _ReportState extends State<Report> {
         ],
       ),
     ),
-    //TextNeck
     Padding(
       padding: EdgeInsets.only(
         left: ScreenUtil().setWidth(40),
@@ -175,7 +171,7 @@ class _ReportState extends State<Report> {
                         MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'textNeck',
+                        'Slouch',
                         style: TextStyle(
                           color: Hexcolor('#000000'),
                           fontFamily: 'roboto',
@@ -185,7 +181,7 @@ class _ReportState extends State<Report> {
                         ),
                       ),
                       Text(
-                        textNeck+'/100',
+                        slouch+'/100',
                         style: TextStyle(
                           color:
                               Hexcolor('#000000').withOpacity(0.5),
@@ -215,13 +211,13 @@ class _ReportState extends State<Report> {
               height: ScreenUtil().setHeight(24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.3)),
-                color: getBgColor(textNeck),
+                color: Hexcolor('#fff4e9'),
               ),
               child: Center(
                 child: Text(
-                    (int.parse(textNeck)<normal)?'Normal':((int.parse(textNeck)<caution)?'Caution':'Severe'),
+                    (int.parse(slouch)<normal)?'Normal':((int.parse(slouch)<caution)?'Caution':'Severe'),
                     style: TextStyle(
-                      color: getTextColor(textNeck),
+                      color: getColor(slouch),
                       fontFamily: 'roboto',
                       fontSize: ScreenUtil().setSp(10.0),
                       letterSpacing: 0.0,
@@ -233,7 +229,6 @@ class _ReportState extends State<Report> {
       ),
     ),
     SizedBox(height: ScreenUtil().setHeight(16.5),),
-    //Kyphosis
     Padding(
       padding: EdgeInsets.only(
         left: ScreenUtil().setWidth(40),
@@ -301,13 +296,13 @@ class _ReportState extends State<Report> {
             height: ScreenUtil().setHeight(24),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(ScreenUtil().setHeight(12.3)),
-              color: getBgColor(kyphosis),
+              color: Hexcolor('#ffeeee'),
             ),
             child: Center(
               child: Text(
                   (int.parse(kyphosis)<normal)?'Normal':((int.parse(kyphosis)<caution)?'Caution':'Severe'),
                   style: TextStyle(
-                    color: getTextColor(kyphosis),
+                    color: getColor(swayback),
                     fontFamily: 'roboto',
                     fontSize: ScreenUtil().setSp(10.0),
                     letterSpacing: 0.0,
@@ -319,7 +314,7 @@ class _ReportState extends State<Report> {
       ),
     ),
     SizedBox(height: ScreenUtil().setHeight(16.5),),
-    //swayback
+    //scoliosis
     Padding(
       padding: EdgeInsets.only(
         left: ScreenUtil().setWidth(40),
@@ -387,13 +382,13 @@ class _ReportState extends State<Report> {
               height: ScreenUtil().setHeight(24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.3)),
-                color: getBgColor(swayback),
+                color: Hexcolor('#e9f9f1'),
               ),
               child: Center(
                 child: Text(
                     (int.parse(swayback)<normal)?'Normal':((int.parse(swayback)<caution)?'Caution':'Severe'),
                     style: TextStyle(
-                      color: getTextColor(swayback),
+                      color: getColor(swayback),
                       fontFamily: 'roboto',
                       fontSize: ScreenUtil().setSp(10.0),
                       letterSpacing: 0.0,
@@ -405,7 +400,6 @@ class _ReportState extends State<Report> {
       ),
     ),
     SizedBox(height: ScreenUtil().setHeight(16.5),),
-    //knees
     Padding(
       padding: EdgeInsets.only(
         left: ScreenUtil().setWidth(40),
@@ -443,7 +437,7 @@ class _ReportState extends State<Report> {
                         ),
                       ),
                       Text(
-                       int.parse(knees).abs().toString()+'/100',
+                        '20/100',
                         style: TextStyle(
                           color:
                               Hexcolor('#000000').withOpacity(0.5),
@@ -473,13 +467,13 @@ class _ReportState extends State<Report> {
               height: ScreenUtil().setHeight(24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.3)),
-                color: getBgColor(knees),
+                color: Hexcolor('#e9f9f1'),
               ),
               child: Center(
                 child: Text(
                     (int.parse(knees).abs()<normal)?'Normal':((int.parse(knees).abs()<caution)?'Caution':'Severe'),
                     style: TextStyle(
-                      color: getTextColor(knees),
+                      color: getColor(knees),
                       fontFamily: 'roboto',
                       fontSize: ScreenUtil().setSp(10.0),
                       letterSpacing: 0.0,
