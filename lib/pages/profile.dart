@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'components/friends.dart';
 
 class Profile extends StatefulWidget {
-  static String id = 'profile';
+  static String id = 'profile'; 
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -15,7 +15,7 @@ final _prefs = SharedPreferences.getInstance();
 
 class _ProfileState extends State<Profile> {
 
-  String name = "";
+   String name = "";
 
    bool isFriendsPressed = true;
    bool isProgressPressed = false;

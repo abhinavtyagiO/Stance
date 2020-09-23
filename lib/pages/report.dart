@@ -6,8 +6,6 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// final _prefs = SharedPreferences.getInstance();
-
 class Report extends StatefulWidget {
   static String id = 'report';
 
@@ -50,16 +48,16 @@ class _ReportState extends State<Report> {
          imageFrontPath = "${folder.path}/front.png";
       imageSidePath = "${folder.path}/side.png";
       });
-     
   }
+
   @override
   void initState() {
     initPaths();
       _prefs.then((prefs){
-                              textNeck=prefs.getInt('textNeck').toString();
-                              kyphosis=prefs.getInt('kyphosis').toString();
-                              swayback=prefs.getInt('swayback').toString();
-                              knees=prefs.getInt('knees').toString();
+        textNeck=prefs.getInt('textNeck').toString();
+        kyphosis=prefs.getInt('kyphosis').toString();
+        swayback=prefs.getInt('swayback').toString();
+        knees=prefs.getInt('knees').toString();
       });
           
     super.initState();

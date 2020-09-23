@@ -177,7 +177,7 @@ class _SideposePreviewImageScreenState extends State<SideposePreviewImageScreen>
     var eart = ((hip[0]-shldr[0])/(hip[1]-shldr[1]))*(ear[1]-shldr[1])+shldr[0];
     var kypho_scr = (-1)*(eart-ear[0])/(hip[1]-shldr[1]);
     var hipt_ = ((ear[0]-knee[0])/(ear[1]-knee[1]))*(hip[1]-ear[1])+ear[0];
-    var lordo_scr = ((hipt_-hip[0])/(ear[1]-knee[1])).abs();
+    var lordo_scr = 13*(((hipt_-hip[0])/(ear[1]-knee[1])).abs());
 
     //scores front
     var l_knee_t = ((left_foot[0]-left_hip[0])/(left_foot[1]-left_hip[1]))*(left_knee[1]-left_foot[1])+left_foot[0];

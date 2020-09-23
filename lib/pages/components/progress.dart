@@ -1,15 +1,20 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:path_provider/path_provider.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
+
+import '../config.dart';
 
 class Progress extends StatefulWidget {
 
   @override
   _ProgressState createState() => _ProgressState();
 }
+final _prefs = SharedPreferences.getInstance();
 
 class _ProgressState extends State<Progress> {
 
@@ -17,8 +22,35 @@ class _ProgressState extends State<Progress> {
   bool isMonthlyPressed = false;
   bool isAnnuallyPressed = false;
 
-  // var imageFrontPath;
-  // var imageSidePath;
+  String textNeck="...";
+  String kyphosis="...";  
+
+  String swayback="...";
+  String knees="...";  
+
+  int normal=30;
+  int caution=70;
+
+  var scores=[];
+
+  String getName() {
+    if(knees == "0") {
+      return "Knock Knees";
+    } else {
+      if(int.parse(knees) > 0){
+        return "Bowl Legs";
+      }
+      return "Knock Knees";
+    }
+  }
+
+  getTextColor(deformity){
+    return (int.parse(deformity).abs()<normal)?Hexcolor('#00b279'):((int.parse(deformity).abs()<caution)?Hexcolor('#ff7f56'):Hexcolor('#ff4747'));
+  }
+  getBgColor(deformity){
+    return (int.parse(deformity).abs()<normal)?Hexcolor('#e9f9f1'):((int.parse(deformity).abs()<caution)?Hexcolor('#fff4e9'):Hexcolor('#ffeeee'));
+  }
+
 
   //function to change style
   void updateStyle(int serialNumber) {
@@ -43,6 +75,29 @@ class _ProgressState extends State<Progress> {
         isAnnuallyPressed = true;
       }
     }
+  }
+
+  @override
+  void initState() {
+    _prefs.then((prefs){
+      var url = Config.backendUrl+'/api/users/scores';
+      var token = prefs.getString('x-auth-token');  
+      Map<String,String> headers= new Map<String,String>();
+      headers['x-auth-token']=token;
+      return http.get(url,headers: headers);
+    }).then((response){
+      print(response.body);
+      setState(() {
+        
+        scores=JsonDecoder().convert(response.body);
+        print(scores);
+        print(scores.last['scores']['textNeck']);
+      });
+    }).catchError((e)=>print(e));
+
+
+
+    super.initState();
   }
 
   // initPaths() async{
@@ -397,7 +452,7 @@ class _ProgressState extends State<Progress> {
         ],
       ),
     ),
-    //FHP
+    //TextNeck
     Padding(
       padding: EdgeInsets.only(
         left: ScreenUtil().setWidth(40),
@@ -425,7 +480,7 @@ class _ProgressState extends State<Progress> {
                         MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'FHP',
+                        'Text Neck',
                         style: TextStyle(
                           color: Hexcolor('#000000'),
                           fontFamily: 'roboto',
@@ -483,7 +538,7 @@ class _ProgressState extends State<Progress> {
       ),
     ),
     SizedBox(height: ScreenUtil().setHeight(16.5),),
-    //scoliosis
+    //kyphosis
     Padding(
       padding: EdgeInsets.only(
         left: ScreenUtil().setWidth(40),
@@ -511,7 +566,7 @@ class _ProgressState extends State<Progress> {
                         MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Scoliosis',
+                        'Kyphosis',
                         style: TextStyle(
                           color: Hexcolor('#000000'),
                           fontFamily: 'roboto',
@@ -569,7 +624,7 @@ class _ProgressState extends State<Progress> {
       ),
     ),
     SizedBox(height: ScreenUtil().setHeight(16.5),),
-    //slouch
+    //Swayback
     Padding(
       padding: EdgeInsets.only(
         left: ScreenUtil().setWidth(40),
@@ -597,7 +652,91 @@ class _ProgressState extends State<Progress> {
                         MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Slouch',
+                        'Sway Back',
+                        style: TextStyle(
+                          color: Hexcolor('#000000'),
+                          fontFamily: 'roboto',
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.6,
+                          fontSize: ScreenUtil().setSp(12.0),
+                        ),
+                      ),
+                      Text(
+                        '50/100',
+                        style: TextStyle(
+                          color:
+                              Hexcolor('#000000').withOpacity(0.5),
+                          fontFamily: 'roboto',
+                          letterSpacing: 0.6,
+                          fontSize: ScreenUtil().setSp(9.0),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: ScreenUtil().setHeight(5.0),
+                  ),
+                  width: ScreenUtil().setWidth(160.0),
+                  height: ScreenUtil().setHeight(4.0),
+                  decoration: BoxDecoration(
+                    color: Hexcolor('#f3f3f7'),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            width: ScreenUtil().setWidth(64),
+              height: ScreenUtil().setHeight(24),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12.3)),
+                color: Hexcolor('#fff4e9'),
+              ),
+              child: Center(
+                child: Text(
+                    'Caution',
+                    style: TextStyle(
+                      color: Hexcolor('#ff7f56'),
+                      fontFamily: 'roboto',
+                      fontSize: ScreenUtil().setSp(10.0),
+                      letterSpacing: 0.0,
+                    ),
+                  ),
+              ),
+          ),
+        ],
+      ),
+    ),
+    Padding(
+      padding: EdgeInsets.only(
+        left: ScreenUtil().setWidth(40),
+        right: ScreenUtil().setWidth(40),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+              height: ScreenUtil().setHeight(24.0),
+              width: ScreenUtil().setWidth(24.0),
+              decoration: BoxDecoration(
+                color: Hexcolor('#f3f3f7'),
+                borderRadius: BorderRadius.circular(
+                    ScreenUtil().setWidth(8.0)),
+              )),
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: ScreenUtil().setWidth(160.0),
+                  child: Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        getName(),
                         style: TextStyle(
                           color: Hexcolor('#000000'),
                           fontFamily: 'roboto',

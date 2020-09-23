@@ -38,7 +38,7 @@ postlogin(UserCredential user, context)async{
           prefs.setString('imageUrl',user.additionalUserInfo.profile['picture']).toString();
           prefs.setString('x-auth-token', response.headers['x-auth-token']);
           //Navigate to Test Posture
-          Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, Home.id, (Route<dynamic> route) => false);
           
         });
 
@@ -168,7 +168,7 @@ class _LoginState extends State<Login> {
     _prefs.then((prefs){
       print(prefs.getString("firstName"));
       if(prefs.containsKey("x-auth-token")){
-                  Navigator.pushNamed(_context, TestPosture.id);
+          Navigator.pushNamedAndRemoveUntil(_context, Home.id, (Route<dynamic> route)=> false);
     
       }
     }).catchError((e)=>print(e));
