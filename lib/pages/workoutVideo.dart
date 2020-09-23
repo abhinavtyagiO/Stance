@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+
 class WorkoutVideo extends StatefulWidget {
   static String id = 'workoutVideo';
   @override
@@ -154,6 +155,7 @@ class _WorkoutVideoState extends State<WorkoutVideo> {
             },
             onEnded: (metaData) {
               controller.load(getList()[(getList().indexOf(metaData.videoId) + 1) % getList().length]);
+              // if()
               print('Next Video started!');
             },
             topActions: [

@@ -1,6 +1,7 @@
 import 'package:StartUp/pages/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,8 +23,12 @@ class _SettingsState extends State<Settings> {
 
   void logOut(context) async {
     var prefs = await _prefs;
-    prefs.clear();
-    _auth.signOut();
+    GoogleSignIn _googleSignIn = GoogleSignIn();
+      _googleSignIn.signOut();
+      _auth.signOut();  
+      prefs.remove('firstName');  
+      prefs.remove('x-auth-token'); 
+    // prefs.clear();
     //
     Navigator.pushNamedAndRemoveUntil(context, Login.id, (Route<dynamic> route) => false);
   }
@@ -178,6 +183,7 @@ class _SettingsState extends State<Settings> {
                       onPressed: () {
                         //Implement Log out
                         logOut(context);
+                        
                       },
                       child: Text('LOG OUT',
                       style: TextStyle(

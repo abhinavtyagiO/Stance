@@ -127,6 +127,9 @@ class _ProfileState extends State<Profile> {
                         child: Hero(
                           tag: 'profilepic',
                             child: Container(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(ScreenUtil().setSp(24)),
+                                child: Image.network('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', fit: BoxFit.fitWidth,)),
                             margin: EdgeInsets.only(
                               left: ScreenUtil().setWidth(40.0),
                               right: ScreenUtil().setWidth(22.5),

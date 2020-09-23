@@ -96,6 +96,12 @@ class _ProgressState extends State<Progress> {
     }).catchError((e)=>print(e));
 
 
+    // setState(() {
+    //   textNeck = scores.last['scores']['textNeck'].toString();
+    //   kyphosis = scores.last['scores']['kyphosis'].toString();
+    //   swayback = scores.last['scores']['swayback'].toString();
+    //   knees = scores.last['scores']['knees'].toString();
+    // });
 
     super.initState();
   }
@@ -709,6 +715,7 @@ class _ProgressState extends State<Progress> {
         ],
       ),
     ),
+    SizedBox(height: ScreenUtil().setHeight(16.5),),
     Padding(
       padding: EdgeInsets.only(
         left: ScreenUtil().setWidth(40),
@@ -736,7 +743,7 @@ class _ProgressState extends State<Progress> {
                         MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        getName(),
+                        'Knees',
                         style: TextStyle(
                           color: Hexcolor('#000000'),
                           fontFamily: 'roboto',

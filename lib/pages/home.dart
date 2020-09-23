@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
 
   String name = "";
   var scores=[];
+  String profileIcon = "";
 
   String textNeck = "0";
   String kyphosis = "0";
@@ -61,6 +62,8 @@ class _HomeState extends State<Home> {
           name=prefs.getString('firstName')+'.';
           // +prefs.getString('lastName');
 
+          profileIcon = prefs.getString('firstName').substring(0, 1)+ prefs.getString('lastName').substring(0, 1);
+
       })
     }).catchError((e)=>print(e));
 
@@ -77,9 +80,11 @@ class _HomeState extends State<Home> {
         
         scores=JsonDecoder().convert(response.body);
         print(scores);
-        print(scores.last['scores']['textNeck']);
+        print(scores.length);
         if(scores.length == 0) {
+          print('debug');
           Navigator.pushNamedAndRemoveUntil(context, TestPosture.id, (Route<dynamic> route)=> false);
+          
         }
       });
     }).catchError((e)=>print(e));
@@ -164,9 +169,12 @@ class _HomeState extends State<Home> {
                    child: Hero(
                      tag: 'profilepic',
                      child: Container(
+                       child: ClipRRect(
+                         borderRadius: BorderRadius.circular(ScreenUtil().setSp(12)),
+                         child: Image.network('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', fit: BoxFit.fitWidth,)),
                       decoration: BoxDecoration(                        //profile image container
                         borderRadius: BorderRadius.circular(12.0),
-                        color: Hexcolor('f3f7#f3'),
+                        color: Hexcolor('#fe3786').withOpacity(0.1),
                       ),
                       margin: EdgeInsets.only(
                         right: ScreenUtil().setWidth(40),
